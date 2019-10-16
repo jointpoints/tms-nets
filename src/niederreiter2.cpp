@@ -8,7 +8,7 @@
 
 using namespace std;
 
-# include "niederreiter2.h"
+# include "niederreiter2.hpp"
 
 
 void calcc2 (//! [in] the dimension of the sequence to be generated.
@@ -33,11 +33,8 @@ void calcc2 (//! [in] the dimension of the sequence to be generated.
  //    	significant bit is C(I,NBITS,R).
  //
  // \par Local Parameters
- \parblock
- //    	\p int \b MAXE, the highest degree among \b DIM_MAX irreducible polynomials over \f$ \mathbb{Z}_2 \f$.
- //
+ //    	\p int \b MAXE, the highest degree among \b DIM_MAX irreducible polynomials over GF(2).\n
  //	 	\p int \b MAXV, the maximum possible index used in V.
- \endparblock
  //
  //	\copyright This code is distributed under the GNU LGPL license.
  //
@@ -241,15 +238,15 @@ void calcv2 (//! [in] the dimension of the array V
  //    Volume 20, Number 4, pages 494-495, 1994.
  //
  //  \par Local Parameters
- //		\p int \b ARBIT, indicates where the user can place
+ //		\p int \b arbit, indicates where the user can place
  //    an arbitrary element of the field of order 2.  This means
- //    0 <= \b ARBIT < 2.\n
- //    \p int \b BIGM, is the M used in section 3.3.
+ //    0 <= \b arbit < 2.\n
+ //    \p int \b bigm, is the M used in section 3.3.
  //    It differs from the [little] m used in section 2.3,
  //    denoted here by M.\n
- //    \p int \b NONZER, shows where the user must put an arbitrary
+ //    \p int \b nonzer, shows where the user must put an arbitrary
  //    non-zero element of the field.  For the code, this means
- //    0 < \b NONZER < 2.
+ //    0 < \b nonzer < 2.
  \callgraph
  */
 {
@@ -365,61 +362,45 @@ void calcv2 (//! [in] the dimension of the array V
 }
 //****************************************************************************80
 
-void niederreiter2 ( int dim_num, int *seed, double quasi[] )
+void niederreiter2 (//! [in] the dimension of the sequence to be generated.
+					int dim_num,
+					//! [in, out] the index of the element entry to compute.  On output, SEED is typically reset by this routine to SEED+1.
+					int *seed,
+					//! [out] the next quasirandom vector.
+					double quasi[] )
 
-/*!
+/*! \brief NIEDERREITER2 returns an element of the Niederreiter sequence base 2.
  //
- \callgraph
- //  Purpose:
+ //  \par Licensing
+ //		This code is distributed under the GNU LGPL license.
  //
- //    NIEDERREITER2 returns an element of the Niederreiter sequence base 2.
- //
- //  Licensing:
- //
- //    This code is distributed under the GNU LGPL license.
- //
- //  Modified:
- //
+ //  \par Modified
  //    29 March 2003
  //
- //  Author:
- //
- //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
+ //  \par Author
+ //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.\n
  //    C++ version by John Burkardt.
  //
- //  Reference:
- //
+ //  \par Reference
  //    Harald Niederreiter,
  //    Low-discrepancy and low-dispersion sequences,
  //    Journal of Number Theory,
  //    Volume 30, 1988, pages 51-70.
  //
- //  Parameters:
- //
- //    Input, int DIM_NUM, the dimension of the sequence to be generated.
- //
- //    Input/output, int *SEED, the index of the element entry to
- //    compute.  On output, SEED is typically reset by this routine
- //    to SEED+1.
- //
- //    Output, double QUASI[DIM_NUM], the next quasirandom vector.
- //
- //  Local Parameters:
- //
- //    Local, int CJ(DIM_MAX,0:NBITS-1), the packed values of
- //    Niederreiter's C(I,J,R).
- //
- //    Local, int DIM_SAVE, the spatial dimension of the sequence
- //    as specified on an initialization call.
- //
- //    Local, int COUNT, the index of the current item in the sequence,
+ //  \par Local Parameters
+ //    \p int CJ(DIM_MAX,0:NBITS-1), the packed values of
+ //    Niederreiter's C(I,J,R).\n
+ //		\p int \b DIM_SAVE, the spatial dimension of the sequence
+ //    as specified on an initialization call.\n
+ //		\p int \b COUNT, the index of the current item in the sequence,
  //    expressed as an array of bits.  COUNT(R) is the same as Niederreiter's
- //    AR(N) (page 54) except that N is implicit.
- //
- //    Local, int NEXTQ[DIM_MAX], the numerators of the next item in the
+ //    AR(N) (page 54) except that N is implicit.\n
+ //		\p int \b NEXTQ[DIM_MAX], the numerators of the next item in the
  //    series.  These are like Niederreiter's XI(N) (page 54) except that
  //    N is implicit, and the NEXTQ are integers.  To obtain
  //    the values of XI(N), multiply by RECIP.
+ //
+ //  \callgraph
  */
 {
 	static int cj[DIM_MAX][NBITS];
@@ -533,36 +514,27 @@ void niederreiter2 ( int dim_num, int *seed, double quasi[] )
 }
 //****************************************************************************80
 
-double *niederreiter2_generate ( int dim_num, int n, int *seed )
+double *niederreiter2_generate (//! [in] the spatial dimension.
+								int dim_num,
+								//! [in] the number of points desired.
+								int n,
+								//! [in. out] a seed for the random number generator.
+								int *seed )
 
-/*!
+/*! \brief NIEDERREITER2_GENERATE generates a set of Niederreiter values.
  \callgraph
- //  Purpose:
  //
- //    NIEDERREITER2_GENERATE generates a set of Niederreiter values.
+ //  \par Licensing:
+ //		This code is distributed under the GNU LGPL license.
  //
- //  Licensing:
+ //  \par Modified
+ //		11 December 2009
  //
- //    This code is distributed under the GNU LGPL license.
+ //  \par Author
+ //		John Burkardt
  //
- //  Modified:
- //
- //    11 December 2009
- //
- //  Author:
- //
- //    John Burkardt
- //
- //  Parameters:
- //
- //    Input, int DIM_NUM, the spatial dimension.
- //
- //    Input, int N, the number of points desired.
- //
- //    Input/output, int *SEED, a seed for the random
- //    number generator.
- //
- //    Output, double R[DIM_NUM*N], the points.
+ //	\return
+ //   \p double \b r[dim_num*n], the points.
  */
 {
 	int j;
@@ -604,11 +576,9 @@ void plymul2	(//! [in] the addition table for GF(2)
  //	\callgraph
  //
  //	\par Discussion
- //		Function performs multiplication of polynomials \f$p_c(x) = p_a(x) \cdot p_b(x)\f$.
- //		
+ //		Function performs multiplication of polynomials \f$p_c(x) = p_a(x) \cdot p_b(x)\f$.\n
  //		Polynomials are stored as arrays of coefficients and have
- //		the coefficient of degree N as the N-th element of an array.	
- //		
+ //		the coefficient of degree N as the N-th element of an array.\n
  //		A polynomial which is identically 0 is given degree -1.
  //
  //	\copyright
