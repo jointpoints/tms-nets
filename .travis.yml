@@ -1,0 +1,32 @@
+# This will run on Travis' 'new' container-based infrastructure
+sudo: false
+
+branches:
+  only:
+    - master
+
+# Install dependencies
+addons:
+  apt:
+    packages:
+      - doxygen
+      - doxygen-latex
+      - graphviz
+
+# Create temporary folder in the cloned repo
+before_script: 
+  - mkdir doc_producer
+  - echo "README TEXT" > doc_producer/README.dm
+
+# Build your code e.g. by calling make
+script:
+  - doxygen doxygen_config
+
+# Generate and deploy documentation
+deploy:
+  provider: master
+  skip_cleanup: true
+  local_dir: docs
+  github_token: $GH_REPO_TOKEN
+  on:
+    branch: master
