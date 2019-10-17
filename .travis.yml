@@ -16,7 +16,7 @@ addons:
 # Create temporary folder in the cloned repo
 before_script: 
   - mkdir tmp_docs
-  - echo "README TEXT" > doc_producer/README.dm
+  - echo "todo README TEXT" > doc_producer/README.dm
 
 # Build your code e.g. by calling make
 script:
