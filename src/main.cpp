@@ -3,30 +3,24 @@
 #include <iomanip>
 #include <cmath>
 
-using namespace std;
-
 #include "niederreiter2.h"
 
 int main();
-void test01();
+void generateNiederreiter2(uint64_t, uint64_t);
 
 
 
-int main (void)
+int main(void)
 {
-	timestamp();
-	cout << "\n";
-	cout << "NIEDERREITER2_PRB\n";
-	cout << "	C++ version\n";
-	cout << "Test the NIEDERREITER2 library.\n";
-
-	test01();
+	uint64_t	dim		(4);
+	uint64_t	amount	(1 << 4);
 	
-	cout << "\n";
-	cout << "NIEDERREITER2_PRB\n";
-	cout << "	Normal end of execution.\n";
+	timestamp();
+	std::cout << "\n\n\n";
 
-	cout << "\n";
+	generateNiederreiter2(dim, amount);
+	
+	std::cout << "\n\n\nNormal end of execution.\n";
 	timestamp();
 
 	return 0;
@@ -34,28 +28,28 @@ int main (void)
 
 
 
-void test01 (void)
+void generateNiederreiter2(uint64_t dim, uint64_t amount)
 {
-#	define DIM 2
 	int dim_num;
 	int i;
 	int j;
-	double r[DIM];
+	double r[dim];
 	int seed;
+	std::ofstream outFile(".\\producedNets\\generated_sequence.txt");
 	
 	seed = 0;
 	
-	for(i = 0; i < 16; ++i)
+	for(i = 0; i < amount; ++i)
 	{
-		niederreiter2(DIM, &seed, r);
+		niederreiter2(dim, &seed, r);
 		
-		for (j = 0; j < DIM; j++)
+		for (j = 0; j < dim; j++)
 		{
-			cout << setw(10) << r[j] << " ";
+			outFile << r[j] << " ";
 		}
-		cout << "\n";
+		outFile << '\n';
 	}
+	outFile.close();
 	
 	return;
-#	undef DIM_MAX
 }
