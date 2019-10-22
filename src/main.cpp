@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "niederreiter2.h"
+#include "tests.h"
 
 int main();
 void generateNiederreiter2(uint64_t, uint64_t);
@@ -12,13 +13,20 @@ void generateNiederreiter2(uint64_t, uint64_t);
 
 int main(void)
 {
-	uint64_t	dim		(4);
-	uint64_t	amount	(1 << 4);
+	/*
+	 * Change these two variables to variate amount of points and dimension of space
+	 */
+	uint64_t	dim		(5);
+	uint64_t	amount	(1 << 16);
 	
 	timestamp();
 	std::cout << "\n\n\n";
-
-	generateNiederreiter2(dim, amount);
+	
+	/*
+	 * Uncomment lines below to perform specified actions
+	 */
+	//generateNiederreiter2(dim, amount);
+	//checkDefinition(dim, amount);
 	
 	std::cout << "\n\n\nNormal end of execution.\n";
 	timestamp();
@@ -33,7 +41,7 @@ void generateNiederreiter2(uint64_t dim, uint64_t amount)
 	int dim_num;
 	int i;
 	int j;
-	double r[dim];
+	int r[dim];
 	int seed;
 	std::ofstream outFile(".\\producedNets\\generated_sequence.txt");
 	
