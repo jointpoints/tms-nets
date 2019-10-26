@@ -8,7 +8,7 @@
 
 using namespace std;
 
-# include "niederreiter2.hpp"
+# include "niederreiter2.h"
 
 
 void calcc2 (//! [in] the dimension of the sequence to be generated.
