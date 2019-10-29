@@ -1,71 +1,70 @@
-#include <cstdlib>
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <cmath>
-#include <ctime>
-#include <cstring>
+# include <cstdlib>
+# include <iostream>
+# include <iomanip>
+# include <fstream>
+# include <cmath>
+# include <ctime>
+# include <cstring>
 
 using namespace std;
 
-#include "niederreiter2.h"
+# include "niederreiter2.h"
 
+//! \todo Extend irred list (#1), irred_deg list (#2), set MAXE to max degree of added polynomials (#3)
+void calculate_c(//! [in] the dimension of the sequence to be generated
+			 int dim,
+			 //! [out] the packed values of Niederreiter's \f$c^{(i)}_{jr}\f$ into numbers \f$С^{(i)}_r\f$
+			 Next_int cj[DIM_MAX][NBITS])
 
-void calcc2(//! [in] the dimension of the sequence to be generated.
-	uint64_t dim_num,
-	//! [out] the packed values of Niederreiter's C(I,J,R)
-	uint64_t cj[DIM_MAX][NBITS])
-	/*! \brief CALCC2 computes values of the constants \f$c^{(i)}_{jr}\f$.
-	 //
-	 //	\callgraph
-	 //
-	 //	\par Discussion
-	 //		This program calculates the values of the constants C(I,J,R).
-	 //		As far as possible, Niederreiter's notation is used.\n
-	 //		For each value of I, we first calculate all the corresponding
-	 //		values of C.  These are held in the array CI.  All these
-	 //		values are either 0 or 1.\n
-	 //		Next we pack the values into the
-	 //    	array CJ, in such a way that CJ(I,R) holds the values of C
-	 //    	for the indicated values of I and R and for every value of
-	 //    	J from 1 to NBITS.  The most significant bit of CJ(I,R)
-	 //    	(not counting the sign bit) is C(I,1,R) and the least
-	 //    	significant bit is C(I,NBITS,R).
-	 //
-	 // \par Local Parameters
-	 //    	\p uint64_t \b MAXE, the highest degree among \b DIM_MAX irreducible polynomials over GF(2).\n
-	 //	 	\p uint64_t \b MAXV, the maximum possible index used in V.
-	 //
-	 //	\copyright This code is distributed under the GNU LGPL license.
-	 //
-	 // \par Modified
-	 //		29 October 2019
-	 //
-	 // \author Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald\ Niederreiter.\n
-	 //    		 C++ version by:\n
-	 //	         John Burkardt (Florida State University, USA, 2003),\n
-	 //	         Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
-	 //	         Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019).
-	 //
-	 // \par Reference
-	 //    R Lidl, Harald Niederreiter,
-	 //    Finite Fields,
-	 //    Cambridge University Press, 1984, page 553.\n
-	 //    Harald Niederreiter,
-	 //    Low-discrepancy and low-dispersion sequences,
-	 //    Journal of Number Theory,
-	 //    Volume 30, 1988, pages 51-70.
-	 //
-	 */
+/*! \brief Computes values of the constants \f$c^{(i)}_{jr}\f$.
+ //
+ //	\callgraph
+ //
+ //	\par Discussion
+ //		This program calculates the values of the constants \f$c^{(i)}_{jr}\f$ denoted as c(i, j, r).
+ //		As far as possible, Niederreiter's notation is used.\n
+ //		For each value of i, we first calculate all the corresponding
+ //		values of c (all these values are either 0 or 1) and pack them into the 2D-array \b cj thats
+ //		denoting \f$С^{(i)}_r\f$ \n
+ //		in such a way that \b cj[i][r] holds the values of c(i, j, r)
+ //    	for the indicated i and r and for every j from 0 to (NBITS - 1).\n
+ //		The most significant bit of \b cj[i][r] (not counting the sign bit) is c(i, 0, r) and the least
+ //    	significant bit is c(i, NBITS - 1, r) that is equivalent to\n
+ //		\f$С^{(i)}_r = \sum\limits_{j=0}^{R-1} c^{(i)}_{jr}\cdot 2^{R-1-j}\f$ where \f$R\f$ is equal to NBITS.
+ //
+ // \par Local Parameters
+ //    	MACRO \p int \b MAXE, the highest degree among DIM_MAX irreducible polynomials over GF(2)
+ //		listed in \b irred.
+ //
+ //	\copyright This code is distributed under the GNU LGPL license.
+ //
+ //	\par Modified
+ //		29 October 2019
+ //
+ // \author Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
+ //    		C++ version by:\n
+ //				John Burkardt (Florida State University, USA, 2003),\n
+ //				Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //				Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //				Alexey Burimov (Russian Technological University, KMBO-03-16, Russia, 2019).
+ //
+ // \par Reference
+ //    R Lidl, Harald Niederreiter,
+ //    Finite Fields,
+ //    Cambridge University Press, 1984, page 553.\n
+ //    Harald Niederreiter,
+ //    Low-discrepancy and low-dispersion sequences,
+ //    Journal of Number Theory,
+ //    Volume 30, 1988, pages 51-70.
+ //
+ */
 {
 # define MAXE 6
-
-	uint64_t b[MAXDEG + 1];
-	uint64_t b_deg;
-	uint64_t ci[NBITS][NBITS];
-	uint64_t e;
-	uint64_t i;
-	static uint64_t irred[DIM_MAX][MAXE + 1] =
+	
+	int poly_b[MAXDEG + 1];
+	int poly_b_deg;
+	int e;
+	static int irred_polys[DIM_MAX][MAXE + 1] =
 	{
 		{ 0,1,0,0,0,0,0 },
 		{ 1,1,0,0,0,0,0 },
@@ -88,485 +87,553 @@ void calcc2(//! [in] the dimension of the sequence to be generated.
 		{ 1,0,0,0,0,1,1 },
 		{ 1,1,1,0,0,1,1 }
 	};
-	uint64_t irred_deg[DIM_MAX] =
-	{ 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 };
-	uint64_t j;
-	uint64_t maxv = NBITS + MAXE;
-	uint64_t px[MAXDEG + 1];
-	uint64_t px_deg;
-	uint64_t q;
-	uint64_t r;
-	uint64_t term;
-	uint64_t u;
-	uint64_t v[NBITS + MAXE + 1];
-
-	for (i = 0; i < dim_num; i++)
+	int irred_polys_deg[DIM_MAX] = { 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 };
+	int poly_pi[MAXDEG + 1];
+	int poly_pi_deg;
+	int i, j, r, u;
+	int v[NBITS + MAXE + 1];
+	
+	for (i = 0; i < dim; ++i)
 	{
 		//
 		//  For each dimension, we need to calculate powers of an
 		//  appropriate irreducible polynomial:  see Niederreiter
 		//  page 65, just below equation (19).
 		//
-		//  Copy the appropriate irreducible polynomial into PX,
-		//  and its degree into E.  Set polynomial B = PX ** 0 = 1.
-		//  M is the degree of B.  Subsequently B will hold higher
-		//  powers of PX.
+		//  Copy the appropriate irreducible polynomial p_i(x) into pi,
+		//  and its degree into e.  Set polynomial b(x) = 1 and copy it into b.
+		//  m is the degree of b(x).  Subsequently b(x) will hold higher
+		//  powers of p_i(x).
 		//
-		e = irred_deg[i];
-
-		px_deg = irred_deg[i];
-
-		for (j = 0; j <= px_deg; j++)
+		e = irred_polys_deg[i];
+		poly_pi_deg = irred_polys_deg[i];
+		
+		for (j = 0; j <= poly_pi_deg; ++j)
 		{
-			px[j] = irred[i][j];
+			poly_pi[j] = irred_polys[i][j];
 		}
-
-		b_deg = 0;
-		b[0] = 1;
+		
+		poly_b_deg = 0;
+		poly_b[0] = 1;
 		//
 		//  Niederreiter (page 56, after equation (7), defines two
-		//  variables Q and U.  We do not need Q explicitly, but we do need U.
+		//  variables q(i, j) and u(i, j).  We do not need q explicitly, but we do need u.
 		//
 		u = 0;
-
-		for (j = 0; j < NBITS; j++)
+		
+		for (j = 0; j < NBITS; ++j)
 		{
 			//
-			//  If U = 0, we need to set B to the next power of PX
-			//  and recalculate V.  This is done by subroutine CALCV.
+			//  If u = 0, we need to set B to the next power of p_i(x)
+			//  and recalculate {v_n}. This is done by subroutine CALCV2.
 			//
-			if (u == 0)
+			if ( u == 0 )
 			{
-				calcv2(maxv, px_deg, px, &b_deg, b, v);
+				calculate_v(NBITS + MAXE, poly_pi_deg, poly_pi, &poly_b_deg, poly_b, v);
 			}
 			//
-			//  Now C is obtained from V.  Niederreiter obtains A from V (page 65,
-			//  near the bottom), and then gets C from A (page 56, equation (7)).
-			//  However this can be done in one step.  Here CI(J,R) corresponds to
-			//  Niederreiter's C(I,J,R).
+			//  Now c is obtained from v.
+			//	!!! We can think about c(i0,j0,r) as a (NBITS - j0 - 1)-th bit in binary
+			//		representation of a number cj(i0, r).
 			//
-			for (r = 0; r < NBITS; r++)
+			for (r = 0; r < NBITS; ++r)
 			{
-				ci[j][r] = v[r + u];
+				cj[i][r] |= ((Next_int)v[r + u]) << (NBITS - 1 - j); //???
 			}
 			//
-			//  Increment U.
-			//
-			//  If U = E, then U = 0 and in Niederreiter's
-			//  paper Q = Q + 1.  Here, however, Q is not used explicitly.
+			//  Increment u. If u = e, then u = 0 and in Niederreiter's
+			//  paper q = q + 1.  Here, however, q is not used explicitly.
 			//
 			u = u + 1;
-			if (u == e)
+			if ( u == e )
 			{
 				u = 0;
 			}
-
 		}
-		//
-		//  The array CI now holds the values of C(I,J,R) for this value
-		//  of I.  We pack them into array CJ so that CJ(I,R) holds all
-		//  the values of C(I,J,R) for J from 1 to NBITS.
-		//
-		for (r = 0; r < NBITS; r++)
-		{
-			term = 0;
-			for (j = 0; j < NBITS; j++)
-			{
-				term = 2 * term + ci[j][r];
-			}
-			cj[i][r] = term;
-		}
-
 	}
-
+	
 	return;
 # undef MAXE
 }
+
 //****************************************************************************80
 
-void calcv2(//! [in] the dimension of the array V
-	uint64_t maxv,
-	//! [in] the degree of PX.
-	uint64_t px_deg,
-	//! [in] the appropriate irreducible polynomial for the dimension currently being considered.
-	uint64_t px[MAXDEG + 1],
-	//! [in, out] the degree of the polynomial B
-	uint64_t* b_deg,
-	/*! [in, out] on input, B is the polynomial
-	 defined in section 2.3 of BFN. The degree of B implicitly defines
-	 the parameter J of section 3.3, by degree(B) = E*(J-1).  On output,
-	 B has been multiplied by PX, so its degree is now E * J*/
-	uint64_t b[MAXDEG + 1],
-	//! [out] the computed V array
-	uint64_t v[])
+void calculate_v(//! [in] the size of vector \f$\{v_n\}\f$
+			 int size_of_v,
+			 //! [in] the degree of \f$p_i(x)\f$
+			 int poly_pi_deg,
+			 //! [in] the appropriate irreducible polynomial \f$p_i(x)\f$ for the dimension currently being considered
+			 int poly_pi[MAXDEG + 1],
+			 //! [in, out] pointer to a degree of the polynomial \f$b(x)\f$
+			 int *pt_poly_b_deg,
+			 /*! [in, out] on input, \f$b(x)\f$ is the polynomial
+			  defined in section 2.3 of BFN. The degree \f$deg(b(x))\f$ implicitly defines
+			  the parameter j of section 3.3, by \f$deg(b(x)) = e \cdot (j-1)\f$.  On output,
+			  \f$b(x)\f$ has been multiplied by \f$p_i(x)\f$, so its degree is now \f$e \cdot j\f$*/
+			 int poly_b[MAXDEG + 1],
+			 //! [out] the computed \f$\{v_n\}\f$ array
+			 int v[])
 
-	/*! \brief CALCV2 calculates the value of the constants V(J,R).
-	 //
-	 // 	\par Discussion
-	 //    This program calculates the values of the constants V(J,R) as
-	 //    described in the reference (BFN) section 3.3.  It is called from CALCC2.\n
-	 //    Polynomials stored as arrays have the coefficient of degree N
-	 //    in POLY(N).\n
-	 //    A polynomial which is identically 0 is given degree -1.
-	 //
-	 //  \par Licensing
-	 //		This code is distributed under the GNU LGPL license.
-	 //
-	 //  \par Modified
-	 //		29 October 2019
-	 //
-	 //  \par Author
-	 //		Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.\n
-	 //    	C++ version by:\n
-	 //	         John Burkardt (Florida State University, USA, 2003),\n
-	 //	         Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
-	 //	         Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019).
-	 //
-	 //  \par Reference
-	 //    Paul Bratley, Bennett Fox, Harald Niederreiter,
-	 //    Algorithm 738:
-	 //    Programs to Generate Niederreiter's Low-Discrepancy Sequences,
-	 //    ACM Transactions on Mathematical Software,
-	 //    Volume 20, Number 4, pages 494-495, 1994.
-	 //
-	 //  \par Local Parameters
-	 //		\p uint64_t \b arbit, indicates where the user can place
-	 //    an arbitrary element of the field of order 2.  This means
-	 //    0 <= \b arbit < 2.\n
-	 //    \p uint64_t \b bigm, is the M used in section 3.3.
-	 //    It differs from the [little] m used in section 2.3,
-	 //    denoted here by M.\n
-	 //    \p uint64_t \b nonzer, shows where the user must put an arbitrary
-	 //    non-zero element of the field.  For the code, this means
-	 //    0 < \b nonzer < 2.
-	 \callgraph
-	 */
+/*! \brief Calculates the value of the constants V(J,R).
+ //
+ //  \par Discussion
+ //    This program calculates the values of the constants \f$\{v_n\}\f$ as
+ //    described in the reference (BFN) section 3.3.\n
+ //    Polynomials stored as arrays have the coefficient of degree N
+ //    in POLY(N).\n
+ //    A polynomial which is identically 0 is given degree -1.
+ //
+ //  \par Licensing
+ //		This code is distributed under the GNU LGPL license.
+ //
+ //	 \par Modified
+ //		29 October 2019
+ //
+ //  \par Author
+ //		Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.\n
+ //    	C++ version by:\n
+ //			John Burkardt (Florida State University, USA, 2003),\n
+ //			Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexey Burimov (Russian Technological University, KMBO-03-16, Russia, 2019).
+ //
+ //  \par Reference
+ //    Paul Bratley, Bennett Fox, Harald Niederreiter,
+ //    Algorithm 738:
+ //    Programs to Generate Niederreiter's Low-Discrepancy Sequences,
+ //    ACM Transactions on Mathematical Software,
+ //    Volume 20, Number 4, pages 494-495, 1994.
+ //
+ \callgraph
+ */
 {
-	static uint64_t arbit = 1;
-	uint64_t bigm;
-	uint64_t e;
-	uint64_t h[MAXDEG + 1];
-	uint64_t h_deg;
-	uint64_t i;
-	uint64_t j;
-	uint64_t kj;
-	uint64_t m;
-	static uint64_t nonzer = 1;
-	static uint64_t p = 2;
-	uint64_t pb_deg;
-	static uint64_t q = 2;
-	uint64_t r;
-	uint64_t term;
+	int poly_h[MAXDEG + 1];
+	int poly_h_deg, poly_b_deg;
+	int i, r;
+	int K_j, e, m;
+	int term;
 	//
-	e = px_deg;
+	e = poly_pi_deg;
 	//
-	//  The polynomial H is PX**(J-1), which is the value of B on arrival.
+	//  The polynomial h(x) = p_i(x)**(j-1) = b(x) on arrival.
 	//
-	//  In section 3.3, the values of Hi are defined with a minus sign:
-	//  don't forget this if you use them later!
+	//  In section 3.3, the values of h_i are defined with a minus sign,
+	//  but in GF(2): h_i = -h_i for any value.
 	//
-	h_deg = *b_deg;
-
-	for (i = 0; i <= h_deg; i++)
+	poly_h_deg = *pt_poly_b_deg;
+	
+	for (i = 0; i <= poly_h_deg; ++i)
 	{
-		h[i] = b[i];
+		poly_h[i] = poly_b[i];
 	}
-
-	bigm = h_deg;
 	//
-	//  Multiply B by PX so B becomes PX**J.
-	//  In section 2.3, the values of Bi are defined with a minus sign:
-	//  don't forget this if you use them later!
-	//
-	pb_deg = *b_deg;
-
-	plymul2(px_deg, px, pb_deg, b, &pb_deg, b);
-
-	*b_deg = pb_deg;
-	m = *b_deg;
-	//
-	//  We don't use J explicitly anywhere, but here it is just in case.
-	//
-	j = m / e;
-	//
-	//  Now choose a value of Kj as defined in section 3.3.
-	//  We must have 0 <= Kj < E*J = M.
-	//  The limit condition on Kj does not seem very relevant
+	//  Now choose a value of K_j as defined in section 3.3.
+	//  We must have 0 <= K_j < e*j = m.
+	//  The limit condition on K_j does not seem very relevant
 	//  in this program.
+	//	Let K_j = e*(j - 1).
 	//
-	kj = bigm;
+	K_j = poly_h_deg;
 	//
-	//  Choose values of V in accordance with the conditions in section 3.3.
+	//  Multiply b(x) by p_i(x) so b(x) becomes p(x)**j.
+	//  In section 2.3, the values of b_i are defined with a minus sign,
+	//  but in GF(2): b_i = -b_i for any value.
 	//
-	for (r = 0; r < kj; r++)
+	poly_b_deg = *pt_poly_b_deg;
+	multiply_poly2(poly_pi_deg, poly_pi, poly_b_deg, poly_b, &poly_b_deg, poly_b);
+	*pt_poly_b_deg = poly_b_deg;
+	m = *pt_poly_b_deg;
+	//
+	//  Choose values of {v_n} in accordance with the conditions in section 3.3.
+	//
+	for (r = 0; r < K_j; ++r)
 	{
 		v[r] = 0;
 	}
-	v[kj] = 1;
-
-	if (kj < bigm)
+	v[K_j] = 1;
+	
+	for (r = K_j + 1; r <= m - 1; ++r)
 	{
-		term = h[kj];
-
-		for (r = kj + 1; r <= bigm - 1; r++)
-		{
-			v[r] = arbit;
-			//
-			//  Check the condition of section 3.3,
-			//  remembering that the H's have the opposite sign.
-			//
-			term = term ^ (h[r] & v[r]);
-
-		}
-		//
-		//  Now V(BIGM) is anything but TERM.
-		//
-		v[bigm] = nonzer ^ term;
-
-		for (r = bigm + 1; r <= m - 1; r++)
-		{
-			v[r] = arbit;
-		}
-	}
-	else
-	{
-		for (r = kj + 1; r <= m - 1; r++)
-		{
-			v[r] = arbit;
-		}
-
+		v[r] = 1;
 	}
 	//
-	//  Calculate the remaining V's using the recursion of section 2.3,
-	//  remembering that the B's have the opposite sign.
+	//  Calculate the remaining v_n's using the recursion of section 2.3,
+	//  remembering that the b_i's have the opposite sign.
 	//
-	for (r = 0; r <= maxv - m; r++)
+	for (r = 0; r <= size_of_v - m; ++r)
 	{
 		term = 0;
-		for (i = 0; i <= m - 1; i++)
+		for (i = 0; i <= m - 1; ++i)
 		{
-			term = term ^ (b[i] & v[r + i]);
+			term ^= poly_b[i] & v[r + i];
 		}
 		v[r + m] = term;
 	}
-
+	
 	return;
 }
 //****************************************************************************80
 
-void niederreiter2(//! [in] the dimension of the sequence to be generated.
-	uint64_t dim_num,
-	//! [in, out] the index of the element entry to compute.  On output, SEED is typically reset by this routine to SEED+1.
-	uint64_t* seed,
-	//! [out] the next quasirandom vector.
-	double quasi[])
+void generate_next_nied2_real(//! [in] the dimension of the sequence to be generated
+					int dim,
+					//! [in, out] the index of the element entry to compute.  On output, \b seed is typically reset by this routine to \b seed+1
+					uint64_t *seed,
+					//! [out] the next quasirandom vector
+					Real next_elem[])
 
-	/*! \brief NIEDERREITER2 returns an element of the Niederreiter sequence base 2.
-	 //
-	 //  \par Licensing
-	 //		This code is distributed under the GNU LGPL license.
-	 //
-	 //  \par Modified
-	 //    29 October 2019
-	 //
-	 //  \par Author
-	 //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.\n
-	 //    C++ version by:\n
-	 //	         John Burkardt (Florida State University, USA, 2003),\n
-	 //	         Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
-	 //	         Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019).
-	 //
-	 //  \par Reference
-	 //    Harald Niederreiter,
-	 //    Low-discrepancy and low-dispersion sequences,
-	 //    Journal of Number Theory,
-	 //    Volume 30, 1988, pages 51-70.
-	 //
-	 //  \par Local Parameters
-	 //    \p uint64_t CJ(DIM_MAX,0:NBITS-1), the packed values of
-	 //    Niederreiter's C(I,J,R).\n
-	 //		\p uint64_t \b DIM_SAVE, the spatial dimension of the sequence
-	 //    as specified on an initialization call.\n
-	 //		\p uint64_t \b COUNT, the index of the current item in the sequence,
-	 //    expressed as an array of bits.  COUNT(R) is the same as Niederreiter's
-	 //    AR(N) (page 54) except that N is implicit.\n
-	 //		\p uint64_t \b NEXTQ[DIM_MAX], the numerators of the next item in the
-	 //    series.  These are like Niederreiter's XI(N) (page 54) except that
-	 //    N is implicit, and the NEXTQ are integers.  To obtain
-	 //    the values of XI(N), multiply by RECIP.
-	 //
-	 //  \callgraph
-	 */
+/*! \brief Writes into \b next_elem an element of the Niederreiter sequence base 2.
+ //
+ //  \par Licensing
+ //		This code is distributed under the GNU LGPL license.
+ //
+ //	 \par Modified
+ //		29 October 2019
+ //
+ //  \par Author
+ //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.\n
+ //    	C++ version by:\n
+ //			John Burkardt (Florida State University, USA, 2003),\n
+ //			Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexey Burimov (Russian Technological University, KMBO-03-16, Russia, 2019).
+ //
+ //  \par Reference
+ //    Harald Niederreiter,
+ //    Low-discrepancy and low-dispersion sequences,
+ //    Journal of Number Theory,
+ //    Volume 30, 1988, pages 51-70.
+ //
+ //  \par Local Parameters
+ //    \p int \b cj[DIM_MAX][NBITS], the packed values \f$С^{(i)}_r\f$ of
+ //    Niederreiter's \f$c^{(i)}_{jr}\f$.\n
+ //		\p int \b dim_save, the spatial dimension of the sequence
+ //    as specified on an initialization call.\n
+ //		\p int \b Q[DIM_MAX], the numerators of the next item in the
+ //    series.  These are like Niederreiter's \f$x^{(i)}_n\f$ (page 54) except that
+ //    n is implicit, and the Q are integers.  To obtain
+ //    the values of \f$x^{(i)}_n\f$, multiply by RECIP.
+ //
+ //  \callgraph
+ */
 {
-	static uint64_t cj[DIM_MAX][NBITS];
-	static uint64_t dim_save = 0;
-	uint64_t gray;
-	uint64_t i;
-	static uint64_t nextq[DIM_MAX];
-	uint64_t r;
-	uint64_t skip;
+	static Next_int cj[DIM_MAX][NBITS];
+	static int dim_save = 0;
+	static Next_int Q[DIM_MAX];
 	static uint64_t seed_save = 0;
+	Next_int seed_gray_code;
+	Next_int i;
+	int rightmost_zero_bit_pos;
 	//
 	//  Initialization.
 	//
-	if (dim_save < 1 || dim_num != dim_save || *seed <= 0)
+	if ( dim_save < 1 || dim != dim_save || *seed <= 0 )
 	{
-		if (dim_num <= 0 || DIM_MAX < dim_num)
+		if ( dim <= 0 || DIM_MAX < dim )
 		{
 			cout << "\n";
 			cout << "NIEDERREITER2 - Fatal error!\n";
 			cout << "  Bad spatial dimension.\n";
-			exit(1);
+			exit ( 1 );
 		}
-
-		dim_save = dim_num;
-
-		if (*seed < 0)
+		
+		dim_save = dim;
+		
+		if ( *seed < 0 )
 		{
 			*seed = 0;
 		}
-
+		
 		seed_save = *seed;
 		//
 		//  Calculate the C array.
 		//
-		calcc2(dim_save, cj);
+		calculate_c(dim_save, cj);
 	}
 	//
-	//  Set up NEXTQ appropriately, depending on the Gray code of SEED.
+	//  Set up Q appropriately, depending on the Gray code of SEED.
 	//
-	//  You can do this every time, starting NEXTQ back at 0,
-	//  or you can do it once, and then carry the value of NEXTQ
+	//  You can do this every time, starting Q back at 0,
+	//  or you can do it once, and then carry the value of Q
 	//  around from the previous computation.
 	//
-	if (*seed != seed_save + 1)
+	if ( *seed != seed_save + 1 )
 	{
-		gray = (*seed) ^ (*seed / 2);
-
-		for (i = 0; i < dim_save; i++)
+		seed_gray_code = *seed ^ (*seed >> 1);
+		
+		for (i = 0; i < dim_save; ++i)
 		{
-			nextq[i] = 0;
+			Q[i] = 0;
 		}
-
-		r = 0;
-
-		while (gray != 0)
+		
+		rightmost_zero_bit_pos = 0;
+		
+		while ( seed_gray_code != 0 )
 		{
-			if ((gray % 2) != 0)
+			if ( (seed_gray_code & 1) != 0 )
 			{
-				for (i = 0; i < dim_save; i++)
+				for (i = 0; i < dim_save; ++i)
 				{
-					nextq[i] = (nextq[i]) ^ (cj[i][r]);
+					Q[i] ^= cj[i][rightmost_zero_bit_pos];
 				}
 			}
-			gray = gray / 2;
-			r = r + 1;
+			seed_gray_code >>= 1;
+			++rightmost_zero_bit_pos;
 		}
 	}
 	//
-	//  Multiply the numerators in NEXTQ by RECIP to get the next
+	//  Multiply the numerators in Q by RECIP to get the next
 	//  quasi-random vector.
 	//
-	for (i = 0; i < dim_save; i++)
+	for (i = 0; i < dim_save; ++i)
 	{
-		quasi[i] = ((double)nextq[i]) * RECIP;
+		next_elem[i] = ((Real)Q[i]) * RECIP;
 	}
 	//
-	//  Find the position of the right-hand zero in SEED.  This
+	//  Find the position of the right-hand zero in seed.  This
 	//  is the bit that changes in the Gray-code representation as
-	//  we go from SEED to SEED+1.
+	//  we go from seed to seed+1.
 	//
-	r = 0;
+	rightmost_zero_bit_pos = 0;
 	i = *seed;
-
-	while ((i % 2) != 0)
+	
+	while ( (i & 1) != 0 )
 	{
-		r = r + 1;
-		i = i / 2;
+		++rightmost_zero_bit_pos;
+		i >>= 1;
 	}
 	//
 	//  Check that we have not passed 2**NBITS calls.
 	//
-	if (NBITS <= r)
+	if ( NBITS <= rightmost_zero_bit_pos )
 	{
 		cout << "\n";
 		cout << "NIEDERREITER2 - Fatal error!\n";
 		cout << "  Too many calls!\n";
-		exit(1);
+		exit ( 1 );
 	}
 	//
-	//  Compute the new numerators in vector NEXTQ.
+	//  Compute the new numerators in vector Q.
 	//
-	for (i = 0; i < dim_save; i++)
+	for (i = 0; i < dim_save; ++i)
 	{
-		nextq[i] = (nextq[i]) ^ (cj[i][r]);
+		Q[i] ^= cj[i][rightmost_zero_bit_pos];
 	}
-
+	
 	seed_save = *seed;
-	*seed = *seed + 1;
-
+	++(*seed);
+	
 	return;
 }
 //****************************************************************************80
 
-double* niederreiter2_generate(//! [in] the spatial dimension.
-	uint64_t dim_num,
-	//! [in] the number of points desired.
-	uint64_t n,
-	//! [in. out] a seed for the random number generator.
-	uint64_t* seed)
+void generate_next_nied2_int(//! [in] the dimension of the sequence to be generated
+					int dim,
+					//! [in, out] the index of the element entry to compute. On output, \b seed is typically reset by this routine to \b seed+1
+					uint64_t *seed,
+					//! [out] the next quasirandom vector multiplied by (1 << NBITS)
+					Next_int next_elem[])
 
-	/*! \brief NIEDERREITER2_GENERATE generates a set of Niederreiter values.
-	 \callgraph
-	 //
-	 //  \par Licensing:
-	 //		This code is distributed under the GNU LGPL license.
-	 //
-	 //  \par Modified
-	 //		29 October 2019
-	 //
-	 //  \par Author
-	 //		John Burkardt (Florida State University, USA, 2009),\n
-	 //	    Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019).
-	 //
-	 //	\return
-	 //   \p double \b r[dim_num*n], the points.
-	 */
+/*! \brief Writes into \b next_elem nominator of an element of the Niederreiter sequence base 2 multiplied by (1 << NBITS).
+ //
+ //  \par Licensing
+ //		This code is distributed under the GNU LGPL license.
+ //
+ //	 \par Modified
+ //		29 October 2019
+ //
+ //  \par Author
+ //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.\n
+ //    	C++ version by:\n
+ //			John Burkardt (Florida State University, USA, 2003),\n
+ //			Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexey Burimov (Russian Technological University, KMBO-03-16, Russia, 2019).
+ //
+ //  \par Reference
+ //    Harald Niederreiter,
+ //    Low-discrepancy and low-dispersion sequences,
+ //    Journal of Number Theory,
+ //    Volume 30, 1988, pages 51-70.
+ //
+ //  \par Local Parameters
+ //    \p int \b cj[DIM_MAX][NBITS], the packed values \f$С^{(i)}_r\f$ of
+ //    Niederreiter's \f$c^{(i)}_{jr}\f$.\n
+ //		\p int \b dim_save, the spatial dimension of the sequence
+ //    as specified on an initialization call.\n
+ //		\p int \b Q[DIM_MAX], the numerators of the next item in the
+ //    series.  These are like Niederreiter's \f$x^{(i)}_n\f$ (page 54) except that
+ //    n is implicit, and the Q are integers.  To obtain
+ //    the values of \f$x^{(i)}_n\f$, multiply by RECIP.
+ //
+ //  \callgraph
+ */
 {
-	uint64_t j;
-	double* r;
-
-	r = new double[dim_num * n];
-
-	for (j = 0; j < n; j++)
+	static Next_int cj[DIM_MAX][NBITS];
+	static int dim_save = 0;
+	static Next_int Q[DIM_MAX];
+	static uint64_t seed_save = 0;
+	Next_int seed_gray_code;
+	Next_int i;
+	int rightmost_zero_bit_no;
+	//
+	//  Initialization.
+	//
+	if ( dim_save < 1 || dim != dim_save || *seed <= 0 )
 	{
-		niederreiter2(dim_num, seed, r + j * dim_num);
+		if ( dim <= 0 || DIM_MAX < dim )
+		{
+			cout << "\n";
+			cout << "NIEDERREITER2 - Fatal error!\n";
+			cout << "  Bad spatial dimension.\n";
+			exit ( 1 );
+		}
+		
+		dim_save = dim;
+		
+		if ( *seed < 0 )
+		{
+			*seed = 0;
+		}
+		
+		seed_save = *seed;
+		//
+		//  Calculate the C array.
+		//
+		calculate_c(dim_save, cj);
 	}
-
-	return r;
+	//
+	//  Set up Q appropriately, depending on the Gray code of SEED.
+	//
+	//  You can do this every time, starting Q back at 0,
+	//  or you can do it once, and then carry the value of Q
+	//  around from the previous computation.
+	//
+	if ( *seed != seed_save + 1 )
+	{
+		seed_gray_code = *seed ^ (*seed >> 1);
+		
+		for (i = 0; i < dim_save; ++i)
+		{
+			Q[i] = 0;
+		}
+		
+		rightmost_zero_bit_no = 0;
+		
+		while ( seed_gray_code != 0 )
+		{
+			if ( (seed_gray_code & 1) != 0 )
+			{
+				for (i = 0; i < dim_save; ++i)
+				{
+					Q[i] ^= cj[i][rightmost_zero_bit_no];
+				}
+			}
+			seed_gray_code >>= 1;
+			++rightmost_zero_bit_no;
+		}
+	}
+	//
+	//  Multiply the numerators in Q by RECIP to get the next
+	//  quasi-random vector.
+	//
+	for (i = 0; i < dim_save; ++i)
+	{
+		next_elem[i] = Q[i];
+	}
+	//
+	//  Find the position of the right-hand zero in seed.  This
+	//  is the bit that changes in the Gray-code representation as
+	//  we go from seed to seed+1.
+	//
+	rightmost_zero_bit_no = 0;
+	i = *seed;
+	
+	while ( (i & 1) != 0 )
+	{
+		++rightmost_zero_bit_no;
+		i >>= 1;
+	}
+	//
+	//  Check that we have not passed 2**NBITS calls.
+	//
+	if ( NBITS <= rightmost_zero_bit_no )
+	{
+		cout << "\n";
+		cout << "NIEDERREITER2 - Fatal error!\n";
+		cout << "  Too many calls!\n";
+		exit ( 1 );
+	}
+	//
+	//  Compute the new numerators in vector Q.
+	//
+	for (i = 0; i < dim_save; ++i)
+	{
+		Q[i] ^= cj[i][rightmost_zero_bit_no];
+	}
+	
+	seed_save = *seed;
+	++(*seed);
+	
+	return;
 }
 //****************************************************************************80
 
-void plymul2(
-	//! [in] the degree of \f$p_a(x)\f$
-	uint64_t pa_deg,
-	//! [in] the first polynomial \f$p_a(x)\f$
-	uint64_t pa[MAXDEG + 1],
-	//! [in] the degree of \f$p_b(x)\f$
-	uint64_t pb_deg,
-	//! [in] the second polynomial \f$p_b(x)\f$
-	uint64_t pb[MAXDEG + 1],
-	//! [out] the degree of \f$p_c(x)\f$
-	uint64_t* pc_deg,
-	//! [out] the factor polynomial \f$p_c(x)\f$
-	uint64_t pc[MAXDEG + 1]
-)
 
-/*!
- //	\brief
- //		PLYMUL2 multiplies two polynomials in GF(2)
- //
- //	\callgraph
+//Real *niederreiter2_generate (//! [in] the spatial dimension
+//								int dim,
+//								//! [in] the number of points desired
+//								uint64_t amount,
+//								//! [in. out] a seed for the random number generator
+//								uint64_t *seed )
+//
+///*! \brief Generates a set of Niederreiter values.
+// //	 \callgraph
+// //
+// //  \par Licensing:
+// //		This code is distributed under the GNU LGPL license.
+// //
+// //	\par Modified
+// //		29 October 2019
+// //
+// //  \par Author
+// //		John Burkardt (Florida State University, USA, 2003),\n
+// //		Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+// //
+// //	\return
+// //   \p double \b sequence[dim_num*n], the points.
+// */
+//{
+//	uint64_t j;
+//	Real *sequence;
+//	
+//	sequence = new Real[dim*amount];
+//	
+//	for ( j = 0; j < amount; j++ )
+//	{
+//		generate_next_nied2_real(dim, seed, sequence+j*dim);
+//	}
+//	
+//	return sequence;
+//}
+////****************************************************************************80
+
+void multiply_poly2(
+				//! [in] the degree of \f$p_a(x)\f$
+				int poly_pa_deg,
+				//! [in] the first polynomial \f$p_a(x) = \sum_{i=0}^\textbf{pa_deg} a_i\cdot x^i\f$
+				int poly_pa[MAXDEG + 1],
+				//! [in] the degree of \f$p_b(x)\f$
+				int poly_pb_deg,
+				//! [in] the second polynomial \f$p_b(x) = \sum_{j=0}^\textbf{pb_deg} b_j\cdot x^j\f$
+				int poly_pb[MAXDEG + 1],
+				//! [out] the pointer to a degree of \f$p_c(x)\f$
+				int *pt_poly_pc_deg,
+				//! [out] the factor polynomial \f$p_c(x) = \sum_{k=i+j}^{\textbf{pa_deg}+\textbf{pb_deg}} a_i b_j\cdot x^k\f$
+				int poly_pc[MAXDEG + 1]
+				)
+
+/*! \brief
+ //		Multiplies two polynomials in GF(2).
  //
  //	\par Discussion
  //		Function performs multiplication of polynomials \f$p_c(x) = p_a(x) \cdot p_b(x)\f$.\n
@@ -575,162 +642,75 @@ void plymul2(
  //		A polynomial which is identically 0 is given degree -1.
  //
  //	\copyright
- //		This code is distributed under the GNU LGPL license.
+ //		This code is distributed under the GNU LGPL license. 
  //
  //	\par Modified
  //		29 October 2019
  //
  //	\author
  //		Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
- //		C++ version by:\n
- //	         John Burkardt (Florida State University, USA, 2003),\n
- //	         Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
- //	         Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019).
+ //    	C++ version by:\n
+ //			John Burkardt (Florida State University, USA, 2003),\n
+ //			Yekaterina Listyukhina (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexander Smekhov (Russian Technological University, KMBO-03-16, Russia, 2019),\n
+ //			Alexey Burimov (Russian Technological University, KMBO-03-16, Russia, 2019).
  //
  */
 {
-	uint64_t i;
-	uint64_t j;
-	uint64_t jhi;
-	uint64_t jlo;
-	uint64_t pt[MAXDEG + 1];
-	uint64_t term;
+	int i, j;
+	int jlo, jhi;
+	int poly_pc_clone[MAXDEG + 1];
+	int term;
 
-	if (pa_deg == -1 || pb_deg == -1)
-	{
-		*pc_deg = -1;
-	}
-	else
-	{
-		*pc_deg = pa_deg + pb_deg;
-	}
+	*pt_poly_pc_deg = ( poly_pa_deg != -1 && poly_pb_deg != -1 ) ?  poly_pa_deg + poly_pb_deg  :  -1;
 
-	if (MAXDEG < *pc_deg)
+	if ( MAXDEG < *pt_poly_pc_deg )
 	{
 		cout << "\n";
 		cout << "PLYMUL2 - Fatal error!\n";
 		cout << "	Degree of the product exceeds MAXDEG.\n";
-		exit(1);
+		exit ( 1 );
 	}
 
-	for (i = 0; i <= *pc_deg; i++)
+	for (i = 0; i <= *pt_poly_pc_deg; ++i)
 	{
-
-		jlo = i - pa_deg;
-		if (jlo < 0)
-		{
-			jlo = 0;
-		}
-
-		jhi = pb_deg;
-		if (i < jhi)
-		{
-			jhi = i;
-		}
-
+		jlo = ( i - poly_pa_deg < 0 ) ?  0  :  i - poly_pa_deg;
+		jhi = 	  ( i < poly_pb_deg ) ?  i  :  poly_pb_deg;
+		//
+		// Find pc_i as a mod2 sum over all pa_j*pb_k such that j + k = i
+		//
 		term = 0;
-
-		for (j = jlo; j <= jhi; j++)
+		for (j = jlo; j <= jhi; ++j)
 		{
-			term = term ^ (pa[i - j] & pb[j]);
+			term ^= poly_pa[i - j] & poly_pb[j];
 		}
-		pt[i] = term;
+		poly_pc_clone[i] = term;
 	}
 
-	for (i = 0; i <= *pc_deg; i++)
+	for (i = 0; i <= *pt_poly_pc_deg; ++i)
 	{
-		pc[i] = pt[i];
+		poly_pc[i] = poly_pc_clone[i];
 	}
-
-	for (i = *pc_deg + 1; i <= MAXDEG; i++)
+	
+	for (i = *pt_poly_pc_deg + 1; i <= MAXDEG; ++i)
 	{
-		pc[i] = 0;
+		poly_pc[i] = 0;
 	}
 
 	return;
 }
 
 
-void r8mat_write(//! [in] the output filename
-	string output_filename,
-	//! [in] the spatial dimension (amount of variables in target function)
-	uint64_t m,
-	//! [in] the number of points
-	uint64_t n,
-	//! [in] the m*n table data
-	double table[]
-)
+void timestamp (void)
 
 /*!
- //	\brief
- //		R8MAT_WRITE writes an R8MAT file.
- //
- //	\callgraph
- //
- //	\par Discussion
- //		An R8MAT is an array of R8's.
- //
- //	\copyright
- //		This code is distributed under the GNU LGPL license.
- //
- //	\par Modified
- //		29 June 2009
- //
- //	\author
- //		John Burkardt
- //
- */
-{
-	uint64_t i;
-	uint64_t j;
-	ofstream output;
-	//
-	//	Open the file.
-	//
-	output.open(output_filename.c_str());
-
-	if (!output)
-	{
-		cerr << "\n";
-		cerr << "R8MAT_WRITE - Fatal error!\n";
-		cerr << "	Could not open the output file.\n";
-		return;
-	}
-	//
-	//	Write the data.
-	//
-	for (j = 0; j < n; j++)
-	{
-		for (i = 0; i < m; i++)
-		{
-			output << "	" << setw(24) << setprecision(16) << table[i + j * m];
-		}
-		output << "\n";
-	}
-	//
-	//	Close the file.
-	//
-	output.close();
-
-	return;
-}
-
-
-
-
-void timestamp(void)
-
-/*!
- //	\brief
- //		TIMESTAMP prints the current YMDHMS date as a time stamp.
- //
- //	\callgraph
+ // \brief Prints the current YMDHMS date as a time stamp.
  //
  //	\par Example
  //		May 31 2001 09:45:54 AM
  //
  //	\copyright
- //		This code is distributed under the GNU LGPL license.
+ //		This code is distributed under the GNU LGPL license. 
  //
  //	\par Modified
  //		03 October 2003
@@ -741,19 +721,19 @@ void timestamp(void)
  */
 {
 #	define TIME_SIZE 40
-
+	
 	static char time_buffer[TIME_SIZE];
-	const struct tm* tm;
+	const struct tm *tm;
 	size_t len;
 	time_t now;
-
-	now = time(NULL);
-	tm = localtime(&now);
-
-	len = strftime(time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm);
-
+	
+	now = time ( NULL );
+	tm = localtime ( &now );
+	
+	len = strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm );
+	
 	cout << time_buffer << "\n";
-
+	
 	return;
 #	undef TIME_SIZE
 }
