@@ -14,7 +14,7 @@ void generateNiederreiter2(uint64_t, uint64_t);
 int main(void)
 {
 	uint64_t	dim		(4);
-	uint64_t	amount	(1 << 4);
+	uint64_t	amount	(1 << 5);
 	
 	timestamp();
 	std::cout << "\n\n\n";
@@ -31,11 +31,11 @@ int main(void)
 
 void generateNiederreiter2(uint64_t dim, uint64_t amount)
 {
-	int dim_num;
-	int i;
-	int j;
+	uint64_t dim_num;
+	uint64_t i;
+	uint64_t j;
 	double r[dim];
-	int seed;
+	uint64_t seed;
 	std::ofstream outFile(".\\producedNets\\generated_sequence.txt");
 	
 	seed = 0;
