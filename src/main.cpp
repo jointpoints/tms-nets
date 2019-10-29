@@ -6,44 +6,49 @@
 
 #include "niederreiter2.h"
 
-int main();
-void generateNiederreiter2(uint64_t, uint64_t);
+void generateNiederreiter2(int, uint64_t, char const *);
 
+#define DEFAULT_PATH_VALUE 		"generated_sequence.txt"
+#define DEFAULT_DIM_VALUE		3ULL
+#define DEFAULT_EXPO_VALUE		10ULL
 
 
 int main(void)
 {
-	uint64_t	dim		(4);
-	uint64_t	amount	(1 << 5);
+	int			dim		 = DEFAULT_DIM_VALUE;
+	int			expo	 = DEFAULT_EXPO_VALUE;
+	char const *filePath = DEFAULT_PATH_VALUE;
 	
 	timestamp();
 	std::cout << "\n\n\n";
-
-	generateNiederreiter2(dim, amount);
+	
+	generateNiederreiter2(dim, 1ULL << expo, filePath);
 	
 	std::cout << "\n\n\nNormal end of execution.\n";
 	timestamp();
-
+	
 	return 0;
 }
 
 
 
-void generateNiederreiter2(uint64_t dim, uint64_t amount)
+void generateNiederreiter2(int dim, uint64_t amount, char const *filePath)
 {
-	uint64_t dim_num;
 	uint64_t i;
 	uint64_t j;
-	double r[dim];
+	Real r[dim];
 	uint64_t seed;
-	std::ofstream outFile(".\\producedNets\\generated_sequence.txt");
+	std::ofstream outFile(filePath);
+	if ( !outFile.good() )
+	{
+		std::cout << "\nERROR: Bad file path.\n";
+	}
 	
 	seed = 0;
 	
-	for(i = 0; i < amount; ++i)
+	for (i = 0; i < amount; ++i)
 	{
-		niederreiter2(dim, &seed, r);
-		
+		generate_next_nied2_real(dim, &seed, r);
 		for (j = 0; j < dim; j++)
 		{
 			outFile << r[j] << " ";
