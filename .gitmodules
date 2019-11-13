@@ -1,0 +1,3 @@
+[submodule "irrpoly"]
+	path = irrpoly
+	url = https://github.com/irreducible-polynoms/irrpoly/
