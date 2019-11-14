@@ -48,7 +48,7 @@ std::vector<Nied2Generator::Polynom> Nied2Generator::generate_irreducible_in_par
 		return poly;
 	};
 	
-	auto proceed = irrpoly::multithread::make_checker<2>(
+	auto proceed = irrpoly::multithread::make_check_func<2>(
 												irrpoly::multithread::irreducible_method::berlekamp,
 												irrpoly::multithread::primitive_method::nil);
 	
@@ -71,8 +71,10 @@ std::vector<Nied2Generator::Polynom> Nied2Generator::generate_irreducible_in_par
 	
 	// сортируем многочлены в лексико-графическом порядке для получения правильной последовательности
 	std::sort(irred_polys_table.begin(), irred_polys_table.end(), [](const Polynom &a, const Polynom &b) {
-		if (a.degree() == b.degree()) {
-			for (BasicInt i = a.degree(); i > 0; --i) {
+		if (a.degree() == b.degree())
+		{
+			for (BasicInt i = static_cast<BasicInt>(a.degree()); i > 0; --i)
+			{
 				if (a[i] != b[i]) { return a[i] < b[i]; }
 			}
 			return a[0] < b[0];
@@ -88,11 +90,6 @@ std::vector<Nied2Generator::Polynom> Nied2Generator::generate_irreducible_in_par
 	if ( c_defect >= c_nbits )
 	{
 		throw std::logic_error("Spatial dimensionality is too big.");
-	}
-	
-	for (auto const &poly : irred_polys_table)
-	{
-		std::cout << poly << '\n';
 	}
 	
 	return irred_polys_table;

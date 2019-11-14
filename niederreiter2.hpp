@@ -8,7 +8,7 @@
 #ifndef NIEDERREITER2_HPP
 #define NIEDERREITER2_HPP
 
-#include "polynomialgf.hpp"
+#include "irrpoly/polynomialgf.hpp"
 
 
 //! Provides an interface to generate an elements of base 2 \f$(t,m,s)\f$-nets in a fixed-dimensional real space.
