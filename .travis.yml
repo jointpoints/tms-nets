@@ -3,7 +3,11 @@ sudo: false
 
 branches:
   only:
+<<<<<<< HEAD
+    - development
+=======
     - master
+>>>>>>> master
 
 # Install dependencies
 addons:
@@ -29,4 +33,8 @@ deploy:
   local_dir: tmp_docs
   github_token: $GH_REPO_TOKEN
   on:
+<<<<<<< HEAD
+    branch: development
+=======
     branch: master
+>>>>>>> master
