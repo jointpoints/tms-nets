@@ -8,4 +8,4 @@ add_executable(${PROJECT_NAME} "${SOURCES}")
 
 target_include_directories("${PROJECT_NAME}" PRIVATE irrpoly/include)
 
-
+add_subdirectory(test)
