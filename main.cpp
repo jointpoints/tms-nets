@@ -4,23 +4,20 @@
 
 #include "niederreiter2.hpp"
 
-#define DEFAULT_DIM_VALUE      	10ULL
-#define DEFAULT_EXPO_VALUE      3ULL
-
 
 
 int main(void)
 {
-	int dim     = DEFAULT_DIM_VALUE;
-	int expo    = DEFAULT_EXPO_VALUE;
+	int dim     = 2;
+	int expo    = 15;
 	
-	using GeneratorType = Nied2Generator<uint64_t, 64>;
+	using GeneratorType = sequences::Niederreiter<uint64_t, 63>;
 
 	//Create generator of (t,s) sequences with s == dim and consequently implicitly defined t.
 	GeneratorType generator(dim);
-	
+
 	//Generate 20 (not 1 << 20!!) points of (t,s)-sequence, beginning with 10 sequence number
-	std::vector<GeneratorType::RealPoint> points = generator.get_points_real(0, 20);
+	std::vector<sequences::Point> points = generator.get_points_real(0, 20);
 
 	//Load another 20 (not 1 << 20!!!) points of (t,s)-sequence, beginning with 100 sequence number into points-vector
 	generator.load_points_real(points, 100);

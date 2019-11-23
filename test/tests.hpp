@@ -22,16 +22,16 @@
 #	define PUSHLOG(func, step, outOf, stage, message)       (void)0;
 #endif // ENABLE_LOG
 
-
+using namespace sequences;
 
 template<typename UIntType = uint64_t, unsigned int NBITS = 63>
-void nied2_check_definition(Nied2Generator<UIntType, NBITS> *generator, uint64_t amount)
+void nied2_check_definition(Niederreiter<UIntType, NBITS> *generator, uint64_t amount)
 {
 #	define TEST_NAME            "CHECKDEFINITION"
 #	define TEST_SUCCESS         0
 #	define TEST_INTERVAL_ERROR  1
 #	define TEST_BAD_PARAMS      2
-	using GeneratorType = Nied2Generator<UIntType, NBITS>;
+	using GeneratorType = Niederreiter<UIntType, NBITS>;
 	
 	typename GeneratorType::IntPoint	point;
 	uint32_t							point_i = 0;
@@ -112,8 +112,8 @@ void nied2_check_definition(Nied2Generator<UIntType, NBITS> *generator, uint64_t
 				if(all_d_sets_generated) break;
 				
 				for(uint64_t i = 0; i < s; ++i)
-					a[i] = point[i] / (1ULL << (NBITS - d[i]));
-				
+					a[i] = (point[i] >> (NBITS - d[i] - 1)) >> 1;
+
 				increment_counter(&counters, s, d_sets_counter, 1ULL << d_sum, d, a);
 				
 				++d_sets_counter;
@@ -226,12 +226,12 @@ void nied2_check_definition(Nied2Generator<UIntType, NBITS> *generator, uint64_t
 
 
 template<typename UIntType = uint64_t, unsigned int NBITS = 63>
-void nied2_check_uniqueness(Nied2Generator<UIntType, NBITS> *generator, uint64_t amount)
+void nied2_check_uniqueness(Niederreiter<UIntType, NBITS> *generator, uint64_t amount)
 {
 #	define TEST_NAME            "CHECKUNIQUENESS"
 #	define TEST_SUCCESS         0
 #	define TEST_FAIL            1
-	using GeneratorType = Nied2Generator<UIntType, NBITS>;
+	using GeneratorType = Niederreiter<UIntType, NBITS>;
 	
 	typename GeneratorType::IntPoint	point;
 	uint32_t							point_i = 0;
