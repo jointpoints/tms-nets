@@ -28,6 +28,17 @@
   * 64-битный процессор с 2 и более ядрами;
   * (желательно) утилиту CMake версии 3.8 и выше.
 
+## Пример сборки проекта на Windows с использованием CMake и MinGW.
+
+Для сборки необходимо в командной строке перейти в папку с проектом и выполнить следующие команды:
+
+    mkdir build
+    cd build
+    cmake .. -G "MinGW Makefiles"
+    mingw32-make
+
+После успешного выполнения в папке build будет находиться tms-nets.exe, и в build/test — test.exe.
+
 ## Использование генератора
 
 Для использования генератора потребуются файлы `niederreiter2.hpp`, `irrpoly/checker.hpp`, `irrpoly/gf.hpp`, `irrpoly/polynomial.hpp`,
@@ -66,8 +77,6 @@
 `irrpoly/polynomialgf.hpp`, `tests/tests.hpp`, `tests/tests_routines.hpp`, `tests/tests_routines.cpp`. В своём исходном коде пропишите строку
 
     #include "<your/path/to/our/files/>tests/tests.hpp"
-
-В скором времени для тестов планируется завести отдельный `CMakeLists`.
 
 Используемые тесты:
 
