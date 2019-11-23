@@ -8,7 +8,7 @@
 #ifndef NIEDERREITER2_HPP
 #define NIEDERREITER2_HPP
 
-#include "polynomialgf.hpp"
+#include "irrpoly/polynomialgf.hpp"
 #include <cstdlib>
 #include <vector>
 #include <cmath>		//for pow function
