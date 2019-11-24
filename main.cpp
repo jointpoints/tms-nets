@@ -16,10 +16,10 @@ int main(void)
 	//Create generator of (t,s) sequences with s == dim and consequently implicitly defined t.
 	GeneratorType generator(dim);
 
-	//Generate 20 (not 1 << 20!!) points of (t,s)-sequence, beginning with 10 sequence number
-	std::vector<sequences::Point> points = generator.get_points_real(0, 20);
+	//Generate 20 (not 1 << 20) consecutive points of (t,s)-sequence, beginning with 10 sequence number into points
+	std::vector<sequences::Point> points = generator.get_points_real(10, 20);
 
-	//Load another 20 (not 1 << 20!!!) points of (t,s)-sequence, beginning with 100 sequence number into points-vector
+	//Load another 20 (not 1 << 20) consecutive points of (t,s)-sequence, beginning with 100 sequence number into points
 	generator.load_points_real(points, 100);
 
 
@@ -32,7 +32,7 @@ int main(void)
 	//	generator.load_points_int(points_int, 10);
 
 	points_int = std::vector<GeneratorType::IntPoint>(20, GeneratorType::IntPoint(dim));
-	//OK: 20 consequent points of (t,s)-sequence will be loaded into points_int
+	//OK: 20 consecutive points of (t,s)-sequence will be loaded into points_int
 	generator.load_points_int(points_int, 10);
 	
 	return 0;

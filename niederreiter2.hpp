@@ -367,7 +367,7 @@ namespace sequences
 		
 		if ( i < amount && degrees[i] == 0 )
 		{
-			throw std::logic_error("There can't be generated any polynomials with degree 0");
+			throw std::logic_error("There is no polynomials with degree 0");
 		}
 		
 		amount = i - ( defect > max_defect );
@@ -388,7 +388,7 @@ namespace sequences
 		
 		if ( i < amount && degrees_counter[degrees[i]].second >= (2 << degrees[i]) )
 		{
-			throw std::logic_error("There doesn't exist " + std::to_string(degrees_counter[degrees[i]].first) + " irreducible polynomials of degree " + std::to_string(degrees[i]) + " over GF(2)");
+			throw std::logic_error("There are no " + std::to_string(degrees_counter[degrees[i]].first) + " irreducible polynomials of degree " + std::to_string(degrees[i]) + " over GF(2)");
 		}
 		
 		return irred_polys_table;
@@ -455,7 +455,7 @@ namespace sequences
 	{
 		if ( c_dim == 0 || c_irred_polys.size() != c_dim )
 		{
-			throw std::logic_error("There can't be a base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(c_dim));
+			throw std::logic_error("There is no base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(c_dim));
 		}
 		for (auto const &poly : c_irred_polys)
 		{
@@ -484,7 +484,7 @@ namespace sequences
 	{
 		if ( c_dim == 0 || c_irred_polys.size() != c_dim )
 		{
-			throw std::logic_error("There can't be a base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(c_dim));
+			throw std::logic_error("There is no base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(c_dim));
 		}
 		for (BasicInt const degree : degrees_of_irred)
 		{
