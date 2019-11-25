@@ -9,6 +9,7 @@
 #define NIEDERREITER2_HPP
 
 #include "irrpoly/polynomialgf.hpp"
+#include <string>
 #include <cstdlib>
 #include <vector>
 #include <cmath>		//for pow function
@@ -111,7 +112,7 @@ namespace sequences
 		void initialize_c(void);
 		
 		//! Calculates the value of the constants \f$\{v_n\}\f$.
-		void calculate_v(Polynom const &poly_pi, Polynom &poly_b, BasicInt v[]) const;
+		void calculate_v(Polynom const &poly_pi, Polynom &poly_b, std::vector<BasicInt> &v) const;
 
 		//!	Checks whether all polynomials are irreducible and their degrees are small enough.
 		std::vector<Polynom> const &polynomial_control(std::vector<Polynom> const &polynomials) const;
@@ -374,11 +375,11 @@ namespace sequences
 		std::vector<Polynom> irred_polys_table;
 		irred_polys_table.reserve(amount);
 		
-		for (i = 0; i < amount && degrees_counter[degrees[i]].second < (2 << degrees[i]); ++i)
+		for (i = 0; i < amount && degrees_counter[degrees[i]].second < (2U << degrees[i]); ++i)
 		{
 			irred_polys_table.emplace_back( number_to_poly(degrees_counter[degrees[i]].second) );
 			
-			while ( degrees_counter[degrees[i]].second < (2 << degrees[i]) && !is_irreducible_berlekamp(irred_polys_table.back()) )
+			while ( degrees_counter[degrees[i]].second < (2U << degrees[i]) && !is_irreducible_berlekamp(irred_polys_table.back()) )
 			{
 				degrees_counter[degrees[i]].second += 2;
 				irred_polys_table.back() = number_to_poly(degrees_counter[degrees[i]].second);
@@ -386,7 +387,7 @@ namespace sequences
 			degrees_counter[degrees[i]].second += (degrees[i] != 1) + 1;
 		}
 		
-		if ( i < amount && degrees_counter[degrees[i]].second >= (2 << degrees[i]) )
+		if ( i < amount && degrees_counter[degrees[i]].second >= (2U << degrees[i]) )
 		{
 			throw std::logic_error("There are no " + std::to_string(degrees_counter[degrees[i]].first) + " irreducible polynomials of degree " + std::to_string(degrees[i]) + " over GF(2)");
 		}
@@ -550,11 +551,10 @@ namespace sequences
 									  \f$b(x)\f$ has been multiplied by \f$p_i(x)\f$, so its degree is now \f$e \cdot j\f$*/
 									 Polynom &poly_b,
 									 //! [out] the computed \f$\{v_n\}\f$ array
-									 BasicInt v[]) const
+									 std::vector<BasicInt> &v) const
 	{
 		Polynom poly_h;
 		BasicInt term;
-		BasicInt const v_size = static_cast<BasicInt>(NBITS + c_irred_polys.back().degree() + 1);
 		//
 		//  The polynomial h(x) = p_i(x)**(j-1) = b(x) on arrival.
 		//
@@ -591,7 +591,7 @@ namespace sequences
 		//  Calculate the remaining v_n's using the recursion of section 2.3,
 		//  remembering that the b_i's have the opposite sign.
 		//
-		for (BasicInt r = 0; r < v_size - poly_b.degree(); ++r)
+		for (BasicInt r = 0; r < v.size() - poly_b.degree(); ++r)
 		{
 			term = 0;
 			for (BasicInt i = 0; i <= poly_b.degree() - 1; ++i)
@@ -641,7 +641,7 @@ namespace sequences
 		Polynom const poly_ident{1};
 		Polynom poly_b;
 		Polynom poly_pi;
-		BasicInt v[NBITS + c_irred_polys.back().degree() + 1];
+		std::vector<BasicInt> v(NBITS + c_irred_polys.back().degree() + 1);
 		
 		for (BasicInt i = 0, u = 0; i < c_dim; ++i)
 		{
@@ -718,7 +718,7 @@ namespace sequences
 		CountInt pos_gray_code;
 		BasicInt r;
 		
-		pos_gray_code = (pos ^ (pos >> 1)) & ( sizeof(UIntType)*8 == NBITS ? ~(std::size_t)0 : ((std::size_t)1 << NBITS) - 1 );
+		pos_gray_code =  (pos ^ (pos >> 1));
 		
 		for (BasicInt i = 0; i < c_dim; ++i)
 		{
@@ -726,7 +726,7 @@ namespace sequences
 		}
 		
 		r = 0;
-		while ( pos_gray_code != 0 )//&& r < NBITS )
+		while ( pos_gray_code != 0 && r < NBITS )
 		{
 			if ( (pos_gray_code & 1) != 0 )
 			{
@@ -836,7 +836,7 @@ namespace sequences
 	template <typename UIntType, unsigned int NBITS>
 	void Niederreiter<UIntType,NBITS>::load_points_int(
 										//! [in, out] non-empty vector of #c_dim-sized #IntPoint, which will contain generated points
-										std::vector<Niederreiter<UIntType,NBITS>::IntPoint> &points,
+										std::vector<typename Niederreiter<UIntType,NBITS>::IntPoint> &points,
 										//! [in] beginning sequence number of generated points
 										CountInt const pos) const
 	{
