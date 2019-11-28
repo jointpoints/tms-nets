@@ -9,10 +9,11 @@
 #define NIEDERREITER2_HPP
 
 #include "irrpoly/polynomialgf.hpp"
-#include <string>
-#include <cstdlib>
+
+#include <string>		//for std::to_string function
+#include <algorithm>	//for max_element function (is already included in "irrpoly/polynomialgf.hpp")
 #include <vector>
-#include <cmath>		//for pow function
+#include <cmath>		//for pow function (is already included in "irrpoly/polynomialgf.hpp")
 #include <map> 			//only for using in generate_irrpolys_with_degrees and polynomial_control functions
 #include <type_traits>	//for type conditions in static_assert
 
@@ -32,17 +33,17 @@ namespace sequences
 	using 	Point		= std::vector<Real>;
 	using 	Polynom 	= irrpoly::polynomialgf<2>;
 	
-	//! Multiplies two polynomials over GF(2).
+	// Multiplies two polynomials over GF(2).
 	Polynom multiply_poly2(Polynom const &poly_pa, Polynom const &poly_pb);
-	//!	Generates vector of first \b amount least-degree irreducible polynomials over GF(2).
+	// Generates vector of first amount least-degree irreducible polynomials over GF(2).
 	std::vector<Polynom> generate_irrpolys(std::size_t const amount, BasicInt const max_defect = ~(BasicInt)(0));
-	//!	Generates vector of first \b amount least-degree irreducible polynomials over GF(2) using multithreading.
+	// Generates vector of first amount least-degree irreducible polynomials over GF(2) using multithreading
 	std::vector<Polynom> generate_irrpolys_in_parallel(std::size_t const amount,  BasicInt const max_defect = ~(BasicInt)(0));
-	//!	Generates vector of first irreducible polynomials over GF(2) with specified degrees.
+	// Generates vector of first irreducible polynomials over GF(2) with specified degrees.
 	std::vector<Polynom> generate_irrpolys_with_degrees(std::vector<BasicInt> const &degrees, BasicInt const max_defect = ~(BasicInt)(0));
 	
 	
-	//! Provides an interface to generate an elements of a 2**NBITS-periodic base 2 (t,s)-sequences in a fixed-dimensional real space.
+	//! Provides an interface to generate an elements of a NBITS-bit base 2 (t,s)-sequences in a fixed-dimensional real space.
 	/*! \tparam UIntType Number of available digits to store the integer \f$Q_n = x_n\cdot 2^\textbf{NBITS+1},\ x_n^{(i)} < 1\ \ \forall i\f$.
 	 	\tparam NBITS Hence the maximum value of m parameter of produced base 2 (t,m,s)-net equals to \b NBITS as there can be
 	 	generated only \f$2^\textbf{NBITS}\f$ unique numbers. */
@@ -57,68 +58,61 @@ namespace sequences
 		using 	IntPoint	= std::vector<UIntType>;
 		
 		
+		// Normalize point_int into unit cube.
+		static Point cast_point_int_to_real(IntPoint const &point_int);
+		
 		Niederreiter(void) = delete;
 		Niederreiter(Niederreiter const &) = delete;
 		Niederreiter& operator =(Niederreiter const &) = delete;
 		
-		//! Constructor, preparing the generation of base 2 (t,dim)-sequence points, with the least possible t.
+		// Constructor, preparing the generation of base 2 (t,dim)-sequence points, with the least possible t.
 		Niederreiter(BasicInt const dim, bool const in_parallel = false);
-		//! Constructor, preparing the generation of base 2 (t,s)-sequence poitns with parameters, specified by vector of degrees of irreducible polynomials.
+		// Constructor, preparing the generation of base 2 (t,s)-sequence poitns with parameters, specified by vector of degrees of irreducible polynomials.
 		Niederreiter(std::vector<BasicInt> const &degrees_of_irred);
-		//! Constructor, preparing the generation of base 2 (t,s)-sequence poitns with specified polynomials.
+		// Constructor, preparing the generation of base 2 (t,s)-sequence poitns with specified polynomials.
 		Niederreiter(std::vector<Polynom> const &polynomials);
-		//! Default destructor.
 		~Niederreiter(void) = default;
 		
-		//! Move assignment operator.
 		Niederreiter& operator =(Niederreiter &&tmp_generator) = default;
 		
-		//! Returns s parameter of possible (t,m,s)-nets.
+		// Returns s parameter of (t,s)-sequence.
 		BasicInt get_s(void) const;
-		//! Returns t parameter of possible (t,m,s)-nets.
+		// Returns t parameter of (t,s)-sequence.
 		BasicInt get_t(void) const;
-		//! Returns the bitwidth of Q_n integers.
+		// Returns the bitwidth of (t,s)-sequence.
 		BasicInt get_nbits(void) const;
 		
-		//! Loads \f$x_\textbf{pos}\f$ into \b point.
-		void load_point_real(Point    &point, CountInt const pos) const;
-		//! Loads \f$Q_\textbf{pos}\f$ into \b point.
+		// Loads Q(pos) into point.
 		void load_point_int (IntPoint &point, CountInt const pos) const;
-		//! Loads the \b points vector with sequential points \f$\{x_k\}_{k=\textbf{pos}}^{\textbf{pos}-1+\textbf{points.size()}}\f$.
-		void load_points_real(std::vector<Point>    &points, CountInt const pos) const;
-		//! Loads the \b points vector with sequential integer points \f$\{Q_k\}_{k=\textbf{pos}}^{\textbf{pos}-1+\textbf{points.size()}}\f$.
-		void load_points_int (std::vector<IntPoint> &points, CountInt const pos) const;
+		// Loads x(pos) into point.
+		void load_point_real(Point    &point, CountInt const pos) const;
 		
-		//! Generates \f$x_\textbf{pos}\f$ -- \b pos'th point of (t,s)-sequence.
-		Point    				get_point_real (CountInt const pos) const;
-		//! Generates integer point \f$Q_n = x_\textbf{pos}\cdot 2^{\textbf{NBITS}}\f$
+		// Generates integer point Q(pos) = x(pos) * pow(2, NBITS).
 		IntPoint 				get_point_int  (CountInt const pos) const;
-		//! Generates \b amount sequential integer points \f$\{Q_k\}_{k=\textbf{pos}}^{n-1+\textbf{amount}}\f$.
-		std::vector<Point>		get_points_real(CountInt const pos, CountInt const amount) const;
-		//! Generates \b amount sequential points \f$\{x_k\}_{k=\textbf{pos}}^{n-1+\textbf{amount}}\f$.
-		std::vector<IntPoint> 	get_points_int (CountInt const pos, CountInt const amount) const;
+		// Generates x(pos) - pos'th point of (t,s)-sequence.
+		Point    				get_point_real (CountInt const pos) const;
+		
+		// Loads Q(pos) into point using the previous point Q(pos-1), stored in prev_point.
+		void 					load_next_point_int(IntPoint &point, CountInt pos, IntPoint const &prev_point) const;
+		// Generates Q(pos) using the previous point Q(pos-1), stored in prev_point.
+		IntPoint				get_next_point_int(CountInt const pos, IntPoint const &prev_point) const;
 		
 		
 	private:
 		
-		static Real		const 	c_recip; 		//!< Computational normalization constant equal to \f$2^\textbf{-NBITS}\f$.
+		static Real		const 	c_recip; 		//!< Computational normalization constant equal to pow(2, -NBITS).
 		
-		BasicInt 			 	c_dim;			//!< Spatial dimensionality, that's equal to s parameter of the (t,s)-sequence.
-		std::vector<Polynom>	c_irred_polys;	//!< Lookup table of c_dim least-degree irreducible polynomials over GF(2).
+		std::vector<Polynom>	c_irred_polys;	//!< Lookup table of s irreducible polynomials over GF(2) used to generate a (t,s)-sequence.
 		BasicInt				c_defect;		//!< t parameter of the (t,s)-sequence.
-		std::vector<IntPoint> 	c_cj;			//!< Lookup tables of constants \f$c^{(i)}_{jr}\f$.
+		std::vector<IntPoint> 	c_cj;			//!< Lookup tables of constants c(i,j,r).
 		
-		//! Initializes lookup tables of \f$c^{(i)}_{jr}\f$ coefficients.
+		// Initializes lookup tables of c(i,j,r) coefficients.
 		void initialize_c(void);
-		
-		//! Calculates the value of the constants \f$\{v_n\}\f$.
+		// Calculates the value of the constants v(r).
 		void calculate_v(Polynom const &poly_pi, Polynom &poly_b, std::vector<BasicInt> &v) const;
 
-		//!	Checks whether all polynomials are irreducible and their degrees are small enough.
+		//Checks whether all polynomials are irreducible and their degrees are small enough.
 		std::vector<Polynom> const &polynomial_control(std::vector<Polynom> const &polynomials) const;
-		
-		//! Loads \f$Q_\textbf{pos}\f$ into \b point using the previous point \f$Q_{\textbf{pos}-1}\f$.
-		void load_next_int(IntPoint &point, CountInt pos, IntPoint const &prev_point) const;
 		
 	};
 
@@ -127,8 +121,8 @@ namespace sequences
 	// Funcition implementations:
 	//=========================================================================================================
 
-	/*!
-	 *	Function performs multiplication of two polynomials over GF(2).\n
+	/*! Multiplies two polynomials over GF(2).
+	 *
 	 *	Polynomials are stored as arrays of coefficients and have
 	 *	the coefficient of degree N as the N-th element of an array.\n
 	 *
@@ -168,12 +162,28 @@ namespace sequences
 		return poly_pc;
 	}
 	
-	/*!
+	/*!	Generates vector of first \p amount least-degree irreducible polynomials over GF(2) using multithreading
+	 *
+	 *	Let \f$\[p_n(x)\]_{n=0}^{s-1}\f$ be a sequence of irreducible polynomials over GF(2).
+	 *	To generate a base 2 (t,s)-sequence using \f$\[p_n(x)\]\f$, we need the sum \f$\sum_{k=0}^{s-1}(deg(p_k) - 1) = t\f$
+	 *	to be smaller than \f$\max\{m\} =\f$ \p NBITS.\n
+	 *	Let's say, that \f$p(x) = \sum_{i=0}^{deg(p)}p_i\cdot x^i,\ \ p_i \in\f$ GF(2) is equal to the integer
+	 *	\f$\overline{p} = \sum_{i=0}^{\log_2 \overline{p}}p_i\cdot 2^i\f$.
+	 *	To generate \f$\[p_n(x)\]_{n=0}^{s-1}\f$ we'll test every polynomial, equal to integers
+	 *	\f$\overline{p}\f$ running increasingly from 3 with step 2, with Berlekamp's irreducibility test, supposing that
+	 *	\f$p_0(x) = x\f$.
+	 *
+	 *	\return
+	 *		Vector of \p amount least-degree irreducible polynomials.
 	 *
 	 *	\author Vadim Piven
 	 *
 	 */
-	std::vector<Polynom> generate_irrpolys_in_parallel(std::size_t const amount, BasicInt const max_defect)
+	std::vector<Polynom> generate_irrpolys_in_parallel(
+										   //! [in] amount of least-degree irreducible to generate
+										   std::size_t const amount,
+										   //! [in] maximum allowed t parameter of (t,s)-sequence
+										   BasicInt const max_defect)
 	{
 		// возвращаемое значение
 		std::vector<Polynom> irred_polys_table;
@@ -243,19 +253,19 @@ namespace sequences
 	}
 	
 	
-	/*!
+	/*! Generates vector of first \p amount least-degree irreducible polynomials over GF(2).
 	 *
-	 *	Let \f$\{p_n(x)\}_{n=0}^{\infty}\f$ be a sequence of irreducible polynomials over GF(2) sorted by increasing of degrees.
-	 *	To generate a base 2 \f$(t,m,s)\f$-net using \f$\{p_n(x)\}\f$, we need the sum \f$\sum_{k=0}^{s-1}(deg(p_k) - 1) = t\f$
-	 *	to be smaller than \f$\max\{m\} =\f$ #NBITS.\n
+	 *	Let \f$\[p_n(x)\]_{n=0}^{s-1}\f$ be a sequence of irreducible polynomials over GF(2).
+	 *	To generate a base 2 (t,s)-sequence using \f$\[p_n(x)\]\f$, we need the sum \f$\sum_{k=0}^{s-1}(deg(p_k) - 1) = t\f$
+	 *	to be smaller than \f$\max\{m\} =\f$ \p NBITS.\n
 	 *	Let's say, that \f$p(x) = \sum_{i=0}^{deg(p)}p_i\cdot x^i,\ \ p_i \in\f$ GF(2) is equal to the integer
 	 *	\f$\overline{p} = \sum_{i=0}^{\log_2 \overline{p}}p_i\cdot 2^i\f$.
-	 *	To generate \f$\{p_n(x)\}_{n=0}^{\textbf{s_parameter} - 1}\f$ we'll test every polynomial, equal to integers
+	 *	To generate \f$\[p_n(x)\]_{n=0}^{s-1}\f$ we'll test every polynomial, equal to integers
 	 *	\f$\overline{p}\f$ running increasingly from 3 with step 2, with Berlekamp's irreducibility test, supposing that
 	 *	\f$p_0(x) = x\f$.
 	 *
 	 *	\return
-	 *		Vector of \b s_parameter least-degree irreducible polynomials.
+	 *		Vector of \p amount least-degree irreducible polynomials.
 	 *
 	 *	\author
 	 *		Vadim Piven\n
@@ -264,7 +274,9 @@ namespace sequences
 	 */
 	std::vector<Polynom> generate_irrpolys(
 							   //! [in] amount of least-degree irreducible to generate
-							   std::size_t const amount, BasicInt const max_defect)
+							   std::size_t const amount,
+							   //! [in] maximum allowed t parameter of (t,s)-sequence
+							   BasicInt const max_defect)
 	{
 		CountInt coeffs_number = 3;
 		BasicInt defect = 0;
@@ -310,19 +322,18 @@ namespace sequences
 	}
 	
 	
-	/*!
-	 *	\todo Implement error handling
+	/*! Generates vector of first irreducible polynomials over GF(2) with specified degrees.
 	 *
 	 *	Let \f$[p_n(x)]_{n=0}^{s-1}\f$ be a vector of irreducible polynomials over GF(2).
 	 *	To generate a base 2 \f$(t,m,s)\f$-net using \f$\{p_n(x)\}\f$, we need the sum \f$\sum_{n=0}^{s-1}(deg(p_n) - 1) = t\f$
-	 *	to be smaller than \f$\max\{m\} =\f$ #NBITS.\n
+	 *	to be smaller than \f$\max\{m\} =\f$ \p NBITS.\n
 	 *	Let \f$[d_n]\f$ be equal to \b degrees and let's say, that \f$p(x) = \sum_{i=0}^{deg(p)}p_i\cdot x^i,\ \ p_i \in\f$ GF(2) is
 	 *	equal to the integer \f$\overline{p} = \sum_{i=0}^{\log_2 \overline{p}}p_i\cdot 2^i\f$.
 	 *	To generate \f$[p_n(x)]\f$ for each \f$n\f$ we will test polynomials, equal to every integer
 	 *	\f$\overline{p_n}\f$ such that \lfloor \log_2 \overline{p_n}\rfloor = d_n\f$ with Berlekamp's irreducibility test.
 	 *
 	 *	\return
-	 *		Vector of \b s_parameter least-degree irreducible polynomials.
+	 *		Vector of \p amount least-degree irreducible polynomials.
 	 *
 	 *	\author
 	 *		Vadim Piven\n
@@ -331,7 +342,9 @@ namespace sequences
 	 */
 	std::vector<Polynom> generate_irrpolys_with_degrees(
 											//! [in] amount of least-degree irreducible to generate
-											std::vector<BasicInt> const &degrees, BasicInt const max_defect)
+											std::vector<BasicInt> const &degrees,
+											//! [in] maximum allowed t parameter of (t,s)-sequence
+											BasicInt const max_defect)
 	{
 		BasicInt amount = static_cast<BasicInt>(degrees.size());
 		// counter of possible t values for (t,m,s)-nets with sush irred. polynomials degrees.
@@ -409,13 +422,31 @@ namespace sequences
 	template <typename UIntType, unsigned int NBITS>
 	Real const Niederreiter<UIntType,NBITS>::c_recip   = 1.0/pow(static_cast<Real>(2), NBITS);
 	
+	/*! Normalize \p point_int into unit cube.
+	 *
+	 *	Transforms \f$Q_n\f$ to corresponding \f$x_n = Q_n \cdot 2^{-R}\f$, where \f$R\f$ = \p NBITS.
+	 *
+	 *	\return
+	 *		Normalized point
+	 */
+	template <typename UIntType, unsigned int NBITS>
+	Point Niederreiter<UIntType,NBITS>::cast_point_int_to_real(Niederreiter<UIntType,NBITS>::IntPoint const &point_int)
+	{
+		Point point_real(point_int.size());
+		for (BasicInt i = 0; i < point_int.size(); ++i)
+		{
+			point_real[i] = static_cast<Real>(point_int[i])/pow(static_cast<Real>(2), NBITS);
+		}
+		return point_real;
+	}
+	
 
 	//=========================================================================================================
 	// 		1. Polynomial related methods
 	//=========================================================================================================
 	
-	/*!
-	 *	Desctiption of usage
+	/*!	Checks whether all polynomials are irreducible and their degrees are small enough.
+	 *
 	 */
 	template <typename UIntType, unsigned int NBITS>
 	std::vector<Polynom> const &Niederreiter<UIntType, NBITS>::polynomial_control(std::vector<Polynom> const &polynomials) const
@@ -424,13 +455,13 @@ namespace sequences
 		BasicInt i = 0;
 		std::map<Polynom, BasicInt, bool(*)(Polynom const &, Polynom const &)> just_set(irrpoly::operator!=);
 		while ( i < polynomials.size()  &&  just_set.size() == i  \
-			   &&  defect < NBITS + 2*c_dim  &&  irrpoly::is_irreducible_berlekamp(polynomials[i]) )
+			   &&  defect < NBITS + 2*polynomials.size()  &&  irrpoly::is_irreducible_berlekamp(polynomials[i]) )
 		{
 			just_set.insert(std::make_pair(polynomials[i], i));
 			defect += polynomials[i].size();
 			++i;
 		}
-		if ( polynomials.size() == 0 || just_set.size() != polynomials.size() || defect >= NBITS + 2*c_dim )
+		if ( polynomials.size() == 0 || just_set.size() != polynomials.size() || defect >= NBITS + 2*polynomials.size() )
 		{
 			throw std::logic_error("Bad polynomials...");
 		}
@@ -443,32 +474,33 @@ namespace sequences
 	// 		2. Constructors
 	//=========================================================================================================
 	
-	
+	/*! Constructor, preparing the generation of base 2 (t,dim)-sequence points, with the least possible t.
+	 *
+	 */
 	template <typename UIntType, unsigned int NBITS>
 	Niederreiter<UIntType,NBITS>::Niederreiter(
 								   //! [in] spatial dimensionality
 								   BasicInt const dim,
 								   //! [in] flag, defining usage of a single-thread or a multy-thead #c_irred_polys generation
 								   bool const in_parallel) :
-		c_dim(dim),
 		c_irred_polys( (in_parallel ? generate_irrpolys_in_parallel : generate_irrpolys)(dim, NBITS - 1) ),
 		c_defect(0)
 	{
-		if ( c_dim == 0 || c_irred_polys.size() != c_dim )
+		if ( dim == 0 || c_irred_polys.size() != dim )
 		{
-			throw std::logic_error("There is no base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(c_dim));
+			throw std::logic_error("There is no base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(dim));
 		}
 		for (auto const &poly : c_irred_polys)
 		{
 			c_defect += poly.size();
 		}
 		c_defect -= 2*c_irred_polys.size();
-		c_cj = std::vector<IntPoint>(c_dim, IntPoint(NBITS, 0));
+		c_cj = std::vector<IntPoint>(dim, IntPoint(NBITS, 0));
 		initialize_c();
 	}
 	
 
-	/*!
+	/*! Constructor, preparing the generation of base 2 (t,s)-sequence poitns with parameters, specified by vector of degrees of irreducible polynomials.
 	 *
 	 *	Let \f$\{d_i\}_{i=0}^{s-1}\f$ is equal to \b degrees_of_irred, where \f$s = \f$\b degrees_of_irred.size().\n
 	 *	Then \f$t = \sum_{i=0}^{s-1} (d_i - 1)\f$.
@@ -479,32 +511,32 @@ namespace sequences
 	Niederreiter<UIntType,NBITS>::Niederreiter(
 								   //! [in] vector of degrees of irreducible polynomials, which size must be equal to spatial dimensionality.
 								   std::vector<BasicInt> const &degrees_of_irred) :
-		c_dim(static_cast<BasicInt>(degrees_of_irred.size())),
 		c_irred_polys(generate_irrpolys_with_degrees(degrees_of_irred, NBITS - 1)),
 		c_defect(0)
 	{
-		if ( c_dim == 0 || c_irred_polys.size() != c_dim )
+		if ( degrees_of_irred.size() == 0 || c_irred_polys.size() != degrees_of_irred.size() )
 		{
-			throw std::logic_error("There is no base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(c_dim));
+			throw std::logic_error("There is no base 2 (t,s)-sequence with bitwidth = " + std::to_string(NBITS) + " and s = " + std::to_string(degrees_of_irred.size()));
 		}
 		for (BasicInt const degree : degrees_of_irred)
 		{
 			c_defect += degree;
 		}
 		c_defect -= degrees_of_irred.size();
-		c_cj = std::vector<IntPoint>(c_dim, IntPoint(NBITS, 0));
+		c_cj = std::vector<IntPoint>(c_irred_polys.size(), IntPoint(NBITS, 0));
 		initialize_c();
 	}
 	
 
+	/*! Constructor, preparing the generation of base 2 (t,s)-sequence poitns with specified polynomials.
+	 */
 	template <typename UIntType, unsigned int NBITS>
 	Niederreiter<UIntType,NBITS>::Niederreiter(
 									//! [in] vector such, that n'th polynomial will be used in generation over n'th dimension.
 									std::vector<Polynom> const &polynomials) :
-		c_dim(static_cast<BasicInt>(polynomials.size())),
 		c_irred_polys(polynomial_control(polynomials)),
 		c_defect(0),
-		c_cj(std::vector<IntPoint>(c_dim, IntPoint(NBITS, 0)))
+		c_cj(std::vector<IntPoint>(polynomials.size(), IntPoint(NBITS, 0)))
 	{
 		for (auto const &poly : c_irred_polys)
 		{
@@ -521,7 +553,7 @@ namespace sequences
 	//=========================================================================================================
 
 	
-	/*!
+	/*! Calculates the value of the constants v(r).
 	 *
 	 *	Calculation of the constants \f$\{v_n\}\f$ implemented as
 	 *	described in the reference (BFN) section 3.3.\n
@@ -605,17 +637,17 @@ namespace sequences
 	}
 	
 
-	/*!
-	 *	\details
+	/*! Initializes lookup tables of c(i,j,r) coefficients.
+	 *
 	 *	This program calculates the values of the constants \f$c^{(i)}_{jr}\f$ denoted as c(i, j, r).
 	 *	As far as possible, Niederreiter's notation is used.\n
 	 *	For each value of i, we first calculate all the corresponding
-	 *	values of c (all these values are either 0 or 1) and pack them into the 2D-array \b cj thats
+	 *	values of c (all these values are either 0 or 1) and pack them into the 2D-array \p c_cj thats
 	 *	denoting \f$С^{(i)}_r\f$ \n
-	 *	in such a way that \b cj[i][r] holds the values of c(i, j, r)
-	 *	for the indicated i and r and for every j from 0 to (\b NBITS - 1).\n
-	 *	The most significant bit of \b cj[i][r] (not counting the sign bit) is c(i, 0, r) and the least
-	 *	significant bit is c(i, \b NBITS - 1, r) that is equivalent to\n
+	 *	in such a way that \p c_cj[i][r] holds the values of c(i, j, r)
+	 *	for the indicated i and r and for every j from 0 to (\p NBITS - 1).\n
+	 *	The most significant bit of \p c_cj[i][r] (not counting the sign bit) is c(i, 0, r) and the least
+	 *	significant bit is c(i, \p NBITS - 1, r) that is equivalent to\n
 	 *	\f$С^{(i)}_r = \sum\limits_{j=0}^{\textbf{NBITS}-1} c^{(i)}_{jr}\cdot 2^{\textbf{NBITS}-1-j}\f$.
 	 *
 	 *	\par Modified
@@ -641,9 +673,13 @@ namespace sequences
 		Polynom const poly_ident{1};
 		Polynom poly_b;
 		Polynom poly_pi;
-		std::vector<BasicInt> v(NBITS + c_irred_polys.back().degree() + 1);
+		std::vector<BasicInt> v(NBITS + \
+								std::max_element(c_irred_polys.begin(), \
+												 c_irred_polys.end(), \
+												 [](Polynom const &lpoly, Polynom const &rpoly) { return lpoly.degree() < rpoly.degree(); })->degree() + \
+								1);
 		
-		for (BasicInt i = 0, u = 0; i < c_dim; ++i)
+		for (BasicInt i = 0, u = 0; i < c_irred_polys.size(); ++i)
 		{
 			//
 			//  For each dimension, we need to calculate powers of an
@@ -704,13 +740,12 @@ namespace sequences
 	//=========================================================================================================
 	
 	
-	/*!
-	 *
+	/*! Loads Q(\p pos) into \p point.
 	 *
 	 */
 	template <typename UIntType, unsigned int NBITS>
 	void Niederreiter<UIntType,NBITS>::load_point_int(
-										//! [in, out] #c_dim-sized vector, which will contain the generated \f$Q_\textbf{pos}\f$
+										//! [in, out] s-sized vector, which will contain the generated Q(\p pos)
 										IntPoint &point,
 										//! [in] sequence number of generated point
 										CountInt const pos) const
@@ -720,7 +755,7 @@ namespace sequences
 		
 		pos_gray_code =  (pos ^ (pos >> 1));
 		
-		for (BasicInt i = 0; i < c_dim; ++i)
+		for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
 		{
 			point[i] = 0;
 		}
@@ -730,7 +765,7 @@ namespace sequences
 		{
 			if ( (pos_gray_code & 1) != 0 )
 			{
-				for (BasicInt i = 0; i < c_dim; ++i)
+				for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
 				{
 					point[i] ^= c_cj[i][r];
 				}
@@ -743,7 +778,29 @@ namespace sequences
 	
 
 	/*!
-	 *	Generation based on Gray code representation of \b pos.
+	 *
+	 *
+	 */
+	template <typename UIntType, unsigned int NBITS>
+	void Niederreiter<UIntType,NBITS>::load_point_real(
+										 //! [in, out] point, which will contain the generated x(\p pos)
+										 Point &point,
+										 //! [in] sequence number of generated point
+										 CountInt const pos) const
+	{
+		IntPoint  point_Qn(c_irred_polys.size());
+		load_point_int(point_Qn, pos);
+		
+		for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
+		{
+			point[i] = static_cast<Real>(point_Qn[i])*c_recip;
+		}
+	}
+
+	
+	/*!	Generates integer point Q(\p pos) = x(\p pos) * pow(2, \p NBITS).
+	 *
+	 *	Generation based on Gray code representation of \p pos.
 	 *
 	 *  \par Reference
 	 *		Harald Niederreiter,
@@ -754,38 +811,17 @@ namespace sequences
 	 */
 	template <typename UIntType, unsigned int NBITS>
 	typename Niederreiter<UIntType,NBITS>::IntPoint Niederreiter<UIntType,NBITS>::get_point_int(
-									   //! [in] sequence number of generated point
-									   CountInt const pos) const
+																								//! [in] sequence number of generated point
+																								CountInt const pos) const
 	{
-		IntPoint point_Qn(c_dim);
+		IntPoint point_Qn(c_irred_polys.size());
 		load_point_int(point_Qn, pos);
 		
 		return point_Qn;
 	}
 	
-
-	/*!
-	 *
-	 *
-	 */
-	template <typename UIntType, unsigned int NBITS>
-	void Niederreiter<UIntType,NBITS>::load_point_real(
-										 //! [in, out] point, which will contain the generated \f$x_\textbf{pos}\f$
-										 Point &point,
-										 //! [in] sequence number of generated point
-										 CountInt const pos) const
-	{
-		IntPoint  point_Qn(c_dim);
-		load_point_int(point_Qn, pos);
-		
-		for (BasicInt i = 0; i < c_dim; ++i)
-		{
-			point[i] = static_cast<Real>(point_Qn[i])*c_recip;
-		}
-	}
-
-	/*!
-	 *
+	
+	/*! Generates x(\p pos) - \p pos'th point of (t,s)-sequence.
 	 *
 	 */
 	template <typename UIntType, unsigned int NBITS>
@@ -793,23 +829,24 @@ namespace sequences
 										 //! [in] sequence number of generated point
 										 CountInt const pos) const
 	{
-		Point point_xn(c_dim);
+		Point point_xn(c_irred_polys.size());
 		load_point_real(point_xn, pos);
 		
 		return point_xn;
 	}
 	
 
-	/*!
-	 *	Calling this function with \b pos = 0 and \b pos >= 2**NBITS causes bad results.
+	/*!	Loads Q(\p pos) into \p point using the previous point Q(\p pos-1), stored in prev_point.
+	 *
+	 *	Calling this function with \b pos = 0 and \b pos pow(2, \p NBITS) causes bad results.
 	 */
 	template <typename UIntType, unsigned int NBITS>
-	void Niederreiter<UIntType,NBITS>::load_next_int(
-									//! [in, out] #c_dim-sized #IntPoint, which will contain the generated \f$Q_\textbf{pos}\f$
+	void Niederreiter<UIntType,NBITS>::load_next_point_int(
+									//! [in, out] s-sized #IntPoint, which will contain the generated Q(\p pos)
 									IntPoint &point,
 									//! [in] sequence number of generated point
 									CountInt pos,
-									//! [in] previous point \f$Q_{\textbf{pos} - 1}\f$
+									//! [in] previous point Q(\p pos - 1)
 									IntPoint const &prev_point) const
 	{
 		BasicInt rightmost_zero_bit_pos = 0;
@@ -822,96 +859,26 @@ namespace sequences
 		//
 		//  Compute the new numerators in vector Q.
 		//
-		for (BasicInt i = 0; i < c_dim; ++i)
+		for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
 		{
 			point[i] = prev_point[i] ^ c_cj[i][rightmost_zero_bit_pos];
 		}
 	}
 	
-
-	/*!
-	 *
-	 *
-	 */
-	template <typename UIntType, unsigned int NBITS>
-	void Niederreiter<UIntType,NBITS>::load_points_int(
-										//! [in, out] non-empty vector of #c_dim-sized #IntPoint, which will contain generated points
-										std::vector<typename Niederreiter<UIntType,NBITS>::IntPoint> &points,
-										//! [in] beginning sequence number of generated points
-										CountInt const pos) const
-	{
-		load_point_int(points[0], pos);
-		
-		for (CountInt seq_num = 1; seq_num < points.size(); ++seq_num)
-		{
-			load_next_int(points[seq_num], pos + seq_num, points[seq_num - 1]);
-		}
-	}
 	
-
 	/*!
-	 *
-	 *
+	 *	Calling this function with \b pos = 0 and \b pos >= pow(2, \p NBITS)  causes bad results.
 	 */
 	template <typename UIntType, unsigned int NBITS>
-	void Niederreiter<UIntType,NBITS>::load_points_real(
-										//! [in, out] non-empty vector of #c_dim-sized #Point, which will contain generated points
-										std::vector<Point> &points,
-										//! [in] beginning sequence number of generated points
-										CountInt const pos) const
+	typename Niederreiter<UIntType,NBITS>::IntPoint Niederreiter<UIntType,NBITS>::get_next_point_int(
+														   //! [in] sequence number of generated point
+														   CountInt pos,
+														   //! [in] previous point Q(\p pos - 1)
+														   IntPoint const &prev_point) const
 	{
-		IntPoint point_Qn(c_dim);
-		load_point_int(point_Qn, pos);
-		
-		for (BasicInt i = 0; i < c_dim; ++i)
-		{
-			points[0][i] = static_cast<Real>(point_Qn[i])*c_recip;
-		}
-		
-		for (CountInt seq_num = 1; seq_num < points.size(); ++seq_num)
-		{
-			load_next_int(point_Qn, pos + seq_num, point_Qn);
-			for (BasicInt i = 0; i < c_dim; ++i)
-			{
-				points[seq_num][i] = static_cast<Real>(point_Qn[i])*c_recip;
-			}
-		}
-	}
-	
-
-	/*!
-	 *
-	 *
-	 */
-	template <typename UIntType, unsigned int NBITS>
-	std::vector<typename Niederreiter<UIntType,NBITS>::IntPoint>  Niederreiter<UIntType,NBITS>::get_points_int(
-													  //! [in] beginning sequence number of generated points
-													  CountInt const pos,
-													  //! [in] amount of points being generated
-													  CountInt const amount) const
-	{
-		std::vector<IntPoint> points_Qn(amount, IntPoint(c_dim));
-		load_points_int(points_Qn, pos);
-		
-		return points_Qn;
-	}
-	
-
-	/*!
-	 *
-	 *
-	 */
-	template <typename UIntType, unsigned int NBITS>
-	std::vector<Point> Niederreiter<UIntType,NBITS>::get_points_real(
-													   //! [in] beginning sequence number of generated points
-													   CountInt const pos,
-													   //! [in] amount of points being generated
-													   CountInt const amount) const
-	{
-		std::vector<Point> points_xn(amount, Point(c_dim));
-		load_points_real(points_xn, pos);
-		
-		return points_xn;
+		IntPoint point(c_irred_polys.size());
+		load_next_point_int(point, pos, prev_point);
+		return point;
 	}
 	
 	
@@ -921,13 +888,17 @@ namespace sequences
 	//=========================================================================================================
 	
 	
+	/*! Returns s parameter of (t,s)-sequence.
+	 */
 	template <typename UIntType, unsigned int NBITS>
 	BasicInt Niederreiter<UIntType, NBITS>::get_s(void) const
 	{
-		return c_dim;
+		return c_irred_polys.size();
 	}
 	
 	
+	/*! Returns t parameter of (t,s)-sequence.
+	 */
 	template <typename UIntType, unsigned int NBITS>
 	BasicInt Niederreiter<UIntType, NBITS>::get_t(void) const
 	{
@@ -935,6 +906,8 @@ namespace sequences
 	}
 	
 	
+	/*! Returns the bitwidth of (t,s)-sequence.
+	 */
 	template <typename UIntType, unsigned int NBITS>
 	BasicInt Niederreiter<UIntType, NBITS>::get_nbits(void) const
 	{
