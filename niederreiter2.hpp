@@ -102,6 +102,7 @@ namespace sequences
 		
 		static Real		const 	c_recip; 		//!< Computational normalization constant equal to pow(2, -NBITS).
 		
+		BasicInt		const 	c_dim;			//!< Spatial dimensionality = s parameter of (t,s)-sequence.
 		std::vector<Polynom>	c_irred_polys;	//!< Lookup table of s irreducible polynomials over GF(2) used to generate a (t,s)-sequence.
 		BasicInt				c_defect;		//!< t parameter of the (t,s)-sequence.
 		std::vector<IntPoint> 	c_cj;			//!< Lookup tables of constants c(i,j,r).
@@ -483,6 +484,7 @@ namespace sequences
 								   BasicInt const dim,
 								   //! [in] flag, defining usage of a single-thread or a multy-thead #c_irred_polys generation
 								   bool const in_parallel) :
+		c_dim(dim),
 		c_irred_polys( (in_parallel ? generate_irrpolys_in_parallel : generate_irrpolys)(dim, NBITS - 1) ),
 		c_defect(0)
 	{
@@ -494,7 +496,7 @@ namespace sequences
 		{
 			c_defect += poly.size();
 		}
-		c_defect -= 2*c_irred_polys.size();
+		c_defect -= 2*c_dim;
 		c_cj = std::vector<IntPoint>(dim, IntPoint(NBITS, 0));
 		initialize_c();
 	}
@@ -502,7 +504,7 @@ namespace sequences
 
 	/*! Constructor, preparing the generation of base 2 (t,s)-sequence poitns with parameters, specified by vector of degrees of irreducible polynomials.
 	 *
-	 *	Let \f$\{d_i\}_{i=0}^{s-1}\f$ is equal to \b degrees_of_irred, where \f$s = \f$\b degrees_of_irred.size().\n
+	 *	Let \f$\{d_i\}_{i=0}^{s-1}\f$ is equal to \p degrees_of_irred, where \f$s = \f$\p degrees_of_irred.size().\n
 	 *	Then \f$t = \sum_{i=0}^{s-1} (d_i - 1)\f$.
 	 *
 	 *	\throws std::logic_error if \f$t\f$ becomes larger than (#NBITS-1) or if ???.
@@ -511,6 +513,7 @@ namespace sequences
 	Niederreiter<UIntType,NBITS>::Niederreiter(
 								   //! [in] vector of degrees of irreducible polynomials, which size must be equal to spatial dimensionality.
 								   std::vector<BasicInt> const &degrees_of_irred) :
+		c_dim(degrees_of_irred.size()),
 		c_irred_polys(generate_irrpolys_with_degrees(degrees_of_irred, NBITS - 1)),
 		c_defect(0)
 	{
@@ -523,7 +526,7 @@ namespace sequences
 			c_defect += degree;
 		}
 		c_defect -= degrees_of_irred.size();
-		c_cj = std::vector<IntPoint>(c_irred_polys.size(), IntPoint(NBITS, 0));
+		c_cj = std::vector<IntPoint>(c_dim, IntPoint(NBITS, 0));
 		initialize_c();
 	}
 	
@@ -534,6 +537,7 @@ namespace sequences
 	Niederreiter<UIntType,NBITS>::Niederreiter(
 									//! [in] vector such, that n'th polynomial will be used in generation over n'th dimension.
 									std::vector<Polynom> const &polynomials) :
+		c_dim(polynomials.size()),
 		c_irred_polys(polynomial_control(polynomials)),
 		c_defect(0),
 		c_cj(std::vector<IntPoint>(polynomials.size(), IntPoint(NBITS, 0)))
@@ -542,7 +546,7 @@ namespace sequences
 		{
 			c_defect += poly.size();
 		}
-		c_defect -= 2*c_irred_polys.size();
+		c_defect -= 2*c_dim;
 		initialize_c();
 	}
 	
@@ -679,7 +683,7 @@ namespace sequences
 												 [](Polynom const &lpoly, Polynom const &rpoly) { return lpoly.degree() < rpoly.degree(); })->degree() + \
 								1);
 		
-		for (BasicInt i = 0, u = 0; i < c_irred_polys.size(); ++i)
+		for (BasicInt i = 0, u = 0; i < c_dim; ++i)
 		{
 			//
 			//  For each dimension, we need to calculate powers of an
@@ -755,7 +759,7 @@ namespace sequences
 		
 		pos_gray_code =  (pos ^ (pos >> 1));
 		
-		for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
+		for (BasicInt i = 0; i < c_dim; ++i)
 		{
 			point[i] = 0;
 		}
@@ -765,7 +769,7 @@ namespace sequences
 		{
 			if ( (pos_gray_code & 1) != 0 )
 			{
-				for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
+				for (BasicInt i = 0; i < c_dim; ++i)
 				{
 					point[i] ^= c_cj[i][r];
 				}
@@ -788,10 +792,10 @@ namespace sequences
 										 //! [in] sequence number of generated point
 										 CountInt const pos) const
 	{
-		IntPoint  point_Qn(c_irred_polys.size());
+		IntPoint  point_Qn(c_dim);
 		load_point_int(point_Qn, pos);
 		
-		for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
+		for (BasicInt i = 0; i < c_dim; ++i)
 		{
 			point[i] = static_cast<Real>(point_Qn[i])*c_recip;
 		}
@@ -814,7 +818,7 @@ namespace sequences
 																								//! [in] sequence number of generated point
 																								CountInt const pos) const
 	{
-		IntPoint point_Qn(c_irred_polys.size());
+		IntPoint point_Qn(c_dim);
 		load_point_int(point_Qn, pos);
 		
 		return point_Qn;
@@ -829,7 +833,7 @@ namespace sequences
 										 //! [in] sequence number of generated point
 										 CountInt const pos) const
 	{
-		Point point_xn(c_irred_polys.size());
+		Point point_xn(c_dim);
 		load_point_real(point_xn, pos);
 		
 		return point_xn;
@@ -859,7 +863,7 @@ namespace sequences
 		//
 		//  Compute the new numerators in vector Q.
 		//
-		for (BasicInt i = 0; i < c_irred_polys.size(); ++i)
+		for (BasicInt i = 0; i < c_dim; ++i)
 		{
 			point[i] = prev_point[i] ^ c_cj[i][rightmost_zero_bit_pos];
 		}
@@ -876,7 +880,7 @@ namespace sequences
 														   //! [in] previous point Q(\p pos - 1)
 														   IntPoint const &prev_point) const
 	{
-		IntPoint point(c_irred_polys.size());
+		IntPoint point(c_dim);
 		load_next_point_int(point, pos, prev_point);
 		return point;
 	}
@@ -893,7 +897,7 @@ namespace sequences
 	template <typename UIntType, unsigned int NBITS>
 	BasicInt Niederreiter<UIntType, NBITS>::get_s(void) const
 	{
-		return c_irred_polys.size();
+		return c_dim;
 	}
 	
 	
