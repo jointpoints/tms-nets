@@ -8,9 +8,10 @@
 
 
 /*
- * Uncomment the following line to enable logging
+ * Uncomment the following line to enable verbosity
+ * Possible levels of verbosity: 1, 2, 3, 4
  */
-//#define ENABLE_LOG
+//#define VERBOSITY_LEVEL 1
 
 
 
@@ -20,47 +21,37 @@
 
 int main(void)
 {
-	std::vector<uint32_t> degrees1 = {3, 6, 5, 5};
-	std::vector<uint32_t> degrees2 = {3, 6, 5, 5, 3, 4, 3, 2};
+	std::vector<uint32_t> degrees1 = {3, 6, 5, 5, 3};
+	std::vector<uint32_t> degrees2 = {3, 6, 5, 5, 3, 4};
 	
-	
+	using GeneratorType = sequences::Niederreiter<uint32_t, 32>;
 	
 	/*                       15
 	 * 4-dimensional set of 2   points with the best defect possible
 	 * This should be a (t, m, s)-net
 	 */
-	Nied2Generator<uint64_t, 63> generator(4);
-	nied2_check_definition(&generator, 1ULL << 15);
+	GeneratorType generator(4);
+	niederreiter_check_uniqueness(&generator, 15);
+	niederreiter_check_definition(&generator, 15);
+	std::cout << '\n';
 	
-	/*                       15
-	 * 4-dimensional set of 2   points with the manually specified degrees of polynoms
+	/*                       20
+	 * 5-dimensional set of 2   points with the manually specified degrees of polynoms
 	 * This should be a (t, m, s)-net
 	 */
-	generator = Nied2Generator<uint64_t, 63>(degrees1);
-	nied2_check_definition(&generator, 1ULL << 15);
-	
-	
+	generator = GeneratorType(degrees1);
+	niederreiter_check_uniqueness(&generator, 20);
+	niederreiter_check_definition(&generator, 20);
+	std::cout << '\n';
 	
 	/*                       15
-	 * 8-dimensional set of 2   points with the manually specified degrees of polynoms
+	 * 6-dimensional set of 2   points with the manually specified degrees of polynoms
 	 * This should NOT be a (t, m, s)-net (due to very high degrees)
 	 */
-	generator = Nied2Generator<uint64_t, 63>(degrees2);
-	nied2_check_definition(&generator, 1ULL << 15);
-	
-	/*                       15
-	 * 4-dimensional set of 2   + 1 points with the manually specified degrees of polynoms
-	 * This should NOT be a (t, m, s)-net (due to incorrect amount of points)
-	 */
-	generator = Nied2Generator<uint64_t, 63>(degrees1);
-	nied2_check_definition(&generator, (1ULL << 15) + 1);
-	
-	/*                       15
-	 * 4-dimensional set of 2   + 1 points with the best defect possible
-	 * This should NOT be a (t, m, s)-net (due to incorrect amount of points)
-	 */
-	generator = Nied2Generator<uint64_t, 63>(4);
-	nied2_check_definition(&generator, (1ULL << 15) + 1);
+	generator = GeneratorType(degrees2);
+	niederreiter_check_uniqueness(&generator, 15);
+	niederreiter_check_definition(&generator, 15);
+	std::cout << '\n';
 	
 	return 0;
 }

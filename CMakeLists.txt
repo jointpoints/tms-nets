@@ -4,8 +4,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB SOURCES *.cpp *.hpp)		
 
-add_executable(${PROJECT_NAME} "${SOURCES}")
+include_directories(irrpoly/include)
 
-target_include_directories("${PROJECT_NAME}" PRIVATE irrpoly/include)
-
-
+add_subdirectory(test)
