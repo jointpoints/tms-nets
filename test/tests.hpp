@@ -11,7 +11,6 @@
 
 #include "../niederreiter2.hpp"
 #include "tests_routines.hpp"
-#include <cmath>
 
 
 
@@ -62,8 +61,8 @@ const bool niederreiter_check_definition(sequences::Niederreiter<UIntType, NBITS
 	using GeneratorType = sequences::Niederreiter<UIntType, NBITS>;
 	
 	uint8_t                             answer = TEST_SUCCESS;
-	typename GeneratorType::IntPoint	point;
-	uint64_t							point_i = 0;
+	typename GeneratorType::IntPoint    point;
+	uint64_t                            point_i = 0;
 	BitCounters                         counters;
 	
 	PUSHLOG_4(TEST_NAME, "Test started.")
