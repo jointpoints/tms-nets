@@ -108,8 +108,8 @@ namespace sequences
 		
 		static Real				const 	c_recip; 		//!< Computational normalization constant equal to pow(2, -NBITS).
 		
-		BasicInt				const 	c_dim;			//!< Spatial dimensionality = s parameter of (t,s)-sequence.
-		std::vector<Polynom>	const	c_irred_polys;	//!< Lookup table of s irreducible polynomials over GF(2) used to generate a (t,s)-sequence.
+		BasicInt					 	c_dim;			//!< Spatial dimensionality = s parameter of (t,s)-sequence.
+		std::vector<Polynom>			c_irred_polys;	//!< Lookup table of s irreducible polynomials over GF(2) used to generate a (t,s)-sequence.
 		BasicInt						c_defect;		//!< t parameter of the (t,s)-sequence.
 		std::vector<IntPoint> 			c_cj;			//!< Lookup tables of constants c(i,j,r).
 		
