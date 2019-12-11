@@ -356,7 +356,7 @@ const bool niederreiter_check_uniqueness(sequences::Niederreiter<UIntType, NBITS
 		case TEST_FAIL:
 			{
 				PUSHLOG_1(TEST_NAME, "-")
-				PUSHLOG_2(TEST_NAME, "+ (" << unique_points << ")")
+				PUSHLOG_2(TEST_NAME, "- (" << unique_points << ")")
 				PUSHLOG_3(TEST_NAME, "Answer: NEGATIVE.")
 				PUSHLOGC_3("Expected amount of unique points: " << amount)
 				PUSHLOGC_3("Actual   amount of unique points: " << unique_points)
