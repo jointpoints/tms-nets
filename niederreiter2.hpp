@@ -16,7 +16,7 @@
 #include <cmath>		//for pow function (is already included in "irrpoly/polynomialgf.hpp")
 #include <map> 			//only for using in generate_irrpolys_with_degrees and polynomial_control functions
 #include <type_traits>	//for type conditions in static_assert
-#include <functional>	//for unified generate_points_* methods (is already included in "irrpoly/polynomialgf.hpp")
+#include <functional>	//for unified for_each_point_* methods (is already included in "irrpoly/polynomialgf.hpp")
 
 
 namespace sequences
@@ -99,17 +99,17 @@ namespace sequences
 		IntPoint				get_next_point_int(CountInt const pos, IntPoint const &prev_point) const;
 		
 		// Sequentially generates amount integer scaled points of (t,s)-sequence, starting with pos sequence number, and call handler function for each pair (point, point's sequence number).
-		void 					generate_points_int (std::function<void (IntPoint const &, CountInt)> handler, CountInt pos, CountInt amount);
+		void 					for_each_point_int (std::function<void (IntPoint const &, CountInt)> handler, CountInt amount, CountInt pos = 0);
 		// Sequentially generates amount points of (t,s)-sequence, starting with pos sequence number, and call handler function for each pair (point, point's sequence number).
-		void 					generate_points_real(std::function<void (Point    const &, CountInt)> handler, CountInt pos, CountInt amount);
+		void 					for_each_point_real(std::function<void (Point    const &, CountInt)> handler, CountInt amount, CountInt pos = 0);
 		
 		
 	private:
 		
 		static Real				const 	c_recip; 		//!< Computational normalization constant equal to pow(2, -NBITS).
 		
-		BasicInt				const 	c_dim;			//!< Spatial dimensionality = s parameter of (t,s)-sequence.
-		std::vector<Polynom>	const	c_irred_polys;	//!< Lookup table of s irreducible polynomials over GF(2) used to generate a (t,s)-sequence.
+		BasicInt					 	c_dim;			//!< Spatial dimensionality = s parameter of (t,s)-sequence.
+		std::vector<Polynom>			c_irred_polys;	//!< Lookup table of s irreducible polynomials over GF(2) used to generate a (t,s)-sequence.
 		BasicInt						c_defect;		//!< t parameter of the (t,s)-sequence.
 		std::vector<IntPoint> 			c_cj;			//!< Lookup tables of constants c(i,j,r).
 		
@@ -920,13 +920,13 @@ namespace sequences
 	 */
 	template <typename UIntType, unsigned int NBITS>
 	void
-	Niederreiter<UIntType, NBITS>::generate_points_int(
+	Niederreiter<UIntType, NBITS>::for_each_point_int(
 											//! [in] function, that will be called for each generated point and it's sequence number
 											std::function<void (IntPoint const &, CountInt)> handler,
-											//! [in] starting sequence number
-											CountInt pos,
 											//! [in] amount of generated points
-											CountInt amount)
+											CountInt amount,
+											//! [in] starting sequence number
+											CountInt pos)
 	{
 		if ( amount == 0 )
 		{ return; }
@@ -947,13 +947,13 @@ namespace sequences
 	 */
 	template <typename UIntType, unsigned int NBITS>
 	void
-	Niederreiter<UIntType, NBITS>::generate_points_real(
+	Niederreiter<UIntType, NBITS>::for_each_point_real(
 													//! [in] function, that will be called for each generated point and it's sequence number
 													std::function<void (Point const &, CountInt)> handler,
-													//! [in] starting sequence number
-													CountInt pos,
 													//! [in] amount of generated points
-													CountInt amount)
+													CountInt amount,
+													//! [in] starting sequence number
+													CountInt pos)
 	{
 		if ( amount == 0 )
 		{ return; }
