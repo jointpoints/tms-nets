@@ -66,15 +66,13 @@
 
 Исполните команду
 
-    git clone --single-branch --branch master https://github.com/jointpoints/tms-nets --recurse-submodules
+    git clone --single-branch --branch master https://github.com/jointpoints/tms-nets
 
 
 #### Через ZIP-архив
 
-  1. Скачайте архив 1 (кнопка **Clone or download**) [отсюда](https://github.com/jointpoints/tms-nets);
-  2. Скачайте архив 2 (кнопка **Clone or download**) [отсюда](https://github.com/irreducible-polynoms/irrpoly);
-  3. Распакуйте архив 1 в некоторую папку, например, `nets`;
-  4. Распакуйте архив 2 в папку `nets/irrpoly`.
+  1. Скачайте архив (кнопка **Clone or download**) [отсюда](https://github.com/jointpoints/tms-nets);
+  2. Распакуйте архив в некоторую папку.
 
 
 
