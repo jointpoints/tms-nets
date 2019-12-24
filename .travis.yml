@@ -20,7 +20,7 @@ before_script:
 
 # Build your code e.g. by calling make
 script:
-  - doxygen doxygen_config
+  - doxygen tools/doxygen_config
 
 # Generate and deploy documentation
 deploy:

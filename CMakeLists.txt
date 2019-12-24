@@ -4,6 +4,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 file(GLOB SOURCES *.cpp *.hpp)		
 
-include_directories(irrpoly/include)
+include_directories(include)
 
-add_subdirectory(test)
+add_subdirectory(tests)
