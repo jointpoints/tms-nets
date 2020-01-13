@@ -2,7 +2,9 @@
  *	\file niederreiter2.hpp
  *
  *	\author
- *		Original C++ version by John Burkardt 2003-2009, __ 2019
+ *		Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter,\n
+ *		Previous C++ version by John Burkardt 2003-2009,\n
+ * 		__ 2019
  */
 
 #ifndef NIEDERREITER2_HPP
@@ -77,31 +79,31 @@ namespace sequences
 		Niederreiter& operator =(Niederreiter &&tmp_generator) = default;
 		
 		// Returns s parameter of (t,s)-sequence.
-		BasicInt get_s(void) const;
+		BasicInt    get_s(void) const;
 		// Returns t parameter of (t,s)-sequence.
-		BasicInt get_t(void) const;
+		BasicInt    get_t(void) const;
 		// Returns the bitwidth of (t,s)-sequence.
-		BasicInt get_nbits(void) const;
+		BasicInt    get_nbits(void) const;
 		
 		// Stores Q(pos) into point.
-		void store_point_int (IntPoint &point, CountInt const pos) const;
+		void        store_point_int (IntPoint &point, CountInt const pos) const;
 		// Stores x(pos) into point.
-		void store_point_real(Point    &point, CountInt const pos) const;
+		void        store_point_real(Point    &point, CountInt const pos) const;
 		
 		// Returns integer point Q(pos) = x(pos) * pow(2, NBITS).
-		IntPoint 				get_point_int  (CountInt const pos) const;
+		IntPoint    get_point_int  (CountInt const pos) const;
 		// Returns x(pos) - pos'th point of (t,s)-sequence.
-		Point    				get_point_real (CountInt const pos) const;
+		Point       get_point_real (CountInt const pos) const;
 		
 		// Stores Q(pos) into point using the previous point Q(pos-1), stored in prev_point.
-		void 					store_next_point_int(IntPoint &point, CountInt pos, IntPoint const &prev_point) const;
+		void        store_next_point_int(IntPoint &point, CountInt pos, IntPoint const &prev_point) const;
 		// Returns Q(pos) using the previous point Q(pos-1), stored in prev_point.
-		IntPoint				get_next_point_int(CountInt const pos, IntPoint const &prev_point) const;
+		IntPoint    get_next_point_int(CountInt const pos, IntPoint const &prev_point) const;
 		
 		// Sequentially generates amount integer scaled points of (t,s)-sequence, starting with pos sequence number, and call handler function for each pair (point, point's sequence number).
-		void 					for_each_point_int (std::function<void (IntPoint const &, CountInt)> handler, CountInt amount, CountInt pos = 0);
+		void        for_each_point_int (std::function<void (IntPoint const &, CountInt)> handler, CountInt amount, CountInt pos = 0);
 		// Sequentially generates amount points of (t,s)-sequence, starting with pos sequence number, and call handler function for each pair (point, point's sequence number).
-		void 					for_each_point_real(std::function<void (Point    const &, CountInt)> handler, CountInt amount, CountInt pos = 0);
+		void        for_each_point_real(std::function<void (Point    const &, CountInt)> handler, CountInt amount, CountInt pos = 0);
 		
 		
 	private:
@@ -699,10 +701,11 @@ namespace sequences
 		Polynom poly_b;
 		Polynom poly_pi;
 		std::vector<BasicInt> v(NBITS + \
-								std::max_element(c_irred_polys.begin(), \
-												 c_irred_polys.end(), \
-												 [](Polynom const &lpoly, Polynom const &rpoly) { return lpoly.degree() < rpoly.degree(); })->degree() + \
-								1);
+								std::max_element(
+													 c_irred_polys.begin(), \
+													 c_irred_polys.end(), \
+													 [](Polynom const &lpoly, Polynom const &rpoly) { return lpoly.degree() < rpoly.degree(); } \
+												 )->degree() + 1);
 		
 		for (BasicInt i = 0, u = 0; i < c_dim; ++i)
 		{
@@ -767,6 +770,13 @@ namespace sequences
 	
 	/*! Loads Q(\p pos) into \p point.
 	 *
+	 *	Generation based on Gray code representation of \p pos.
+	 *
+	 *  \par Reference
+	 *		Harald Niederreiter,
+	 *		Low-discrepancy and low-dispersion sequences,
+	 *		Journal of Number Theory,
+	 *		Volume 30, 1988, pages 51-70.
 	 */
 	template <typename UIntType, unsigned int NBITS>
 	void
@@ -826,14 +836,6 @@ namespace sequences
 	
 	
 	/*!	Generates integer point Q(\p pos) = x(\p pos) * pow(2, \p NBITS).
-	 *
-	 *	Generation based on Gray code representation of \p pos.
-	 *
-	 *  \par Reference
-	 *		Harald Niederreiter,
-	 *		Low-discrepancy and low-dispersion sequences,
-	 *		Journal of Number Theory,
-	 *		Volume 30, 1988, pages 51-70.
 	 *
 	 */
 	template <typename UIntType, unsigned int NBITS>
