@@ -9,7 +9,7 @@
 
 
 
-#include "niederreiter2.hpp"
+#include "../include/niederreiter2.hpp"
 #include "tests_routines.hpp"
 
 
