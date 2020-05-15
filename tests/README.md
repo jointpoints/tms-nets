@@ -12,7 +12,7 @@ TsTests Usage and Development Guide
   * [Optimisations for digital nets](#optimisations-for-digital-nets)
   * [`TsTestsInfo` structure](#tstestsinfo-structure)
   * [Available tests](#available-tests)
-    * [1. `tstest_uniqueness`. Test for component-wise uniqueness](#1-tstest_uniqueness-test-for-component-wise-uniqueness`)
+    * [1. `tstest_uniqueness`. Test for component-wise uniqueness](#1-tstest_uniqueness-test-for-component-wise-uniqueness)
 	  * [1.1. Description](#11-description)
 	  * [1.2. Limits of applicability](#12-limits-of-applicability)
 	* [2. `tstest_definition`. Test for (t, m, s)-net definition](#2-tstest_definition-test-for-t-m-s-net-definition)
