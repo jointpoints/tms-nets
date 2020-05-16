@@ -58,15 +58,17 @@ Each return code `r` **may** be printed into console in a form of human-readable
 
 ## Verbosity levels and logs
 
-TsTests directly support 5 levels of verbosity that affect the amount of details to be included into logs.
+TsTests directly support 5 levels of verbosity that affect the amount of details to be included into logs. Information that is needed to be displayed on each verbosity level varies for validation tests and analytical tests.
 
-  * `0` — no logging is done;
-  * `1` — short answers and work time are supposed to be logged;
-  * `2` — more detailed answers and work time are supposed to be logged;
-  * `3` — complete answers and work time are supposed to be logged;
-  * `4` — intermediate steps, complete answers and work time are supposed to be logged.
+  | Verbosity level | Validation tests                                                                                                                                                                                                                                                                                               | Analytical tests                                                                                                                                                             |
+  |:---------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | `0`             | no logging is performed                                                                                                                                                                                                                                                                                        | no logging is performed                                                                                                                                                      |
+  | `1`             | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                                                                                                                                                     | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                   |
+  | `2`             | `+` and the short statement of verified hypothesis, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-` and the short statement of unverified hypothesis, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                                                     | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                   |
+  | `3`             | `Answer: POSITIVE.` and the full statement of verified hypothesis, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `Answer: NEGATIVE.` and the full statement of unverified hypothesis, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `Answer: NEGATIVE.` and the full description of occured error otherwise | `Answer: POSITIVE.` and all calculated characteristics, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `Answer: NEGATIVE.` and the full description of occured error otherwise |
+  | `4`             | logs of all intermediate steps followed by the information described for verbosity level `3`                                                                                                                                                                                                                   | logs of all intermediate steps followed by the information described for verbosity level `3`                                                                                 |
 
-Verbosity level **can** be determined by defining the `TSTESTS_VERBOSITY_LEVEL n` macro where `n` **must** be replaced with one of the values described above. If verbosity level is not manually set, it is implied to be `0`.
+Verbosity level **can** be specified by defining the `TSTESTS_VERBOSITY_LEVEL n` macro where `n` **must** be replaced with one of the values described above. If verbosity level is not manually set, it is implied to be `0`.
 
 [^ to the top ^](#contents)
 
@@ -114,7 +116,7 @@ The following tests are implemented.
 
 *Brief*: This test validates component-wise uniqueness of all generated points.
 
-Validation of component-wise uniqueness is performed using bit arrays: one bit array per each dimension. This allows reducing memory costs and, hence, extends the usage of this test on large-scaled data.
+Validation of component-wise uniqueness is performed using bit arrays: one bit array per each dimension. This allows to reduce memory costs and, hence, extend the usage of this test on large-scaled data.
 
 *Returns*:
 
@@ -144,7 +146,7 @@ Validation of component-wise uniqueness is performed using bit arrays: one bit a
 
 *Brief*: This test validates the definition of (t, m, s)-net for the generated set of points.
 
-Validation of definition is performed by calculation of points within each elementary interval. Counters of points occupy the least possible amount of memory using the bitwise packaging.
+Validation of definition is performed by calculation of points within each elementary interval. Counters of points occupy the least possible amount of memory due to bitwise packaging.
 
 *Returns*:
 
@@ -197,11 +199,15 @@ This test can be used to find the axes in multidimensional space along which the
 
 ## Automatic tester
 
-`automatic_tester.cpp` contains an automatic tester for `sequences::Niederreiter` generator from this repository. This tester **can** be built with the help of `automatic_tester.mak` Make-file, if one uses GCC compilers. Tester **can** be supplied with the following command line arguments:
+`automatic_tester/automatic_tester.cpp` contains an automatic tester for `sequences::Niederreiter` generator from this repository. This program tests different nets one by one in the *s*-dimensional space where *s* is varied from 1 to 10. Tester **can** be built with the help of `automatic_tester/automatic_tester.mak` Make-file on Windows, if one uses GCC compilers, with the help of the following command line:
+
+    make -f automatic_tester.mak
+
+Tester **can** be supplied with the following command line arguments:
 
   * `-log f` — specifies file to write logs by its path `f`; log will be performed into console when this argument is omitted.
 
-You **may** look through `automatic_tester_log.txt` to see its output.
+You **may** look through `automatic_tester/automatic_tester_log.txt` file to see the output of this program.
 
 [^ to the top ^](#contents)
 
@@ -212,13 +218,16 @@ You **may** look through `automatic_tester_log.txt` to see its output.
 
 Any developer who wishes to design a new TsTest **must** follow these guidelines in order to organically fit into their infrastructure.
 
-  * Any TsTest **must** return `TsTestsReturnCode const` value in accordance with the [Return codes](#return-codes) section of this document.
+  * Any TsTest **must** return `TsTestsReturnCode const` value.
+  * Return values **should** be construed in accordance with the [Return codes](#return-codes) section of this document.
   * Any TsTest **must** accept `TsTestsInfo *const` as its only argument.
   * Name of any TsTest **should** begin with `tstest_`.
   * The first line of code in any TsTest **must** be `TSTESTS_TEST_FUNCTION_BEGIN(name, log_file)` where `name` **must** be replaced with capitalised name of test function and `log_file` **must** be replaced with `TSTESTS_LOG_IN_CONSOLE` or a valid pointer to an opened `FILE`.
   * The line of code in any TsTest before any `return` **must** be `TSTESTS_TEST_FUNCTION_END`.
-  * Any TsTest **should** support logging and verbosity in accordance with the [Verbosity levels and logs](#verbosity-levels-and-logs) section of this document.
+  * Any TsTest **must** provide logging for verbosity levels mentioned in the [Verbosity levels and logs](#verbosity-levels-and-logs) section of this document.
+  * If any TsTest returns value in complete accordance with the [Return codes](#return-codes) section of this document, then its logging **must** be done in accordance with the [Verbosity levels and logs](#verbosity-levels-and-logs) section of this document.
   * Any TsTest **should** tend to use native logging abilities of TsTests infrastructure, specifically `PUSHLOGn(message)`, `PUSHLOGFn(format, ...)`, `APPENDLOG3(message)` and `APPENDLOGF3(format, ...)` macros where `n` **must** be replaced with corresponding verbosity level from `1` to `4`.
   * Any TsTest **should** be able to work with both digital and non-digital nets.
+  * Any TsTest **must** be contained within a single `.hpp` file separately from other TsTests and any other unrelated code.
 
 [^ to the top ^](#contents)

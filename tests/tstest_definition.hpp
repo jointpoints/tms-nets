@@ -315,11 +315,9 @@ TsTestsReturnCode const tstest_definition(TsTestsInfo *const test_info)
 			}
 		case TSTESTS_RETURNCODE_FAIL_MEMORY:
 			{
-				PUSHLOG_1   ("-")
-				PUSHLOGF_2  ("- (%u, %u, %u)", +t, +m, +s)
+				PUSHLOG_1   ("- [!]")
+				PUSHLOGF_2  ("- [!]", +t, +m, +s)
 				PUSHLOG_3   ("Answer: NEGATIVE.")
-				APPENDLOG_3 ("Unverified parameters of (t, m, s)-net:")
-				APPENDLOGF_3("t = %u\tm = %u\ts = %u", +t, +m, +s)
 				APPENDLOG_3 ("Operating system rejected memory allocation calls.")
 				APPENDLOG_3 ("Try reducing values of m or s.")
 				break;
