@@ -29,9 +29,9 @@ TsTests Usage and Development Guide
 
 ## Purpose of TsTests
 
-TsTests are created to verify properties of (t, m, s)-nets constructed with the help of (t, s)-sequences. Tests presented here have independent interface from the generator in this repository, so there should be no problems in using them for validating other programs. All files that are contained within this folder and its subfolders (except for `automatic_tester.mak`, `automatic_tester.cpp`, `automatic_tester_log.txt` and `README.md`) are necessary for the correct operation of tests.
+TsTests are created to verify properties of (t, m, s)-nets constructed with the help of (t, s)-sequences. Tests presented here have independent interface from the generator in this repository, so there should be no problems in using them for validating other programs. All files that are contained within this folder and its subfolders (except for `README.md` file and `automatic_tester` subfolder) are necessary for the correct operation of tests.
 All TsTests can be subdivided into two groups: *validation* tests and *analytical* tests. Validation tests are used to verify particular *hypothesis* for a given test case or, in other words, find the answer for a certain yes/no question. Analytical tests, on the other hand, are used to perform some form of calculation and analysis in order to present numeric *characteristics* for the given test case.
-TsTests view every point of net as a vector of `TSTESTS_COORDINATE_TYPE` values. `TSTESTS_COORDINATE_TYPE` **may** be redefined by user.
+TsTests view every point of net as a vector of `TSTESTS_COORDINATE_TYPE` floating-point values. `TSTESTS_COORDINATE_TYPE` **may** be redefined by user.
 
 [^ to the top ^](#contents)
 
@@ -77,7 +77,7 @@ Verbosity level **can** be specified by defining the `TSTESTS_VERBOSITY_LEVEL n`
 
 ## Optimisations for digital nets
 
-When testing the digital nets, one **may** apply certain optimisations to make calculations faster and more precise. These optimisations **can** be switched on by defining `TSTESTS_OPTIMISE_FOR_DIGITAL_NETS` macro. Note, that some tests **may** operate for digital nets only, some tests **may** operate for non-digital nets only. These pacularities are stated in the description of each individual test.
+When testing the digital nets, one **may** apply certain optimisations to make calculations faster and more precise. These optimisations **can** be switched on by defining `TSTESTS_OPTIMISE_FOR_DIGITAL_NETS` macro. Note, that some tests **may** operate for digital nets only, some tests **may** operate for non-digital nets only. These peculiarities are stated in the description of each individual test.
 
 [^ to the top ^](#contents)
 
