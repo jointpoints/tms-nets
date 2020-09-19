@@ -122,7 +122,7 @@ Validation of component-wise uniqueness is performed using bit arrays: one bit a
 
   * `TSTESTS_RETURNCODE_SUCCESS` in case of successful pass of the test;
   * `TSTESTS_RETURNCODE_FAIL_GENERAL` in case of existence of at least one repetetive coordinate for at least one component;
-  * `TSTESTS_RETURNCODE_FAIL_INPUT` in case of invalidity of `test_info` pointer;
+  * `TSTESTS_RETURNCODE_FAIL_INPUT` in case of invalidity of `test_info` pointer or in case of an attempt to use this test without defined `TSTESTS_OPTIMISE_FOR_DIGITAL_NETS` macro;
   * `TSTESTS_RETURNCODE_FAIL_MEMORY` in case of dynamic memory allocation fail.
 
 ###### 1.2. Limits of applicability
@@ -146,7 +146,7 @@ Validation of component-wise uniqueness is performed using bit arrays: one bit a
 
 *Brief*: This test validates the definition of (t, m, s)-net for the generated set of points.
 
-Validation of definition is performed by calculation of points within each elementary interval. Counters of points occupy the least possible amount of memory due to bitwise packaging.
+Validation of definition is performed by calculation of amount of points within each elementary interval. Counters of points occupy the least possible amount of memory due to bitwise packaging.
 
 *Returns*:
 
@@ -199,7 +199,7 @@ This test can be used to find the axes in multidimensional space along which the
 
 ## Automatic tester
 
-`automatic_tester/automatic_tester.cpp` contains an automatic tester for `sequences::Niederreiter` generator from this repository. This program tests different nets one by one in the *s*-dimensional space where *s* is varied from 1 to 10. Tester **can** be built with the help of `automatic_tester/automatic_tester.mak` Make-file on Windows, if one uses GCC compilers, with the help of the following command line:
+`automatic_tester/automatic_tester.cpp` contains an automatic tester for `sequences::Niederreiter` generator from this repository. This program tests different nets one by one in the *s*-dimensional space where *s* is varied from 1 to 10. Tester **can** be built with the help of `automatic_tester/automatic_tester.mak` with the help of the following command line:
 
     make -f automatic_tester.mak
 

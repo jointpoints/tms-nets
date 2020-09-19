@@ -30,7 +30,7 @@
  *
  *  \warning
  *  The IPCA method used in this function is a modification made for achieving
- *  the most accurate results and optimal performance in **case of (t,m,s)-nets**!
+ *  the most accurate results and optimal performance in **case of (t, m, s)-nets**!
  *  This function will not work properly for any general dataset.
  *
  *  \param[in]  test_info   A valid pointer to \c TsTestsInfo.

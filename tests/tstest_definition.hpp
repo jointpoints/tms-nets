@@ -14,6 +14,7 @@
 #include "util/common.hpp"
 #include "util/bit_counters.hpp"
 #include <cstring>
+#include <algorithm>
 
 
 
@@ -61,12 +62,12 @@ bool const get_next_d_set(uint8_t *d_set, uint8_t const dim, uint8_t const d_sum
 
 /**
  *  \brief
- *  This test validates the definition of (t,s)-sequence for the generated
+ *  This test validates the definition of (t, m, s)-net for the generated
  *  set of points.
  *
- *  Validation of definition is performed by calculation of points within
- *  each elementary interval. Counters of points occupy the least possible
- *  amount of memory using the bitwise packaging. 
+ *  Validation of definition is performed by calculation of amount of points
+ *  within each elementary interval. Counters of points occupy the least possible
+ *  amount of memory due to bitwise packaging.
  *
  *  \param[in]  test_info   A valid pointer to \c TsTestsInfo.
  *

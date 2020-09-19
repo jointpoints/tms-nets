@@ -23,8 +23,8 @@
  *  This test validates component-wise uniqueness of all generated points.
  *
  *  Validation of component-wise uniqueness is performed using bit arrays:
- *  one bit array per each dimension. This allows reducing memory costs and,
- *  hence, extends the usage of this test on large-scaled data.
+ *  one bit array per each dimension. This allows to reduce memory costs and,
+ *  hence, extend the usage of this test on large-scaled data.
  *
  *  \warning
  *  This test is implemented for digital nets only! Its usage without defined
