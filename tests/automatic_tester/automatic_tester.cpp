@@ -4,7 +4,7 @@
  *	\author
  *		Andrew Yeliseyev (Russian Technological University, KMBO-03-16, Russia, 2020)
  */
-#include "../../include/niederreiter2.hpp"
+#include "../../include/tms-nets/niederreiter2.hpp"
 
 
 
@@ -23,13 +23,13 @@ int main(int argc, char const *const argv[])
 {
 	int log_manual = -1;
 	
-	sequences::Niederreiter<uint32_t, 32> generator(1);
+	tms::Niederreiter<uint32_t> generator(32, 1);
 	
 	TsTestsInfo tests_info;
 	FILE *out = TSTESTS_LOG_IN_CONSOLE;
 	
 	uint8_t max_s     = 10;
-	std::vector<sequences::BasicInt> degrees = {1, 1, 2, 3, 3, 4, 4, 4, 5, 5};
+	std::vector<tms::BasicInt> degrees = {1, 1, 2, 3, 3, 4, 4, 4, 5, 5};
 	
 	/*
 	 * Interpret command line parameters
@@ -78,9 +78,9 @@ int main(int argc, char const *const argv[])
 		fprintf(out, "\n\n\n=== TESTS FOR %u-DIMENSIONAL NETS BEGIN ===\n", curr_s);
 		for (uint8_t first_polynomial_i = 0; first_polynomial_i <= max_s - curr_s; ++first_polynomial_i)
 		{
-			std::vector<sequences::BasicInt> curr_degrees(curr_s);
+			std::vector<tms::BasicInt> curr_degrees(curr_s);
 			std::copy(degrees.begin() + first_polynomial_i, degrees.begin() + first_polynomial_i + curr_s, curr_degrees.begin());
-			generator = sequences::Niederreiter<uint32_t, 32>(curr_degrees);
+			generator = tms::Niederreiter<uint32_t>(32, curr_degrees);
 			uint8_t curr_m = 5 * ((generator.get_t() / 5) + 1);
 			fprintf(out, "\n\n\nTest case #%u.%u. A priori parameters:\n", curr_s, first_polynomial_i + 1);
 			fprintf(out, "\tm = %u\n", curr_m);
@@ -94,7 +94,7 @@ int main(int argc, char const *const argv[])
 				.m                 = curr_m,
 				.s                 = (uint8_t) generator.get_s(),
 				.bitwidth          = 32,
-				.next_point_getter = [&generator](uint64_t const point_i){return generator.get_point_real(point_i);},
+				.next_point_getter = [&generator](uint64_t const point_i){return generator.generate_point(point_i);},
 				.log_file          = out
 			};
 			
