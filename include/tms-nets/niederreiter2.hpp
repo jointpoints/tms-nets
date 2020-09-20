@@ -15,6 +15,7 @@
 #include "./details/gf2poly.hpp"
 
 #include <vector>
+#include <cmath>		//for pow function
 #include <type_traits>	//for type conditions in static_assert
 #include <algorithm>	//for std::max_element function (is already included in "irrpoly/gfpoly.hpp")
 #include <functional>	//for unified for_each_point* methods (is already included in "irrpoly/gfpoly.hpp")
@@ -25,7 +26,6 @@
  *  @brief All the entities in the library are defined in this namespace. */
 namespace tms
 {
-	
 	/// Type used for storing integer values that are less than word size.
 	using 	BasicInt 	= unsigned int;
 	/// Type used for storing quantity-values and indexation-values, i.e. the total amount of points to generate.
@@ -162,13 +162,14 @@ namespace tms
 		 *  @param [in] point_int - point to be transformed (multiplied by \f$ 2^{-m} \f$) */
 		Point cast_point_int_to_real(IntPoint const &point_int) const;
 		
-		/** Stores into the integer vector scaled (t,m,s)-net point with certain number.
+		/** Stores into the integer vector scaled (t,m,s)-net point with certain number, enumerated according to Gray's code.
 		 *  @param [out] point - storage vector
 		 *  @param [in] pos - generated scaled (t,m,s)-net point number */
 		void  store_point_int     (IntPoint &point, CountInt pos) const;
-		/** Stores into the integer vector scaled (t,m,s)-net point with certain number.
+		/** Stores into the integer vector scaled (t,m,s)-net point with certain number, enumerated according to Gray's code,
+		 *  computed using the previous point.
 		 *  @param [out] point - storage vector
-		 *  @param [in] pos - generated scaled (t,m,s)-net point number
+		 *  @param [in] pos - generated scaled (t,m,s)-net point number (should be greater then 0)
 		 *  @param [in] prev_point - scaled (t,m,s)-net point with the previous point number */
 		void  store_next_point_int(IntPoint &point, CountInt pos, IntPoint const &prev_point) const;
 		
@@ -214,11 +215,11 @@ namespace tms
 	template <typename UIntType>
 	Niederreiter<UIntType>::Niederreiter(BasicInt const nbits,
 										 BasicInt const dim,
-										 bool const in_parallel) :
+										 bool     const in_parallel) :
 	    m_defect(0),
 		m_nbits(nbits),
 	    m_dim(dim),
-		m_recip( 1/static_cast<Real>(1ULL << nbits) ),
+		m_recip( pow(2, -static_cast<Real>(nbits)) ),
 		m_irrpolys( (in_parallel ? tms::gf2poly::generate_irrpolys_in_parallel : tms::gf2poly::generate_irrpolys)(dim, nbits) ),
 		m_direction_numbers( Matrix<UIntType>(m_dim, std::vector<UIntType>(nbits, 0)) )
 	{
@@ -249,13 +250,13 @@ namespace tms
 	
 	
 	template <typename UIntType>
-	Niederreiter<UIntType>::Niederreiter(BasicInt                                         const  nbits,
-										  std::vector<BasicInt>                 const &degrees_of_irrpolys,
-										  std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values) :
+	Niederreiter<UIntType>::Niederreiter(BasicInt                              const  nbits,
+										 std::vector<BasicInt>                 const &degrees_of_irrpolys,
+										 std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values) :
 		m_defect(0),
 	    m_nbits(nbits),
 		m_dim(static_cast<BasicInt>(degrees_of_irrpolys.size())),
-	    m_recip( 1/static_cast<Real>(1ULL << nbits) ),
+	    m_recip( pow(2, -static_cast<Real>(nbits)) ),
 		m_irrpolys(gf2poly::generate_irrpolys_with_degrees(degrees_of_irrpolys, nbits)),
 		m_direction_numbers(Matrix<UIntType>(m_dim, std::vector<UIntType>(nbits, 0)))
 	{
@@ -290,21 +291,23 @@ namespace tms
 
 
 	template <typename UIntType>
-	Niederreiter<UIntType>::Niederreiter(BasicInt                                         const  nbits,
-										  std::initializer_list<BasicInt>                 const &degrees_of_irrpolys,
-										  std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
-	{
-		Niederreiter(nbits, degrees_of_irrpolys, matrix_of_initial_values);
-	}
+	Niederreiter<UIntType>::Niederreiter(BasicInt                                        const  nbits,
+										 std::initializer_list<BasicInt>                 const &degrees_of_irrpolys,
+										 std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values) :
+		Niederreiter(nbits,
+					 std::vector<BasicInt>{degrees_of_irrpolys},
+					 Matrix<uintmax_t>{matrix_of_initial_values})
+	{}
+	
 	
 	template <typename UIntType>
-	Niederreiter<UIntType>::Niederreiter(BasicInt                                        const  nbits,
+	Niederreiter<UIntType>::Niederreiter(BasicInt                              const  nbits,
 										 std::vector< std::vector<uintmax_t> > const &irrpolys_coeffs,
 										 std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values) :
 	    m_defect(0),
 	    m_nbits(nbits),
 		m_dim( static_cast<BasicInt>(irrpolys_coeffs.size()) ),
-		m_recip( 1/static_cast<Real>(1ULL << nbits) ),
+		m_recip( pow(2, -static_cast<Real>(nbits)) ),
 		m_direction_numbers(Matrix<UIntType>(m_dim, std::vector<UIntType>(nbits, 0)))
 	{
 		if ( nbits > sizeof(UIntType)*8 )
@@ -359,10 +362,11 @@ namespace tms
 	template <typename UIntType>
 	Niederreiter<UIntType>::Niederreiter(BasicInt                                        const  nbits,
 										 std::initializer_list< std::vector<uintmax_t> > const &irrpolys_coeffs,
-										 std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
-	{
-		Niederreiter(nbits, irrpolys_coeffs, matrix_of_initial_values);
-	}
+										 std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values) :
+		Niederreiter(nbits,
+					 std::vector< std::vector<uintmax_t> >{irrpolys_coeffs},
+					 Matrix<uintmax_t>{matrix_of_initial_values})
+	{}
 	
 	
 	template <typename UIntType>
@@ -415,8 +419,8 @@ namespace tms
 	template <typename UIntType>
 	void
 	Niederreiter<UIntType>::for_each_point_int(std::function<void (IntPoint const &, CountInt)> handler,
-											CountInt amount,
-											CountInt pos) const
+											   CountInt amount,
+											   CountInt pos) const
 	{
 		if ( amount != 0 )
 		{
@@ -458,9 +462,9 @@ namespace tms
 	//static
 	template <typename UIntType>
 	bool
-	Niederreiter<UIntType>::is_matrix_of_initial_values_valid(BasicInt const nbits,
+	Niederreiter<UIntType>::is_matrix_of_initial_values_valid(BasicInt                const  nbits,
 															  std::vector<Polynomial> const &valid_irrpolys,
-															  Matrix<uintmax_t> const &matrix_of_initial_values)
+															  Matrix<uintmax_t>       const &matrix_of_initial_values)
 	{
 		if ( matrix_of_initial_values.size() != 0 )
 		{
@@ -580,8 +584,8 @@ namespace tms
 	Point
 	Niederreiter<UIntType>::cast_point_int_to_real(Niederreiter<UIntType>::IntPoint const &point_int) const
 	{
-		Point point_real(point_int.size());
-		for (BasicInt i = 0; i < point_int.size(); ++i)
+		Point point_real(m_dim);
+		for (BasicInt i = 0; i < m_dim; ++i)
 		{
 			point_real[i] = static_cast<Real>(point_int[i])*m_recip;
 		}
@@ -602,7 +606,7 @@ namespace tms
 		CountInt pos_gray_code = (pos ^ (pos >> 1));
 		for (BasicInt k = 0; pos_gray_code != 0 && k < m_nbits; ++k)
 		{
-			if ( (pos_gray_code & 1) != 0 )
+			if ( pos_gray_code & 1 )
 			{
 				for (BasicInt i = 0; i < m_dim; ++i)
 				{
@@ -616,17 +620,16 @@ namespace tms
 
 	template <typename UIntType>
 	void
-	Niederreiter<UIntType>::store_next_point_int(IntPoint &point,
-												 CountInt pos,
+	Niederreiter<UIntType>::store_next_point_int(IntPoint       &point,
+												 CountInt        pos,
 												 IntPoint const &prev_point) const
 	{
-		pos -= (pos != 0);
-		// here we get pos = pow(2, rightmost zero bit position in pos)
-		pos = ~pos & (pos + 1);
+		// here we get pos = pow(2, rightmost zero bit position in pos), pos should be greater than 0
+		pos = ~(pos - 1) & pos;
 		
 		// count trailing zeros of pos ( same that floor(log2(pos)) )
 		BasicInt rightmost_zero_bit_pos = 0;
-		while ( pos >>= 1 && rightmost_zero_bit_pos < (sizeof(CountInt)*8 - 1) ) // ?!
+		while ( pos >>= 1 && rightmost_zero_bit_pos < (sizeof(CountInt)*8 - 1) )
 		{
 			++rightmost_zero_bit_pos;
 		}
@@ -652,10 +655,10 @@ namespace tms
 	
 	template <typename UIntType>
 	void
-	Niederreiter<UIntType>::reset_gamma_matrix_section(BasicInt const dim,
-													   BasicInt const q,
-													   Polynomial const &char_poly,
-													   std::vector<BasicInt> &alpha)
+	Niederreiter<UIntType>::reset_gamma_matrix_section(BasicInt              const  dim,
+													   BasicInt              const  q,
+													   Polynomial            const &char_poly,
+													   std::vector<BasicInt>       &alpha)
 	{
 		BasicInt const e = static_cast<BasicInt>(m_irrpolys[dim].degree());
 		BasicInt       rows_remaining_in_section = ( (q + 1)*e > m_nbits ) ? m_nbits % e : e;
