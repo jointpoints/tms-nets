@@ -7,6 +7,7 @@ TsTests Usage and Development Guide
 ## Contents
 
   * [Purpose of TsTests](#purpose-of-tstests)
+  * [Signature](#signature)
   * [Return codes](#return-codes)
   * [Verbosity levels and logs](#verbosity-levels-and-logs)
   * [Optimisations for digital nets](#optimisations-for-digital-nets)
@@ -29,9 +30,20 @@ TsTests Usage and Development Guide
 
 ## Purpose of TsTests
 
-TsTests are created to verify properties of (t, m, s)-nets constructed with the help of (t, s)-sequences. Tests presented here have independent interface from the generator in this repository, so there should be no problems in using them for validating other programs. All files that are contained within this folder and its subfolders (except for `README.md` file and `automatic_tester` subfolder) are necessary for the correct operation of tests.
-All TsTests can be subdivided into two groups: *validation* tests and *analytical* tests. Validation tests are used to verify particular *hypothesis* for a given test case or, in other words, find the answer for a certain yes/no question. Analytical tests, on the other hand, are used to perform some form of calculation and analysis in order to present numeric *characteristics* for the given test case.
-TsTests view every point of net as a vector of `TSTESTS_COORDINATE_TYPE` floating-point values. `TSTESTS_COORDINATE_TYPE` **may** be redefined by user.
+TsTests are created to investigate properties of (t, m, s)-nets. Tests presented here have independent interface from the generator in this repository, so there should be no problems in using them for validating other algorithms. All files that are contained within this folder and its subfolders (except for `README.md` file and `automatic_tester` subfolder) are necessary for the correct operation of tests.
+
+All TsTests can be subdivided into two groups: *validation* tests and *analytical* tests. Validation tests are used to verify particular *hypothesis* for a given test case or, in other words, find the answer for a certain decision problem. Analytical tests, on the other hand, are used to perform some form of calculation and analysis in order to present numeric *characteristics* for the given test case.
+
+[^ to the top ^](#contents)
+
+
+
+
+## Signature
+
+All TsTests have the following signature:
+
+    TsTestsReturnCode const <name of the TsTest>(TsTestsInfo *const test_info)
 
 [^ to the top ^](#contents)
 
@@ -79,6 +91,8 @@ Verbosity level **can** be specified by defining the `TSTESTS_VERBOSITY_LEVEL n`
 
 When testing the digital nets, one **may** apply certain optimisations to make calculations faster and more precise. These optimisations **can** be switched on by defining `TSTESTS_OPTIMISE_FOR_DIGITAL_NETS` macro. Note, that some tests **may** operate for digital nets only, some tests **may** operate for non-digital nets only. These peculiarities are stated in the description of each individual test.
 
+TsTests view every point of a net as a vector of `TSTESTS_COORDINATE_TYPE` floating-point values. However, enabling optimisations changes this to a vector of `TSTESTS_DIGITAL_TYPE` unsigned integral values. Both `TSTESTS_COORDINATE_TYPE` and `TSTESTS_DIGITAL_TYPE` **may** be redefined by user.
+
 [^ to the top ^](#contents)
 
 
@@ -91,9 +105,11 @@ In order to pass parameters into TsTests, the `TsTestsInfo` structure **must** b
   * `t` — expected defect of a given (t, m, s)-net (this value is verified by `tstest_definition`, see below for more info);
   * `m` — binary logarithm of the amount of points in a given (t, m, s)-net (net **must** consist of `2^m` points);
   * `s` — dimension of space;
-  * `bitwidth` — number of bits used for points generation (applicable for digital nets only);
-  * `next_point_getter` — a function that returns net's point by its index as a vector of `TSTESTS_COORDINATE_TYPE`;
+  * `bitwidth` — number of bits used for points generation (meaningful for digital nets only);
+  * `next_point_getter` — a function that returns net's point by its index as a vector of `TSTESTS_DIGITAL_TYPE`, if `TSTESTS_OPTIMISE_FOR_DIGITAL_NETS` is defined, or of `TSTESTS_COORDINATE_TYPE` otherwise;
   * `log_file` — `TSTESTS_LOG_IN_CONSOLE` or a valid `FILE` pointer to the opened file.
+
+A pointer to a `TsTestsInfo` structure is the only argument of any TsTest.
 
 [^ to the top ^](#contents)
 
@@ -110,8 +126,6 @@ The following tests are implemented.
 
 *File*: `tstest_uniqueness.hpp`
 
-*Signature*: `TsTestsReturnCode const tstest_uniqueness(TsTestsInfo *const test_info)`
-
 *Type*: Validation test.
 
 *Brief*: This test validates component-wise uniqueness of all generated points.
@@ -127,11 +141,11 @@ Validation of component-wise uniqueness is performed using bit arrays: one bit a
 
 ###### 1.2. Limits of applicability
 
-| Criterion                        | Value
-|----------------------------------|-------
-| Maximum advised `bitwidth` value | 32
-| Support of digital nets          | supported
-| Support of non-digital nets      | not supported
+| Criterion                         | Value
+|-----------------------------------|-------
+| Maximum possible `bitwidth` value | 63
+| Support of digital nets           | supported
+| Support of non-digital nets       | not supported
 
 
 #### 2. `tstest_definition`. Test for (t, m, s)-net definition
@@ -139,8 +153,6 @@ Validation of component-wise uniqueness is performed using bit arrays: one bit a
 ###### 2.1. Description
 
 *File*: `tstest_definition.hpp`
-
-*Signature*: `TsTestsReturnCode const tstest_definition(TsTestsInfo *const test_info)`
 
 *Type*: Validation test.
 
@@ -157,11 +169,11 @@ Validation of definition is performed by calculation of amount of points within 
 
 ###### 2.2. Limits of applicability
 
-| Criterion                        | Value
-|----------------------------------|-------
-| Maximum advised `bitwidth` value | 63
-| Support of digital nets          | supported
-| Support of non-digital nets      | supported
+| Criterion                         | Value
+|-----------------------------------|-------
+| Maximum possible `bitwidth` value | 64
+| Support of digital nets           | supported
+| Support of non-digital nets       | supported
 
 
 #### 3. `tstest_principals`. Test for principal components analysis
@@ -169,8 +181,6 @@ Validation of definition is performed by calculation of amount of points within 
 ###### 3.1. Description
 
 *File*: `tstest_principals.hpp`
-
-*Signature*: `TsTestsReturnCode const tstest_principals(TsTestsInfo *const test_info)`
 
 *Type*: Analytical test.
 
@@ -186,11 +196,11 @@ This test can be used to find the axes in multidimensional space along which the
 
 ###### 3.2. Limits of applicability
 
-| Criterion                        | Value
-|----------------------------------|-------
-| Maximum advised `bitwidth` value | 64
-| Support of digital nets          | supported
-| Support of non-digital nets      | supported
+| Criterion                         | Value
+|-----------------------------------|-------
+| Maximum possible `bitwidth` value | 64
+| Support of digital nets           | supported
+| Support of non-digital nets       | supported
 
 [^ to the top ^](#contents)
 
@@ -199,15 +209,24 @@ This test can be used to find the axes in multidimensional space along which the
 
 ## Automatic tester
 
-`automatic_tester/automatic_tester.cpp` contains an automatic tester for `sequences::Niederreiter` generator from this repository. This program tests different nets one by one in the *s*-dimensional space where *s* is varied from 1 to 10. Tester **can** be built with the help of `automatic_tester/automatic_tester.mak` with the help of the following command line:
+`automatic_tester/automatic_tester.cpp` contains an automatic tester for `tms::Niederreiter` generator from this repository. It supports three different modes:
+
+| Mode       | Description                                                                                 | Approximate runtime |
+|:----------:|---------------------------------------------------------------------------------------------|:-------------------:|
+| Critical   | A set of 5 simple test cases covering the most obvious potential vulnerabilities of program | 1~5 seconds         |
+| Regular    | A set of 45 test cases for various (t, m, s)-nets with *s* varying from 1 to 9              | 1~5 minutes         |
+| Exhaustive | A single test case to validate the results for large-scale nets                             | 3~5 hours           |
+
+Tester **can** be built with the help of `automatic_tester/automatic_tester.mak` using the following command line:
 
     make -f automatic_tester.mak
 
 Tester **can** be supplied with the following command line arguments:
 
+  * `-c`, `-r` or `-e` — specifies the mode (critical, regular or exhaustive, respectively); critical tests will be launched when these keys are omitted.
   * `-log f` — specifies file to write logs by its path `f`; log will be performed into console when this argument is omitted.
 
-You **may** look through `automatic_tester/automatic_tester_log.txt` file to see the output of this program.
+You **may** look through `automatic_tester/automatic_tester_log_*.txt` files to see the results for the current version of generator.
 
 [^ to the top ^](#contents)
 
@@ -218,12 +237,15 @@ You **may** look through `automatic_tester/automatic_tester_log.txt` file to see
 
 Any developer who wishes to design a new TsTest **must** follow these guidelines in order to organically fit into their infrastructure.
 
-  * Any TsTest **must** return `TsTestsReturnCode const` value.
-  * Return values **should** be construed in accordance with the [Return codes](#return-codes) section of this document.
-  * Any TsTest **must** accept `TsTestsInfo *const` as its only argument.
+  * Any TsTest **must** be defined by `TSTESTS_TEST_FUNCTION(name)` where `name` **must** be replaced with the desired name of test function.
+  * The first line of code in the body of any TsTest **must** be `TSTESTS_TEST_FUNCTION_BEGIN(name)` where `name` **must** be replaced with capitalised name of test function.
   * Name of any TsTest **should** begin with `tstest_`.
-  * The first line of code in any TsTest **must** be `TSTESTS_TEST_FUNCTION_BEGIN(name, log_file)` where `name` **must** be replaced with capitalised name of test function and `log_file` **must** be replaced with `TSTESTS_LOG_IN_CONSOLE` or a valid pointer to an opened `FILE`.
-  * The line of code in any TsTest before any `return` **must** be `TSTESTS_TEST_FUNCTION_END`.
+  * A pointer to a `TsTestsInfo` structure is the only argument of any TsTest. This pointer **can** be accessed in the body of any TsTest under the name of `test_info`.
+  * Any TsTest **should** be explicitly intolerant towards invalid `test_info` pointer.
+  * Each TsTest is automatically supplied with the variable `answer` of a `TsTestsReturnCode` type. Its default value is `TSTESTS_RETURNCODE_SUCCESS` which **can** be freely changed in the main body of TsTest.
+  * Any TsTest **must** use `TSTESTS_TEST_FUNCTION_END` instead of `return ...;` statements.
+  * `TSTESTS_TEST_FUNCTION_END` finishes execution of any TsTest and returns the value of the `answer` variable. Thus, the final result of any TsTest **must** be stored within the `answer` variable before the execution of any of `TSTESTS_TEST_FUNCTION_END`.
+  * Return values of any TsTest **should** be construed in accordance with the [Return codes](#return-codes) section of this document.
   * Any TsTest **must** provide logging for verbosity levels mentioned in the [Verbosity levels and logs](#verbosity-levels-and-logs) section of this document.
   * If any TsTest returns value in complete accordance with the [Return codes](#return-codes) section of this document, then its logging **must** be done in accordance with the [Verbosity levels and logs](#verbosity-levels-and-logs) section of this document.
   * Any TsTest **should** tend to use native logging abilities of TsTests infrastructure, specifically `PUSHLOGn(message)`, `PUSHLOGFn(format, ...)`, `APPENDLOG3(message)` and `APPENDLOGF3(format, ...)` macros where `n` **must** be replaced with corresponding verbosity level from `1` to `4`.

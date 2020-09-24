@@ -15,6 +15,7 @@
 #include "util/bit_counters.hpp"
 #include <cstring>
 #include <algorithm>
+#include <math.h>
 
 
 
@@ -82,14 +83,13 @@ bool const get_next_d_set(uint8_t *d_set, uint8_t const dim, uint8_t const d_sum
  *  \c TSTESTS_RETURNCODE_FAIL_MEMORY in case of dynamic memory allocation
  *  fail.
  */
-TsTestsReturnCode const tstest_definition(TsTestsInfo *const test_info)
+TSTESTS_TEST_FUNCTION(tstest_definition)
 {
-	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_DEFINITION, test_info->log_file)
+	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_DEFINITION)
 	
 	PUSHLOG_4("Test started.")
 	
-	TsTestsReturnCode   answer      = TSTESTS_RETURNCODE_SUCCESS;
-	BitCounters        *counters    = NULL;
+	BitCounters *counters       = NULL;
 	
 	uint8_t      t              = 0;
 	uint8_t      m              = 0;
@@ -155,9 +155,7 @@ TsTestsReturnCode const tstest_definition(TsTestsInfo *const test_info)
 	{
 		// After the following (point) is expected to be (s)-dimensional
 #		ifdef TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
-		std::vector<TSTESTS_COORDINATE_TYPE>    point_tmp   = test_info->next_point_getter(point_i);
-		std::vector<TSTESTS_DIGITAL_TYPE>       point(s, 0);
-		std::transform(point_tmp.begin(), point_tmp.end(), point.begin(), [test_info](TSTESTS_COORDINATE_TYPE c){return (TSTESTS_DIGITAL_TYPE)(c * (1ULL << test_info->bitwidth));});
+		std::vector<TSTESTS_DIGITAL_TYPE> point = test_info->next_point_getter(point_i);
 #		else
 		std::vector<TSTESTS_COORDINATE_TYPE> point = test_info->next_point_getter(point_i);
 #		endif // TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
@@ -331,8 +329,6 @@ TsTestsReturnCode const tstest_definition(TsTestsInfo *const test_info)
 	delete counters;
 	
 	TSTESTS_TEST_FUNCTION_END
-	
-	return answer;
 }
 
 

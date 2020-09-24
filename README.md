@@ -31,7 +31,7 @@ MANUAL
 
 ## Introduction
 
-This repository contains a generator of digital (t, m, s)-nets in base 2 made on a basis of algorithm proposed by Harald Niederreiter in 1987 in his article "Low-Discrepancy and Low-Dispersion Sequences". Broadly speaking, (t, m, s)-nets are low-discrepancy discrete sets of points in *s*-dimensional unit cube. You may find more information about (t, s)-sequences and (t, m, s)-nets in the sources listed in [Recommended literature](#recommended-literature).
+This repository contains a generator of digital (t, m, s)-nets in base 2 made on a basis of algorithm proposed by Harald Niederreiter in 1987 in his article "Low-Discrepancy and Low-Dispersion Sequences". Broadly speaking, (t, m, s)-nets are low-discrepancy discrete sets of points in *s*-dimensional unit cube. You may find more information about them in the sources listed in [Recommended literature](#recommended-literature).
 
 [^ to the top ^](#contents)
 
@@ -78,7 +78,7 @@ Execute the following command line
 
 #### As ZIP-archive
 
-  1. Download archive (**Clone or download** button) from [here](https://github.com/jointpoints/tms-nets);
+  1. Download archive (**Code** button) from [here](https://github.com/jointpoints/tms-nets);
   2. Extract the archive into some folder.
 
 [^ to the top ^](#contents)
@@ -117,18 +117,18 @@ Constructors signatures:
   * `dim` — *s* parameter of the net (dimension of the unit cube to be filled with points);
   * `in_parallel` — specifies whether the irreducible polynomials should be generated consecutively (`false`) or concurrently (`true`); **default value** — `false`.
 
-Constructs the generator of (t, m, s)-net with specified *m*, *s*, and with induced least possible *t*.
+Constructs the generator of (t, m, s)-net with specified values of *m*, *s*, and with induced least possible value of *t*.
 
 2.
 
-    Niederreiter(BasicInt const nbits, std::vector<BasicInt> const &degrees_of_irred, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
+    Niederreiter(BasicInt const nbits, std::vector<BasicInt> const &degrees_of_irrpolys, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
     Niederreiter(BasicInt const nbits, std::initializer_list<BasicInt> const &degrees_of_irrpolys, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
   * `nbits` — *m* parameter of the net, **maximum value** — `sizeof(UIntType) * 8`;
-  * `degrees_of_irred` — vector of degrees of irreducible polynomials that should be used for generation of points; for *i*-th component of `degrees_of_irred.size()`-dimensional space a polynomial of degree `degrees_of_irred[i-1]` will be generated automatically;
+  * `degrees_of_irrpolys` — vector of degrees of irreducible polynomials that should be used for generation of points; for *i*-th component of `degrees_of_irrpolys.size()`-dimensional space a polynomial of degree `degrees_of_irrpolys[i-1]` will be generated automatically;
   * `matrix_of_initial_values` — matrix of initial values for all recursive sequences, **default value** — empty matrix.
 
-Constructs the generator of (t, m, s)-net with specified *m*, *s* degrees of initial irreducible polynomials, and (optional, for advanced users) initial values of all recursive sequences, defining the generation matrices.
+Constructs the generator of (t, m, s)-net with specified *m* parameter, values of *s* degrees of initial irreducible polynomials,  and (optional, for advanced users) initial values of all recursive sequences, defining the generation matrices.
 
 3.
 
@@ -136,21 +136,17 @@ Constructs the generator of (t, m, s)-net with specified *m*, *s* degrees of ini
     Niederreiter(BasicInt const nbits, std::initializer_list< std::vector<uintmax_t> > const &irrpolys_coeffs, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
   * `nbits` — *m* parameter of the net, **maximum value** — `sizeof(UIntType) * 8`;
-  * `irrpolys_coeffs` — coefficients of irreducible polynomials over **F₂** which should be used during the construction of (t, m, s)-sequence; for *i*-th component of `polynomials.size()`-dimensional space the `polynomials[i-1]`-th polynomial will be used;
+  * `irrpolys_coeffs` — coefficients of irreducible polynomials over **F₂** which should be used during the construction of (t, m, s)-net; for *i*-th component of `irrpolys_coeffs.size()`-dimensional space the `irrpolys_coeffs[i-1]`-th polynomial will be used;
   * `matrix_of_initial_values` — matrix of initial values for all recursive sequences, **default value** — empty matrix.
 
-Constructs the generator of (t, m, s)-net with specified *m*, *s* initial irreducible polynomials, and (optional, for advanced users) initial values of all recursive sequences, defining the generation matrices.
+Constructs the generator of (t, m, s)-net with specified *m* parameter, *s* initial irreducible polynomials, and (optional, for advanced users) initial values of all recursive sequences, defining the generation matrices.
 
 [^ to the top ^](#contents)
 
 
 #### File inclusion into your program
 
-To write programs that use our generator the files from `include` folder will be needed.
-
-Write in your code
-
-    #include "<your/path/to/our/files/>include/tms-nets/niederreiter2.hpp"
+To use our generator include the `include/tms-nets/niederreiter2.hpp` file.
 
 [^ to the top ^](#contents)
 
@@ -319,7 +315,7 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 ## Введение
 
-Данный репозиторий содержит в себе реализацию генератора цифровых (t, m, s)-сетей с основанием 2, созданного на основе алгоритма, предложенного Гаральдом Нидеррайтером в 1987 году в работе "Low-Discrepancy and Low-Dispersion Sequences". (t, m, s)-сети, вообще говоря, — это дискретные множества точек, однородно распределённых по *s*-мерному единичному кубу. Подробнее о (t, s)-последовательностях и (t, m, s)-сетях — в ресурсах, указанных в [рекомендуемой литературе](#рекомендуемая-литература).
+Данный репозиторий содержит в себе реализацию генератора цифровых (t, m, s)-сетей с основанием 2, созданного на основе алгоритма, предложенного Гаральдом Нидеррайтером в 1987 году в работе "Low-Discrepancy and Low-Dispersion Sequences". (t, m, s)-сети, вообще говоря, — это дискретные множества точек, однородно распределённых по *s*-мерному единичному кубу. Подробнее о них можно узнать в ресурсах, указанных в [рекомендуемой литературе](#рекомендуемая-литература).
 
 [^ наверх ^](#содержание)
 
@@ -366,7 +362,7 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 #### Через ZIP-архив
 
-  1. Скачайте архив (кнопка **Clone or download**) [отсюда](https://github.com/jointpoints/tms-nets);
+  1. Скачайте архив (кнопка **Code**) [отсюда](https://github.com/jointpoints/tms-nets);
   2. Распакуйте архив в некоторую папку.
 
 [^ наверх ^](#содержание)
@@ -395,8 +391,6 @@ It is generated automatically by Doxygen after every change in **master** branch
 
   * `UIntType` — тип целочисленных переменных, который следует использовать в процессе генерации для хранения промежуточных результатов расчётов.
 
-Цифровые (t, s)-последовательности периодичны. В нашей реализации период последовательности равен `2^NBITS`, поэтому чем больше уникальных точек необходимо сгенерировать, тем большее значение `NBITS` и, как следствие, тем более объёмный тип `UIntType` необходимо указывать.
-
 Сигнатуры конструкторов:
 
 1.
@@ -411,11 +405,11 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 2.
 
-    Niederreiter(BasicInt const nbits, std::vector<BasicInt> const &degrees_of_irred, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
+    Niederreiter(BasicInt const nbits, std::vector<BasicInt> const &degrees_of_irrpolys, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
     Niederreiter(BasicInt const nbits, std::initializer_list<BasicInt> const &degrees_of_irrpolys, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
   * `nbits` — параметр *m* сети, **максимальное значение** — `sizeof(UIntType) * 8`;
-  * `degrees_of_irred` — степени, которые следует использовать при генерации неприводимых многочленов; для *i*-й компоненты `degrees_of_irred.size()`-мерного пространства будет сгенерирован многочлен `degrees_of_irred[i-1]`-й степени.
+  * `degrees_of_irrpolys` — степени, которые следует использовать при генерации неприводимых многочленов; для *i*-й компоненты `degrees_of_irrpolys.size()`-мерного пространства будет сгенерирован многочлен `degrees_of_irrpolys[i-1]`-й степени.
   * `matrix_of_initial_values` — матрица инициализирующих значений для всех рекуррентных последовательностей, **значение по умолчанию** — пустая матрица.
 
 Порождает генератор (t, m, s)-сетей с указанными значениями *m*, *s* степеней неприводимых многочленов и (опционально, для продвинутых пользователей) инициализирующих элементов всех рекуррентных последовательностей.
@@ -426,7 +420,7 @@ It is generated automatically by Doxygen after every change in **master** branch
     Niederreiter(BasicInt const nbits, std::initializer_list< std::vector<uintmax_t> > const &irrpolys_coeffs, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
   * `nbits` — параметр *m* сети, **максимальное значение** — `sizeof(UIntType) * 8`;
-  * `irrpolys_coeffs` — коэффициенты неприводимых многочленов над **F₂**, которые следует использовать при генерации (t, m, s)-сети; для *i*-й компоненты `polynomials.size()`-мерного пространства будет использован `polynomials[i-1]`-ый многочлен;
+  * `irrpolys_coeffs` — коэффициенты неприводимых многочленов над **F₂**, которые следует использовать при генерации (t, m, s)-сети; для *i*-й компоненты `irrpolys_coeffs.size()`-мерного пространства будет использован `irrpolys_coeffs[i-1]`-ый многочлен;
   * `matrix_of_initial_values` — матрица инициализирующих значений для всех рекуррентных последовательностей, **значение по умолчанию** — пустая матрица.
 
 Порождает генератор (t, m, s)-сетей с указанными значениями *m*, коэффициентов *s* неприводимых многочленов и (опционально, для продвинутых пользователей) инициализирующих элементов всех рекуррентных последовательностей.
@@ -436,11 +430,7 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 #### Включение файлов в Вашу программу
 
-При написании программ, использующих данный генератор, потребуются файлы из папки `include`.
-
-В своём исходном коде пропишите строку
-
-    #include "<your/path/to/our/files/>include/tms-nets/niederreiter2.hpp"
+Для использования данного генератора подключите файл `include/tms-nets/niederreiter2.hpp`.
 
 [^ наверх ^](#содержание)
 

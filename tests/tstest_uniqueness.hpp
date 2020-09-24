@@ -42,14 +42,13 @@
  *  \c TSTESTS_RETURNCODE_FAIL_MEMORY in case of dynamic memory allocation
  *  fail.
  */
-TsTestsReturnCode const tstest_uniqueness(TsTestsInfo *const test_info)
+TSTESTS_TEST_FUNCTION(tstest_uniqueness)
 {
-	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_UNIQUENESS, test_info->log_file)
+	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_UNIQUENESS)
 	
 #	ifdef TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
 	PUSHLOG_4("Test started.")
 	
-	TsTestsReturnCode   answer          = TSTESTS_RETURNCODE_SUCCESS;
 	uint64_t            unique_points   = 0;
 	uint8_t             s               = 0;
 	uint64_t            amount          = 0;
@@ -71,7 +70,7 @@ TsTestsReturnCode const tstest_uniqueness(TsTestsInfo *const test_info)
 	PUSHLOG_4("Fetching resources...")
 	for (uint8_t dim_i = 0; dim_i < s; ++dim_i)
 	{
-		answer = init_bit_counters(counters + dim_i, 1ULL << test_info->bitwidth, 1);
+		answer = init_bit_counters(counters + dim_i, ((test_info->bitwidth == 64) ? (~0ULL) : ((1ULL << test_info->bitwidth) - 1)), 1);
 		if (answer != TSTESTS_RETURNCODE_SUCCESS)
 			goto instant_death;
 		
@@ -91,16 +90,25 @@ TsTestsReturnCode const tstest_uniqueness(TsTestsInfo *const test_info)
 	for (uint64_t point_i = 0; point_i < amount; ++point_i)
 	{
 		// After the following line (point) is expected to be (s)-dimensional
-		std::vector<TSTESTS_COORDINATE_TYPE>    point_tmp   = test_info->next_point_getter(point_i);
-		std::vector<TSTESTS_DIGITAL_TYPE>       point(s, 0);
-		std::transform(point_tmp.begin(), point_tmp.end(), point.begin(), [test_info](TSTESTS_COORDINATE_TYPE c){return (TSTESTS_DIGITAL_TYPE)(c * (1ULL << test_info->bitwidth));});
+		std::vector<TSTESTS_DIGITAL_TYPE> point = test_info->next_point_getter(point_i);
 		
 		// Check if it's unique; if it is, mark its components as already seen
 		uint8_t is_unique = 1;
 		for (uint8_t dim_i = 0; dim_i < s; ++dim_i)
 		{
-			if (verify_counter(counters + dim_i, point[dim_i], 0))
-				increment_counter(counters + dim_i, point[dim_i]);
+			if (point[dim_i] == 0)
+			{
+				if (point_i == 0)
+					continue;
+				else
+				{
+					answer = TSTESTS_RETURNCODE_FAIL_GENERAL;
+					is_unique = 0;
+					continue;
+				}
+			}
+			if (verify_counter(counters + dim_i, point[dim_i] - 1, 0))
+				increment_counter(counters + dim_i, point[dim_i] - 1);
 			else
 			{
 				answer = TSTESTS_RETURNCODE_FAIL_GENERAL;
@@ -169,15 +177,13 @@ TsTestsReturnCode const tstest_uniqueness(TsTestsInfo *const test_info)
 		destroy_bit_counters(counters + i);
 	delete counters;
 #	else
-	TsTestsReturnCode answer = TSTESTS_RETURNCODE_FAIL_INPUT;
+	answer = TSTESTS_RETURNCODE_FAIL_INPUT;
 	PUSHLOG_1("Unfortunately, this test is not yet implemented for non-digital nets.")
 	PUSHLOG_2("Unfortunately, this test is not yet implemented for non-digital nets.")
 	PUSHLOG_3("Unfortunately, this test is not yet implemented for non-digital nets.")
 #	endif // TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
 	
 	TSTESTS_TEST_FUNCTION_END
-	
-	return answer;
 }
 
 
