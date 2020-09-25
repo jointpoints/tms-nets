@@ -13,6 +13,7 @@
 
 #include "util/common.hpp"
 #include "util/incremental_pca.hpp"
+#include <math.h>
 
 
 
@@ -30,7 +31,7 @@
  *
  *  \warning
  *  The IPCA method used in this function is a modification made for achieving
- *  the most accurate results and optimal performance in **case of (t,m,s)-nets**!
+ *  the most accurate results and optimal performance in **case of (t, m, s)-nets**!
  *  This function will not work properly for any general dataset.
  *
  *  \param[in]  test_info   A valid pointer to \c TsTestsInfo.
@@ -42,13 +43,12 @@
  *  \c TSTESTS_RETURNCODE_FAIL_MEMORY in case of dynamic memory allocation
  *  fail.
  */
-TsTestsReturnCode const tstest_principals(TsTestsInfo *const test_info)
+TSTESTS_TEST_FUNCTION(tstest_principals)
 {
-	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_PRINCIPALS, test_info->log_file)
+	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_PRINCIPALS)
 	
 	PUSHLOG_4("Test started.")
 	
-	TsTestsReturnCode   answer  = TSTESTS_RETURNCODE_SUCCESS;
 	uint8_t             s       = 0;
 	uint64_t            amount  = 0;
 	
@@ -83,7 +83,13 @@ TsTestsReturnCode const tstest_principals(TsTestsInfo *const test_info)
 	for (uint64_t point_i = 0; point_i < amount; ++point_i)
 	{
 		// After the following line (point) is expected to be (s)-dimensional
+#		ifdef TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
+		std::vector<TSTESTS_DIGITAL_TYPE> point_tmp = test_info->next_point_getter(point_i);
+		std::vector<TSTESTS_COORDINATE_TYPE> point(s, 0);
+		std::transform(point_tmp.begin(), point_tmp.end(), point.begin(), [test_info](TSTESTS_DIGITAL_TYPE c){return (TSTESTS_COORDINATE_TYPE)(c * powl(2, -test_info->bitwidth));});
+#		else
 		std::vector<TSTESTS_COORDINATE_TYPE> point = test_info->next_point_getter(point_i);
+#		endif // TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
 		for (uint8_t dim_i = 0; dim_i < s; ++dim_i)
 		{
 			points_matrix[point_i % s][dim_i] = point[dim_i];
@@ -153,7 +159,13 @@ TsTestsReturnCode const tstest_principals(TsTestsInfo *const test_info)
 				PUSHLOG_1  ("- [!]")
 				PUSHLOG_2  ("- [!]")
 				PUSHLOG_3  ("Answer: NEGATIVE.")
-				APPENDLOG_3("Invalid test info.")
+				if (amount < s)
+				{
+					APPENDLOG_3("Number of points is less than the dimension s.")
+					APPENDLOG_3("Test is inapplicable.")
+				}
+				else
+					APPENDLOG_3("Invalid test info.")
 				break;
 			}
 		case TSTESTS_RETURNCODE_FAIL_MEMORY:
@@ -168,8 +180,6 @@ TsTestsReturnCode const tstest_principals(TsTestsInfo *const test_info)
 	}
 	
 	TSTESTS_TEST_FUNCTION_END
-	
-	return answer;
 }
 
 

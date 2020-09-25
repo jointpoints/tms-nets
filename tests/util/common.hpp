@@ -23,15 +23,17 @@
 #	define TSTESTS_VERBOSITY_LEVEL          0
 #endif // TSTESTS_VERBOSITY_LEVEL
 
+#define TSTESTS_TEST_FUNCTION(name)         TsTestsReturnCode const name(TsTestsInfo *const test_info)
+
 #define LOGBLOCK(core)                      do {time(&_time); _ltime = *localtime(&_time); core} while(0);
 #define LOGTIMESTAMP                        _ltime.tm_mday, _ltime.tm_mon+1, _ltime.tm_year+1900, _ltime.tm_hour, _ltime.tm_min, _ltime.tm_sec
 
 #if TSTESTS_VERBOSITY_LEVEL > 0
-#	define TSTESTS_TEST_FUNCTION_BEGIN(name, file)  char const *const _test_name = #name; time_t _time; struct tm _ltime; clock_t _start_clock = clock(); clock_t _finish_clock; FILE *_log = file;
-#	define TSTESTS_TEST_FUNCTION_END                _finish_clock = clock(); fprintf(_log, "Test completed in %Lf seconds.\n\n", (long double)(_finish_clock - _start_clock) / CLOCKS_PER_SEC);
+#	define TSTESTS_TEST_FUNCTION_BEGIN(name)        char const *const _test_name = #name; time_t _time; struct tm _ltime; clock_t _start_clock = clock(); TsTestsReturnCode answer = TSTESTS_RETURNCODE_SUCCESS; FILE *_log = (test_info == NULL) ? (stdout) : (test_info->log_file);
+#	define TSTESTS_TEST_FUNCTION_END                do {clock_t _finish_clock = clock(); fprintf(_log, "Test completed in %Lf seconds.\n\n", (long double)(_finish_clock - _start_clock) / CLOCKS_PER_SEC); return answer;} while(0);
 #else
-#	define TSTESTS_TEST_FUNCTION_BEGIN(name, file)  (void) 0;
-#	define TSTESTS_TEST_FUNCTION_END                (void) 0;
+#	define TSTESTS_TEST_FUNCTION_BEGIN(name)        TsTestsReturnCode answer = TSTESTS_RETURNCODE_SUCCESS;
+#	define TSTESTS_TEST_FUNCTION_END                return answer;
 #endif // TSTESTS_VERBOSITY_LEVEL 0
 
 #if TSTESTS_VERBOSITY_LEVEL == 1
@@ -99,7 +101,8 @@
  *  \param      m                   Exponent of the amount of points in net (net consists of \f$ 2^m \f$ points).
  *  \param      s                   Dimension.
  *  \param      bitwidth            Number of bits used for points generation (i.e. number of columns in generating matrices).
- *  \param      next_point_getter   A function that returns net's point by its index as a vector of \c TSTEST_COORDINATE_TYPE.
+ *  \param      next_point_getter   A function that returns net's point by its index as a vector of \c TSTEST_DIGITAL_TYPE,
+ *                                  if \c TSTESTS_OPTIMISE_FOR_DIGITAL_NETS is defined, or of \c TSTESTS_COORDINATE_TYPE otherwise.
  *  \param      log_file            A valid \c FILE pointer to the opened file or \c TSTESTS_LOG_IN_CONSOLE.
  *
  *  \warning
@@ -116,7 +119,11 @@ typedef struct TsTestsInfo
 	uint8_t     m;
 	uint8_t     s;
 	uint8_t     bitwidth;
+#	ifdef TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
+	std::function<std::vector<TSTESTS_DIGITAL_TYPE>(uint64_t const)> next_point_getter;
+#	else
 	std::function<std::vector<TSTESTS_COORDINATE_TYPE>(uint64_t const)> next_point_getter;
+#	endif // TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
 	FILE       *log_file;
 }
 TsTestsInfo;

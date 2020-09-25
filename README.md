@@ -31,7 +31,7 @@ MANUAL
 
 ## Introduction
 
-This repository contains a generator of digital (t, s)-sequences in base 2 made on a basis of algorithm proposed by Harald Niederreiter in 1987 in his article "Low-Discrepancy and Low-Dispersion Sequences". (t, s)-sequences are a handy tool for the construction of (t, m, s)-nets — low-discrepancy discrete sets of points in *s*-dimensional unit cube. You may find more information about (t, s)-sequences and (t, m, s)-nets in the sources listed in [Recommended literature](#recommended-literature).
+This repository contains a generator of digital (t, m, s)-nets in base 2 made on a basis of algorithm proposed by Harald Niederreiter in 1987 in his article "Low-Discrepancy and Low-Dispersion Sequences". Broadly speaking, (t, m, s)-nets are low-discrepancy discrete sets of points in *s*-dimensional unit cube. You may find more information about them in the sources listed in [Recommended literature](#recommended-literature).
 
 [^ to the top ^](#contents)
 
@@ -42,7 +42,8 @@ This repository contains a generator of digital (t, s)-sequences in base 2 made 
 
   * **master** — main branch; it contains the latest stable version of the library;
   * **development** — branch with the newest changes;
-  * **gh-pages** — technical branch containing the documentation files.
+  * **gh-pages** — technical branch containing the documentation files;
+  * **knowledge** — branch with the theoretical resources on the topic of (t, m, s)-nets made by the authors of this repository (in Russian).
 
 Merge of **gh-pages** with any other branches or manual change of its contents is unacceptable.
 
@@ -77,8 +78,10 @@ Execute the following command line
 
 #### As ZIP-archive
 
-  1. Download archive (**Clone or download** button) from [here](https://github.com/jointpoints/tms-nets);
+  1. Download archive (**Code** button) from [here](https://github.com/jointpoints/tms-nets);
   2. Extract the archive into some folder.
+
+ZIP-archives of all existing stable versions of generator are available in the [Releases](https://github.com/jointpoints/tms-nets/releases) section of this repository.
 
 [^ to the top ^](#contents)
 
@@ -90,62 +93,62 @@ Execute the following command line
 
 #### Description of library structure
 
-The functionality of this library is wholly provided within a sole namespace `sequences` containing all necessary definitions. Users are strongly advised to be informed about the following components of namespace `sequences`:
+This library is self-contained with its functionality being wholly provided within a sole namespace `tms`. Users are strongly advised to be informed about the following components of namespace `tms`:
 
   * `Niederreiter` — class of generator itself, read the section below to learn more;
   * `Real` — type of floating-point number;
   * `Point` — type of *s*-dimensional point with components of type `Real`;
-  * `Polynom` — class of polynomials over **F₂**, read its [source](https://github.com/irreducible-polynoms/irrpoly/) to learn more.
+  * `Polynomial` — class of polynomials over **F₂**, read its [source](https://github.com/irreducible-polynoms/irrpoly/) to learn more.
 
 [^ to the top ^](#contents)
 
 
 #### Description of `Niederreiter` class
 
-The generator of sequences is represented by a template class `sequences::Niederreiter<typename UIntType, unsigned int NBITS>`, where
+The generator of sequences is represented by a template class `tms::Niederreiter<typename UIntType>`, where
 
-  * `UIntType` — unsigned integral type, that is used during the process of generation for the storage of temporary data;
-  * `NBITS` — number of bits in `UIntType` that can be used for the storage of temporary data, **maximum value** — `sizeof(UIntType) * 8`.
-
-Digital (t, s)-sequences have period. In our implementation the period of sequence is `2^NBITS`, which is why the more unique points are needed to be generated, the greater value of `NBITS` and, hence, the more capacious `UIntType` are needed to be used.
+  * `UIntType` — unsigned integral type, that is used during the process of generation for the storage of temporary data.
 
 Constructors signatures:
 
 1.
 
-    Niederreiter(BasicInt const dim, bool const in_parallel)
+    Niederreiter(BasicInt const nbits, BasicInt const dim, bool const in_parallel)
 
-  * `dim` — dimension of the unit cube to be filled with points;
+  * `nbits` — *m* parameter of the net (binary logarithm of number of points in a desired net), **maximum value** — `sizeof(UIntType) * 8`;
+  * `dim` — *s* parameter of the net (dimension of the unit cube to be filled with points);
   * `in_parallel` — specifies whether the irreducible polynomials should be generated consecutively (`false`) or concurrently (`true`); **default value** — `false`.
 
-This constructor allows to generate points with the lowest possible discrepancy.
+Constructs the generator of (t, m, s)-net with specified values of *m*, *s*, and with induced least possible value of *t*.
 
 2.
 
-    Niederreiter(std::vector<BasicInt> const &degrees_of_irred)
+    Niederreiter(BasicInt const nbits, std::vector<BasicInt> const &degrees_of_irrpolys, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
+    Niederreiter(BasicInt const nbits, std::initializer_list<BasicInt> const &degrees_of_irrpolys, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
-  * `degrees_of_irred` — vector of degrees of irreducible polynomials that should be used for generation of points; for *i*-th component of `degrees_of_irred.size()`-dimensional space a polynomial of degree `degrees_of_irred[i-1]` will be generated automatically.
+  * `nbits` — *m* parameter of the net, **maximum value** — `sizeof(UIntType) * 8`;
+  * `degrees_of_irrpolys` — vector of degrees of irreducible polynomials that should be used for generation of points; for *i*-th component of `degrees_of_irrpolys.size()`-dimensional space a polynomial of degree `degrees_of_irrpolys[i-1]` will be generated automatically;
+  * `matrix_of_initial_values` — matrix of initial values for all recursive sequences, **default value** — empty matrix.
 
-This constructor is to be used when the manual configuration of discrepancy along any of the axes is needed to be done. The greater the degree of the *i*-th polynomial, the greater the discrepancy over the *i*-th component will be. The first constructor minimises these degrees which helps to achieve the best results.
+Constructs the generator of (t, m, s)-net with specified *m* parameter, values of *s* degrees of initial irreducible polynomials,  and (optional, for advanced users) initial values of all recursive sequences, defining the generation matrices.
 
 3.
 
-    Niederreiter(std::vector<Polynom> const &polynomials)
+    Niederreiter(BasicInt const nbits, std::vector< std::vector<uintmax_t> > const &irrpolys_coeffs, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
+    Niederreiter(BasicInt const nbits, std::initializer_list< std::vector<uintmax_t> > const &irrpolys_coeffs, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
-  * `polynomials` — vector of irreducible polynomials over **F₂** which should be used during the construction of (t, s)-sequence; for *i*-th component of `polynomials.size()`-dimensional space the `polynomials[i-1]`-th polynomial will be used.
+  * `nbits` — *m* parameter of the net, **maximum value** — `sizeof(UIntType) * 8`;
+  * `irrpolys_coeffs` — coefficients of irreducible polynomials over **F₂** which should be used during the construction of (t, m, s)-net; for *i*-th component of `irrpolys_coeffs.size()`-dimensional space the `irrpolys_coeffs[i-1]`-th polynomial will be used;
+  * `matrix_of_initial_values` — matrix of initial values for all recursive sequences, **default value** — empty matrix.
 
-This constructor is to be used when the manual configuration of discrepancy along any of the axes is needed to be done. Unlike the second constructor, this constructor expects users to specify the irreducible polynomials explicitly.
+Constructs the generator of (t, m, s)-net with specified *m* parameter, *s* initial irreducible polynomials, and (optional, for advanced users) initial values of all recursive sequences, defining the generation matrices.
 
 [^ to the top ^](#contents)
 
 
 #### File inclusion into your program
 
-To write programs that use our generator the files from `include` folder will be needed.
-
-Write in your code
-
-    #include "<your/path/to/our/files/>include/niederreiter2.hpp"
+To use our generator include the `include/tms-nets/niederreiter2.hpp` file.
 
 [^ to the top ^](#contents)
 
@@ -154,65 +157,71 @@ Write in your code
 
 ###### Example 1. Basic usage
 
-The code snippet below generates and prints the first 10 points of 3-dimensional (t, s)-sequence.
+The code snippet below generates and prints all 16 points of (t, 4, 3)-net where optimal *t* is selected automatically.
 
-    uint32_t dim    = 3;
-    uint32_t amount = 10;
-    sequences::Niederreiter<uint64_t, 64>   generator(dim);
-    sequences::Point                        tmp_point;
-    for (uint32_t i = 0; i < amount; ++i)
+    uint32_t s = 3;
+    uint32_t m = 4; // m = log₂ (amount of points in net) = log₂ 16
+    tms::Niederreiter<uint64_t> generator(m, s); // constructor #1
+    tms::Point                  tmp_point;
+    for (uint32_t point_i = 0; point_i < (1U << m); ++point_i)
     {
-        tmp_point = generator.get_point_real(i); // generates i-th point of sequence
-        for (uint32_t j = 0; j < dim; ++j)
-            std::cout << tmp_point[j] << '\t';
+        tmp_point = generator.generate_point(point_i); // generates point_i-th point of the net
+        for (uint32_t dim_i = 0; dim_i < s; ++dim_i)
+            std::cout << tmp_point[dim_i] << '\t';
         std::cout << '\n';
     }
 
 Output:
 
-    0       0       0
-    0.5     0.5     0.75
-    0.75    0.25    0.3125
-    0.25    0.75    0.5625
-    0.375   0.375   0.875
-    0.875   0.875   0.125
-    0.625   0.125   0.6875
-    0.125   0.625   0.4375
-    0.1875  0.3125  0.515625
-    0.6875  0.8125  0.265625
+	0       0       0
+	0.5     0.5     0.25
+	0.75    0.25    0.5
+	0.25    0.75    0.75
+	0.375   0.375   0.3125
+	0.875   0.875   0.0625
+	0.625   0.125   0.8125
+	0.125   0.625   0.5625
+	0.1875  0.3125  0.9375
+	0.6875  0.8125  0.6875
+	0.9375  0.0625  0.4375
+	0.4375  0.5625  0.1875
+	0.3125  0.1875  0.625
+	0.8125  0.6875  0.875
+	0.5625  0.4375  0.125
+	0.0625  0.9375  0.375
 
 ###### Example 2. Replacement of the old generator
 
-The library provides for cases when developers need to use multiple generators with different parametes consecutively. This might be achieved with the assignment operator `=` — generator that was kept in the assigned variable before is destroyed. E.g., the code snippet below generates 5 points from 5 different sequences in a 4-dimensional space.
+The library provides solution for cases when developers need to use multiple generators with different parametes consecutively. This might be achieved with the assignment operator `=` — generator that was kept in the assigned variable before is destroyed. E.g., the code snippet below generates 5 points from 5 different (t, 32, 4)-nets.
 
-    uint32_t                          amount   = 5;
-    std::vector<sequences::BasicInt>  poly_deg = {1, 2, 3, 4};
-    sequences::Niederreiter<uint32_t, 32>  generator(poly_deg);
-    sequences::Point                       tmp_point;
-    for (uint32_t i = 0; i < amount; ++i)
+    uint32_t                    amount   = 5;
+    std::vector<tms::BasicInt>  poly_deg = {1, 2, 3, 4};
+    tms::Niederreiter<uint32_t> generator(32, poly_deg); // constructor #2
+    tms::Point                  tmp_point;
+    for (uint32_t point_i = 0; point_i < amount; ++point_i)
     {
-        tmp_point = generator.get_point_real(i);
-        for (uint32_t j = 0; j < poly_deg.size(); ++j)
-            std::cout << tmp_point[j] << '\t';
+        tmp_point = generator.generate_point(point_i);
+        for (uint32_t dim_i = 0; dim_i < poly_deg.size(); ++dim_i)
+            std::cout << tmp_point[dim_i] << '\t';
         std::cout << '\n';
-        poly_deg = {i+2, i+3, i+4, i+5}; // provide new degrees of polynomials
-        generator = sequences::Niederreiter<uint32_t, 32>(poly_deg); // old generator is destroyed, replaced by new one
+        poly_deg = {point_i+2, point_i+3, point_i+4, point_i+5}; // provide new degrees of polynomials
+        generator = tms::Niederreiter<uint32_t>(32, poly_deg); // old generator is destroyed, replaced by new one
     }
 
 Output:
 
-    0               0               0               0
-    0.75            0.875           0.9375          0.96875
-    0.140625        0.0664062       0.0322266       0.0158691
-    0.878906        0.938477        0.968994        0.984436
-    0.0644531       0.0317383       0.0157471       0.00784302
+    0       0       0        0
+    0.25    0.125   0.0625   0.03125
+    0.375   0.1875  0.09375  0.046875
+    0.125   0.0625  0.03125  0.015625
+    0.1875  0.09375 0.046875 0.0234375
 
 ###### Example 3. Usage of handlers
 
 The library allows to set user-defined functions to handle each generated point of sequence. For instance, the code snippet below prints the first coordinare of each point.
 
     // Handlers must have the following signature
-    void my_point_handler(sequences::Point const &new_point, sequences::CountInt point_i)
+    void my_point_handler(tms::Point const &new_point, tms::CountInt point_i)
     {
         std::cout << "point[" << point_i << "]'s first component is " << new_point[0] << '\n';
         return;
@@ -220,20 +229,20 @@ The library allows to set user-defined functions to handle each generated point 
     
     <...>
     
-    uint32_t                          start_i  = 3;
-    uint32_t                          amount   = 5;
-    std::vector<sequences::BasicInt>  poly_deg = {3, 2, 8, 5};
-    sequences::Niederreiter<uint32_t, 32>  generator(poly_deg);
-    sequences::Point                       tmp_point;
-    generator.for_each_point_real(my_point_handler, amount, start_i); // Generates (amount) points starting with (start_i)-th and sends them to (my_point_handler)
+    uint32_t                    start_i  = 3;
+    uint32_t                    amount   = 5;
+    std::vector<tms::BasicInt>  poly_deg = {3, 2, 8, 5};
+    tms::Niederreiter<uint32_t> generator(20, poly_deg); // constructor #2
+    tms::Point                  tmp_point;
+    generator.for_each_point(my_point_handler, amount, start_i); // generates (amount) points starting with (start_i)-th and sends them to (my_point_handler)
 
 Output:
 
-    point[3]'s first component is 0.765625
-    point[4]'s first component is 0.28125
-    point[5]'s first component is 0.65625
-    point[6]'s first component is 0.421875
-    point[7]'s first component is 0.546875
+    point[3]'s first component is 0.25
+    point[4]'s first component is 0.875
+    point[5]'s first component is 0.75
+    point[6]'s first component is 0.5
+    point[7]'s first component is 0.625
 
 [^ to the top ^](#contents)
 
@@ -254,7 +263,7 @@ For information about testing see [TsTests Usage and Development Guide](https://
 
 #### Documentation
 
-Documentation for a stable version may be found [here](https://jointpoints.github.io/tms-nets/) (partly in Russian).
+Documentation for a stable version may be found [here](https://jointpoints.github.io/tms-nets/).
 It is generated automatically by Doxygen after every change in **master** branch. For the complete understanding of notation and algorithms it is highly recommended to get acquainted with the literature listed below.
 
 [^ to the top ^](#contents)
@@ -262,6 +271,7 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 #### Recommended literature
 
+  1. Documents from **knowledge** branch (in Russian)
   1. Harald Niederreiter "Low-Discrepancy and Low-Dispersion Sequences"
   2. Harald Niederreiter "Random Number Generation and Quasi-Monte Carlo Methods" (especially chapter 4)
   3. Paul Brately, Bennett L. Fox, Harald Niederreiter "Implementation and Tests of Low-Discrepancy Sequences"
@@ -307,7 +317,7 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 ## Введение
 
-Данный репозиторий содержит в себе реализацию генератора цифровых (t, s)-последовательностей с основанием 2, созданного на основе алгоритма, предложенного Гаральдом Нидеррайтером в 1987 году в работе "Low-Discrepancy and Low-Dispersion Sequences". (t, s)-последовательности представляют собой удобный инструмент построения (t, m, s)-сетей — дискретного множества точек, однородно распределённых по *s*-мерному единичному кубу. Подробнее о (t, s)-последовательностях и (t, m, s)-сетях — в ресурсах, указанных в [рекомендуемой литературе](#рекомендуемая-литература).
+Данный репозиторий содержит в себе реализацию генератора цифровых (t, m, s)-сетей с основанием 2, созданного на основе алгоритма, предложенного Гаральдом Нидеррайтером в 1987 году в работе "Low-Discrepancy and Low-Dispersion Sequences". (t, m, s)-сети, вообще говоря, — это дискретные множества точек, однородно распределённых по *s*-мерному единичному кубу. Подробнее о них можно узнать в ресурсах, указанных в [рекомендуемой литературе](#рекомендуемая-литература).
 
 [^ наверх ^](#содержание)
 
@@ -318,7 +328,8 @@ It is generated automatically by Doxygen after every change in **master** branch
 
   * **master** — главная ветвь; в ней располагается последняя стабильная версия проекта;
   * **development** — ветвь, содержащая самые актуальные наработки;
-  * **gh-pages** — техническая ветвь, хранящая в себе файлы документации.
+  * **gh-pages** — техническая ветвь, хранящая в себе файлы документации;
+  * **knowledge** — ветвь, содержащая теоретические источники по (t, m, s)-сетям, созданные авторами данного репозитория.
 
 Объединение **gh-pages** с другими ветвями, а также самостоятельное изменение её содержимого не допускается.
 
@@ -353,8 +364,10 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 #### Через ZIP-архив
 
-  1. Скачайте архив (кнопка **Clone or download**) [отсюда](https://github.com/jointpoints/tms-nets);
+  1. Скачайте архив (кнопка **Code**) [отсюда](https://github.com/jointpoints/tms-nets);
   2. Распакуйте архив в некоторую папку.
+
+ZIP-архивы всех существующих стабильных версий генератора доступны в секции [Releases](https://github.com/jointpoints/tms-nets/releases) этого репозитория.
 
 [^ наверх ^](#содержание)
 
@@ -366,62 +379,62 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 #### Описание структуры библиотеки
 
-Функционал данной библиотеки заключён в единственное пространство имён `sequences`, содержащее в себе все необходимые для работы определения. Пользователям рекомендуется знать о следующих компонентах пространства имён `sequences`:
+Функционал данной библиотеки заключён в единственное пространство имён `tms`, содержащее в себе все необходимые для работы определения. Пользователям рекомендуется знать о следующих компонентах пространства имён `tms`:
 
-  * `Niederreiter` — непосредственно класс генератора, подробнее о его использовании написано ниже в этом разделе;
+  * `Niederreiter` — непосредственно класс генератора, подробнее о его использовании написано ниже;
   * `Real` — тип вещественных чисел с плавающей точкой;
   * `Point` — тип точки в *s*-мерном пространстве с компонентами типа `Real`;
-  * `Polynom` — класс многочленов над полем **F₂**, подробнее о его использовании написано в [источнике](https://github.com/irreducible-polynoms/irrpoly/).
+  * `Polynomial` — класс многочленов над полем **F₂**, подробнее о его использовании написано в [источнике](https://github.com/irreducible-polynoms/irrpoly/).
 
 [^ наверх ^](#содержание)
 
 
 #### Описание класса `Niederreiter`
 
-Генератор последовательностей представлен шаблонным классом `sequences::Niederreiter<typename UIntType, unsigned int NBITS>`, где
+Генератор последовательностей представлен шаблонным классом `tms::Niederreiter<typename UIntType>`, где
 
-  * `UIntType` — тип целочисленных переменных, который следует использовать в процессе генерации для хранения промежуточных результатов расчётов;
-  * `NBITS` — число доступных бит в `UIntType` для хранения промежуточных результатов расчётов, **максимальное значение** — `sizeof(UIntType) * 8`.
-
-Цифровые (t, s)-последовательности периодичны. В нашей реализации период последовательности равен `2^NBITS`, поэтому чем больше уникальных точек необходимо сгенерировать, тем большее значение `NBITS` и, как следствие, тем более объёмный тип `UIntType` необходимо указывать.
+  * `UIntType` — тип целочисленных переменных, который следует использовать в процессе генерации для хранения промежуточных результатов расчётов.
 
 Сигнатуры конструкторов:
 
 1.
 
-    Niederreiter(BasicInt const dim, bool const in_parallel)
+    Niederreiter(BasicInt const nbits, BasicInt const dim, bool const in_parallel)
 
-  * `dim` — размерность пространства, единичный куб внутри которого необходимо заполнить;
+  * `nbits` — параметр *m* сети (двоичный логарифм числа точек в желаемой сети), **максимальное значение** — `sizeof(UIntType) * 8`;
+  * `dim` — параметр *s* сети (размерность единичного куба, заполняемого точками);
   * `in_parallel` — указывает, следует ли генерировать неприводимые многочлены последовательно (`false`) или параллельно (`true`); **значение по умолчанию** — `false`.
 
-Этот конструктор позволяет генерировать максимально однородно заполняющие пространство точки.
+Порождает генератор (t, m, s)-сетей с указанными значениями *m*, *s* и с минимальным возможным *t*.
 
 2.
 
-    Niederreiter(std::vector<BasicInt> const &degrees_of_irred)
+    Niederreiter(BasicInt const nbits, std::vector<BasicInt> const &degrees_of_irrpolys, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
+    Niederreiter(BasicInt const nbits, std::initializer_list<BasicInt> const &degrees_of_irrpolys, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
-  * `degrees_of_irred` — вектор, задающий степени, которые следует использовать при генерации неприводимых многочленов; для *i*-й компоненты `degrees_of_irred.size()`-мерного пространства будет сгенерирован многочлен `degrees_of_irred[i-1]`-й степени.
+  * `nbits` — параметр *m* сети, **максимальное значение** — `sizeof(UIntType) * 8`;
+  * `degrees_of_irrpolys` — степени, которые следует использовать при генерации неприводимых многочленов; для *i*-й компоненты `degrees_of_irrpolys.size()`-мерного пространства будет сгенерирован многочлен `degrees_of_irrpolys[i-1]`-й степени.
+  * `matrix_of_initial_values` — матрица инициализирующих значений для всех рекуррентных последовательностей, **значение по умолчанию** — пустая матрица.
 
-Этот конструктор следует использовать, если требуется вручную настроить однородность точек вдоль каждой оси. Чем выше степень *i*-го многочлена, тем менее однородно по *i*-ой компоненте распределены точки. Первый конструктор минимизирует все используемые степени, что позволяет добиться наилучшего результата по данному показателю.
+Порождает генератор (t, m, s)-сетей с указанными значениями *m*, *s* степеней неприводимых многочленов и (опционально, для продвинутых пользователей) инициализирующих элементов всех рекуррентных последовательностей.
 
 3.
 
-    Niederreiter(std::vector<Polynom> const &polynomials)
+    Niederreiter(BasicInt const nbits, std::vector< std::vector<uintmax_t> > const &irrpolys_coeffs, std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
+    Niederreiter(BasicInt const nbits, std::initializer_list< std::vector<uintmax_t> > const &irrpolys_coeffs, std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values)
 
-  * `polynomials` — вектор неприводимых многочленов над **F₂**, которые следует использовать при генерации (t, s)-последовательности; для *i*-й компоненты `polynomials.size()`-мерного пространства будет использован `polynomials[i-1]`-ый многочлен.
+  * `nbits` — параметр *m* сети, **максимальное значение** — `sizeof(UIntType) * 8`;
+  * `irrpolys_coeffs` — коэффициенты неприводимых многочленов над **F₂**, которые следует использовать при генерации (t, m, s)-сети; для *i*-й компоненты `irrpolys_coeffs.size()`-мерного пространства будет использован `irrpolys_coeffs[i-1]`-ый многочлен;
+  * `matrix_of_initial_values` — матрица инициализирующих значений для всех рекуррентных последовательностей, **значение по умолчанию** — пустая матрица.
 
-Этот конструктор следует использовать, если требуется вручную настроить однородность точек вдоль каждой оси. В отличие от второго конструктора, данный конструктор требует явного задания многочленов.
+Порождает генератор (t, m, s)-сетей с указанными значениями *m*, коэффициентов *s* неприводимых многочленов и (опционально, для продвинутых пользователей) инициализирующих элементов всех рекуррентных последовательностей.
 
 [^ наверх ^](#содержание)
 
 
 #### Включение файлов в Вашу программу
 
-При написании программ, использующих данный генератор, потребуются файлы из папки `include`.
-
-В своём исходном коде пропишите строку
-
-    #include "<your/path/to/our/files/>include/niederreiter2.hpp"
+Для использования данного генератора подключите файл `include/tms-nets/niederreiter2.hpp`.
 
 [^ наверх ^](#содержание)
 
@@ -430,65 +443,71 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 ###### Пример 1. Простейший способ использования
 
-Участок кода ниже генерирует и выводит первые 10 точек (t, s)-последовательности в трёхмерном пространстве.
+Участок кода ниже генерирует и выводит все 10 точек (t, 4, 3)-сети, где оптимальное *t* выбирается автоматически.
 
-    uint32_t dim    = 3;
-    uint32_t amount = 10;
-    sequences::Niederreiter<uint64_t, 64>   generator(dim);
-    sequences::Point                        tmp_point;
-    for (uint32_t i = 0; i < amount; ++i)
+    uint32_t s = 3;
+    uint32_t m = 4; // m = log₂ (число точек в сети) = log₂ 16
+    tms::Niederreiter<uint64_t> generator(m, s); // конструктор #1
+    tms::Point                  tmp_point;
+    for (uint32_t point_i = 0; point_i < (1U << m); ++point_i)
     {
-        tmp_point = generator.get_point_real(i); // генерирует i-ую точку последовательности
-        for (uint32_t j = 0; j < dim; ++j)
-            std::cout << tmp_point[j] << '\t';
+        tmp_point = generator.generate_point(point_i); // генерирует point_i-ую точку сети
+        for (uint32_t dim_i = 0; dim_i < s; ++dim_i)
+            std::cout << tmp_point[dim_i] << '\t';
         std::cout << '\n';
     }
 
 Вывод программы:
 
-    0       0       0
-    0.5     0.5     0.75
-    0.75    0.25    0.3125
-    0.25    0.75    0.5625
-    0.375   0.375   0.875
-    0.875   0.875   0.125
-    0.625   0.125   0.6875
-    0.125   0.625   0.4375
-    0.1875  0.3125  0.515625
-    0.6875  0.8125  0.265625
+	0       0       0
+	0.5     0.5     0.25
+	0.75    0.25    0.5
+	0.25    0.75    0.75
+	0.375   0.375   0.3125
+	0.875   0.875   0.0625
+	0.625   0.125   0.8125
+	0.125   0.625   0.5625
+	0.1875  0.3125  0.9375
+	0.6875  0.8125  0.6875
+	0.9375  0.0625  0.4375
+	0.4375  0.5625  0.1875
+	0.3125  0.1875  0.625
+	0.8125  0.6875  0.875
+	0.5625  0.4375  0.125
+	0.0625  0.9375  0.375
 
 ###### Пример 2. Замена старого генератора новым
 
-Библиотека предусматривает случаи, когда разработчикам требуется использовать несколько генераторов с разными параметрами последовательно. Для этого можно воспользоваться оператором присваивания `=` — генератор, хранившийся в памяти до этого, уничтожается. Так, участок кода ниже генерирует 5 точек из 5 различных последовательностей в четырёхмерном пространстве.
+Библиотека предусматривает случаи, когда разработчикам требуется использовать несколько генераторов с разными параметрами последовательно. Для этого можно воспользоваться оператором присваивания `=` — генератор, хранившийся в памяти до этого, уничтожается. Так, участок кода ниже генерирует 5 точек из 5 различных (t, 32, 4)-сетей.
 
-    uint32_t                          amount   = 5;
-    std::vector<sequences::BasicInt>  poly_deg = {1, 2, 3, 4};
-    sequences::Niederreiter<uint32_t, 32>  generator(poly_deg);
-    sequences::Point                       tmp_point;
-    for (uint32_t i = 0; i < amount; ++i)
+    uint32_t                    amount   = 5;
+    std::vector<tms::BasicInt>  poly_deg = {1, 2, 3, 4};
+    tms::Niederreiter<uint32_t> generator(32, poly_deg); // конструктор #2
+    tms::Point                  tmp_point;
+    for (uint32_t point_i = 0; point_i < amount; ++point_i)
     {
-        tmp_point = generator.get_point_real(i);
-        for (uint32_t j = 0; j < poly_deg.size(); ++j)
-            std::cout << tmp_point[j] << '\t';
+        tmp_point = generator.generate_point(point_i);
+        for (uint32_t dim_i = 0; dim_i < poly_deg.size(); ++dim_i)
+            std::cout << tmp_point[dim_i] << '\t';
         std::cout << '\n';
-        poly_deg = {i+2, i+3, i+4, i+5}; // задаём новые степени многочленов
-        generator = sequences::Niederreiter<uint32_t, 32>(poly_deg); // старый генератор стирается из памяти, заменяется новым
+        poly_deg = {point_i+2, point_i+3, point_i+4, point_i+5}; // новые степени многочленов
+        generator = tms::Niederreiter<uint32_t>(32, poly_deg); // старый генератор уничтожается, замещается новым
     }
 
 Вывод программы:
 
-    0               0               0               0
-    0.75            0.875           0.9375          0.96875
-    0.140625        0.0664062       0.0322266       0.0158691
-    0.878906        0.938477        0.968994        0.984436
-    0.0644531       0.0317383       0.0157471       0.00784302
+    0       0       0        0
+    0.25    0.125   0.0625   0.03125
+    0.375   0.1875  0.09375  0.046875
+    0.125   0.0625  0.03125  0.015625
+    0.1875  0.09375 0.046875 0.0234375
 
 ###### Пример 3. Использование обработчиков генерации
 
 Библиотека позволяет назначать пользовательские функции, которые будут обрабатывать каждую сгенерированную точку из последовательности. Например, участок программы ниже выводит первую координату каждой точки.
 
-    // Каждый обработчик должен иметь такую сигнатуру
-    void my_point_handler(sequences::Point const &new_point, sequences::CountInt point_i)
+    // Обработчики должны иметь следующую сигнатуру
+    void my_point_handler(tms::Point const &new_point, tms::CountInt point_i)
     {
         std::cout << "point[" << point_i << "]'s first component is " << new_point[0] << '\n';
         return;
@@ -496,20 +515,20 @@ It is generated automatically by Doxygen after every change in **master** branch
     
     <...>
     
-    uint32_t                          start_i  = 3;
-    uint32_t                          amount   = 5;
-    std::vector<sequences::BasicInt>  poly_deg = {3, 2, 8, 5};
-    sequences::Niederreiter<uint32_t, 32>  generator(poly_deg);
-    sequences::Point                       tmp_point;
-    generator.for_each_point_real(my_point_handler, amount, start_i); // Генерирует amount точек, начиная со start_i-ой, и посылает их в my_point_handler
+    uint32_t                    start_i  = 3;
+    uint32_t                    amount   = 5;
+    std::vector<tms::BasicInt>  poly_deg = {3, 2, 8, 5};
+    tms::Niederreiter<uint32_t> generator(20, poly_deg); // конструктор #2
+    tms::Point                  tmp_point;
+    generator.for_each_point(my_point_handler, amount, start_i); // генерирует (amount) точек, начиная со (start_i)-й, и отправляет их в (my_point_handler)
 
 Вывод программы:
 
-    point[3]'s first component is 0.765625
-    point[4]'s first component is 0.28125
-    point[5]'s first component is 0.65625
-    point[6]'s first component is 0.421875
-    point[7]'s first component is 0.546875
+    point[3]'s first component is 0.25
+    point[4]'s first component is 0.875
+    point[5]'s first component is 0.75
+    point[6]'s first component is 0.5
+    point[7]'s first component is 0.625
 
 [^ наверх ^](#содержание)
 
@@ -530,7 +549,7 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 #### Документация
 
-Документация к стабильной версии программы доступна [здесь](https://jointpoints.github.io/tms-nets/) (частично на английском языке),
+Документация к стабильной версии программы доступна [здесь](https://jointpoints.github.io/tms-nets/) (на английском языке),
 генерируется автоматически с помощью утилиты Doxygen при каждом изменении в ветви **master**. Для полного понимания номенклатуры и алгоритма рекомендуется ознакомиться с литературой из списка ниже.
 
 [^ наверх ^](#содержание)
@@ -538,8 +557,9 @@ It is generated automatically by Doxygen after every change in **master** branch
 
 #### Рекомендуемая литература
 
-  1. Harald Niederreiter "Low-Discrepancy and Low-Dispersion Sequences"
-  2. Harald Niederreiter "Random Number Generation and Quasi-Monte Carlo Methods" (особенно глава 4)
-  3. Paul Brately, Bennett L. Fox, Harald Niederreiter "Implementation and Tests of Low-Discrepancy Sequences"
+  1. Документы из ветви **knowledge**
+  2. Harald Niederreiter "Low-Discrepancy and Low-Dispersion Sequences"
+  3. Harald Niederreiter "Random Number Generation and Quasi-Monte Carlo Methods" (особенно глава 4)
+  4. Paul Brately, Bennett L. Fox, Harald Niederreiter "Implementation and Tests of Low-Discrepancy Sequences"
 
 [^ наверх ^](#содержание)
