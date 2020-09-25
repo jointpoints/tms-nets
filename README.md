@@ -81,6 +81,8 @@ Execute the following command line
   1. Download archive (**Code** button) from [here](https://github.com/jointpoints/tms-nets);
   2. Extract the archive into some folder.
 
+ZIP-archives of all existing stable versions of generator are available in the [Releases](https://github.com/jointpoints/tms-nets/releases) section of this repository.
+
 [^ to the top ^](#contents)
 
 
@@ -364,6 +366,8 @@ It is generated automatically by Doxygen after every change in **master** branch
 
   1. Скачайте архив (кнопка **Code**) [отсюда](https://github.com/jointpoints/tms-nets);
   2. Распакуйте архив в некоторую папку.
+
+ZIP-архивы всех существующих стабильных версий генератора доступны в секции [Releases](https://github.com/jointpoints/tms-nets/releases) этого репозитория.
 
 [^ наверх ^](#содержание)
 
