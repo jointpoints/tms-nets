@@ -1,21 +1,21 @@
-name: "Documentation"
+name: "Documentation update"
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# Documentation is automatically updated after any push onto master branch
 on:
   push:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   job:
-    name: "Docs"
+    name: "Documentation update"
     runs-on: ubuntu-latest
 
     steps:
+    # Duplicate the master branch to perform further actions independently
     - name: "Checkout code"
       uses: actions/checkout@v2.3.3
 
+    # Run Doxygen to update the documentation
     - name: "Run doxygen"
       uses: mattnotmitt/doxygen-action@v1.1.0
       with:
@@ -23,10 +23,10 @@ jobs:
         doxyfile-path: ./tools/doxygen_config
         enable-latex: true
 
-    - name: "Publish docs"
+    # Deploy updated documentation files onto gh-pages branch
+    - name: "Publish documentation"
       uses: peaceiris/actions-gh-pages@v3.6.4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: "./tmp_docs"
+        publish_dir: "./docs"
         publish_branch: gh-pages
-
