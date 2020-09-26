@@ -13,7 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: configure
-      run: shell cd tests/automatic_tester/
     - name: make
+      working-directory: /tests/automatic_tester/
       run: make -f automatic_tester.mak
