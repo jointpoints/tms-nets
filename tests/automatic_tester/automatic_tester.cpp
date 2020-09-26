@@ -4,7 +4,7 @@
  *	\author
  *		Andrew Yeliseyev (Russian Technological University, KMBO-03-16, Russia, 2020)
  */
-#include "../../include/tms-nets/niederreiter2.hpp"
+#include "../../include/niederreiter2.hpp"
 
 
 
