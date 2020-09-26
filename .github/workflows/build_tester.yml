@@ -1,0 +1,19 @@
+name: Build tester
+
+on:
+  push:
+    branches: [ master, development ]
+  pull_request:
+    branches: [ master, development ]
+
+jobs:
+  build-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: configure
+      run: cd tests/automatic_tester/
+    - name: make
+      run: make -f automatic_tester.mak
