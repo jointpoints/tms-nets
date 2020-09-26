@@ -1,0 +1,32 @@
+name: "Documentation update"
+
+# Documentation is automatically updated after any push onto master branch
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  job:
+    name: "Documentation update"
+    runs-on: ubuntu-latest
+
+    steps:
+    # Duplicate the master branch to perform further actions independently
+    - name: "Checkout code"
+      uses: actions/checkout@v2.3.3
+
+    # Run Doxygen to update the documentation
+    - name: "Run doxygen"
+      uses: mattnotmitt/doxygen-action@v1.1.0
+      with:
+        working-directory: "."
+        doxyfile-path: ./tools/doxygen_config
+        enable-latex: true
+
+    # Deploy updated documentation files onto gh-pages branch
+    - name: "Publish documentation"
+      uses: peaceiris/actions-gh-pages@v3.6.4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: "./docs"
+        publish_branch: gh-pages
