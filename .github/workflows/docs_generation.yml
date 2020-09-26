@@ -1,0 +1,35 @@
+# Based on documentation.yml from [https://github.com/gmargari/cmake-gtest-ci/]
+
+name: "Documentation generation"
+
+# Triggers the workflow on push for the master branch
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  job:
+    name: "Documentation generation"
+    runs-on: ubuntu-latest
+
+    # Initializes copy of our repo as temporary workspace for further actions, 
+    # so further actions can access it
+    steps:
+    - name: "Prepare workspace"
+      uses: actions/checkout@v2
+
+    # Run Doxygen at cloned master branch
+    - name: "Run Doxygen"
+      uses: mattnotmitt/doxygen-action@v1.1.0
+      with:
+        working-directory: "."
+        doxyfile-path: ./tools/doxygen_config
+
+    # Publish Doxygen output from ./docs directory of cloned master branch
+    # to the root of gh-pages
+    - name: "Publish documentation"
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: "./docs"
+        publish_branch: gh-pages
