@@ -1,0 +1,33 @@
+name: "Documentation"
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  job:
+    name: "Docs"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Checkout code"
+      uses: actions/checkout@v2.3.3
+
+    - name: "Run doxygen"
+      uses: mattnotmitt/doxygen-action@v1.1.0
+      with:
+        working-directory: "."
+        doxyfile-path: ./tools/doxygen_config
+        enable-latex: true
+
+    - name: "Publish docs"
+      uses: peaceiris/actions-gh-pages@v3.6.4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: "."
+        publish_branch: gh-pages
