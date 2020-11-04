@@ -3,6 +3,8 @@
  *
  *	\author
  *		Arseny Zakharov (Russian Technological University, KMBO-01-17, Russia, 2020)
+ *	\author
+ *		Sergey Kharlamov (Russian Technological University, KMBO-01-17, Russia, 2020)
  */
 
 #include "raref.hpp"
@@ -67,6 +69,53 @@ Compositions generate_compositions(size_t q, size_t u)
 	result.push_back(compos);
 	composition_recursive(compos, 0, result);
 	return result;
+}
+
+/*
+ * Compute binomial coefficient
+ */
+size_t binomial_coefficient(size_t n, size_t k)
+{
+	size_t res = 1;
+
+	if (k > n - k)
+	{
+		k = n - k;
+	}
+
+	for (size_t i = 0; i < k; i++)
+	{
+		res *= (n - i);
+		res /= (i + 1);
+	}
+
+	return res; 
+}
+
+/*
+ * Generate compositions
+ */
+Compositions binomial_coefficient(size_t from, size_t to, size_t k)
+{
+	size_t n = to - from + 1;
+	std::vector<bool> sep(n, 0);
+	std::fill(sep.begin(), sep.begin() + k, 1);
+
+	Compositions res;
+
+	do
+	{
+		Composition compos;
+		for (size_t i = 0; i < n; i++)
+		{
+			if (sep[i])
+			{
+				compos.push_back(i + from);
+			}
+		}
+		res.push_back(compos);
+	} while (std::prev_permutation(sep.begin(), sep.end()));
+	return res;
 }
 
 /*
@@ -228,6 +277,115 @@ RAREF update_RAREF(RAREFMatrix const &C, RAREFMatrix const &C2, RAREF const &src
 	return compute_RAREF(res.T, res.L);
 }
 
+void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t from, size_t to)
+{
+	bool forward = from <= to ? true : false;
+	size_t n = std::max(from, to) - std::min(from, to);
+	for (size_t i = 0; i < n; i++)
+	{
+		size_t ind = forward ? from + i : from - i;
+		dst.push_back(src[ind]);
+	}
+}
+
+Composition generate_projections(size_t s, size_t u, size_t k,
+                                 std::vector<RAREFMatrix> const &gen_mat, Composition const &ro)
+{
+	size_t qmax = u == 2 ? k : *std::min_element(ro.begin(), ro.end());
+	Composition res;
+	Compositions c = binomial_coefficient(0, s - 1, u);
+	for (size_t i = 0; i < c.size(); i++)
+	{
+		size_t ro_tilda;
+		size_t curr_rank = u - 1;
+		for (size_t q = qmax; q >= u; q--)
+		{
+			Compositions itogmass = generate_compositions(q, u);
+			RAREFMatrix matrix;
+			for (size_t j = 0; j < itogmass.size(); j++)
+			{
+				size_t matrix_rank;
+				RAREF r;
+				if (j >= 1)
+				{
+					Composition abs_diff(itogmass[0].size());
+					std::transform(itogmass[j].begin(), itogmass[j].end(), itogmass[j - 1].begin(),
+					               abs_diff.begin(), [](size_t a, size_t b){return std::max(a, b) - std::min(a, b);});
+					if (*std::max_element(abs_diff.begin(), abs_diff.end()) == 1)
+					{
+						RAREFMatrix old_matrix = matrix;
+						matrix = {};
+						Composition mass;
+						for (size_t ind = 0; i < abs_diff.size(); ind++)
+						{
+							if (abs_diff[i] == 1)
+							{
+								mass.push_back(i);
+							}
+						}
+						size_t koeff = mass[1];
+
+						for (size_t P = 0; P < itogmass[0].size(); P++)
+						{
+							if (P != koeff)
+							{
+								add_rows(matrix, gen_mat[c[i][P]], 0, itogmass[j][P] - 1);
+							}
+							else
+							{
+								add_rows(matrix, gen_mat[c[i][P]], itogmass[j][P] - 1, 0);
+							}
+						}
+						r = update_RAREF(old_matrix, matrix, r);
+						matrix_rank = r.p.size();
+					}
+					else
+					{
+						for (size_t P = 0; P < itogmass[0].size(); P++)
+						{
+							add_rows(matrix, gen_mat[c[i][P]], 0, itogmass[j][P] - 1);
+						}
+						r = compute_RAREF(matrix);
+						matrix_rank = r.p.size();
+					}
+				}
+				else
+				{
+					for (size_t P = 0; P < itogmass[0].size(); P++)
+					{
+						add_rows(matrix, gen_mat[c[i][P]], 0, itogmass[j][P] - 1);
+					}
+					r = compute_RAREF(matrix);
+					matrix_rank = r.p.size();
+				}
+				if (matrix_rank < q)
+				{
+					break;
+				}
+				else
+				{
+					curr_rank = q;
+				}
+				
+			}
+		}
+		ro_tilda = curr_rank;
+		res.push_back(std::min(ro_tilda, qmax));
+	}
+	return res;
+}
+
+Composition find_deffect(size_t t, size_t k, size_t s, size_t dmax,
+                         std::vector<RAREFMatrix> const &gen_mat)
+{
+	Composition ro;
+	for (size_t u = 2; u <= dmax; u++)
+	{
+		ro = generate_projections(s, u, k, gen_mat, ro);
+	}
+	return ro;
+}
+
 void print_matrix(RAREFMatrix const &matrix)
 {
 	for (auto i : matrix)
@@ -277,22 +435,34 @@ int main(int argc, char **argv)
 	// 	std::cout << std::endl;
 	// }
 
-	RAREFMatrix a = {{1, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 1, 0}};
-	RAREFMatrix b = {{1, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 1, 1}};
-	RAREFMatrix x = {{0, 0, 1, 1, 0, 0}, {1, 1, 1, 1, 1, 1}, {0, 1, 1, 0, 0, 1}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
-	RAREFMatrix y = {{1, 1, 1, 1, 0}, {0, 1, 1, 1, 0}, {1, 0, 1, 1, 1}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 1}};
-	RAREFMatrix z = {{1, 1, 1, 0, 0}, {0, 1, 1, 1, 0}, {1, 0, 1, 1, 1}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 1}};
+	// RAREFMatrix a = {{1, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 1, 0}};
+	// RAREFMatrix b = {{1, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 1, 1}};
+	// RAREFMatrix x = {{0, 0, 1, 1, 0, 0}, {1, 1, 1, 1, 1, 1}, {0, 1, 1, 0, 0, 1}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
+	// RAREFMatrix y = {{1, 1, 1, 1, 0}, {0, 1, 1, 1, 0}, {1, 0, 1, 1, 1}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 1}};
+	// RAREFMatrix z = {{1, 1, 1, 0, 0}, {0, 1, 1, 1, 0}, {1, 0, 1, 1, 1}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 1}};
 
 	// RAREF ar = compute_RAREF(a);
 	// RAREF br = compute_RAREF(b);
 	// RAREF cr = update_RAREF(a, b, ar);
-	RAREF xr = compute_RAREF(x);
-	RAREF yr = compute_RAREF(y);
-	RAREF zr = compute_RAREF(z);
-	RAREF wr = update_RAREF(y, z, yr);
+// 	RAREF xr = compute_RAREF(x);
+// 	RAREF yr = compute_RAREF(y);
+// 	RAREF zr = compute_RAREF(z);
+// 	RAREF wr = update_RAREF(y, z, yr);
 
-	print_RAREF(xr, "x");
-	print_RAREF(yr, "y");
-	print_RAREF(zr, "z");
-	print_RAREF(wr, "w");
+// 	print_RAREF(xr, "x");
+// 	print_RAREF(yr, "y");
+// 	print_RAREF(zr, "z");
+// 	print_RAREF(wr, "w");
+
+	// std::cout << binomial_coefficent(6, 3) << std::endl;
+
+	// auto bin = binomial_coefficient(0, 5, 3);
+	// for (auto i : bin)
+	// {
+	// 	for (auto j : i)
+	// 	{
+	// 		std::cout << j << " ";
+	// 	}
+	// 	std::cout << std::endl;
+	// }
 }
