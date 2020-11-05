@@ -15,7 +15,8 @@
 
 typedef std::vector<size_t> Composition;
 typedef std::vector<Composition> Compositions;
-
+void print_matrix(RAREFMatrix const &matrix);
+void print_RAREF(RAREF const &r, std::string const &name);
 /*
  * Change row to absolute value of subtaction with another row
  */
@@ -282,12 +283,14 @@ RAREF update_RAREF(RAREFMatrix const &C, RAREFMatrix const &C2, RAREF const &src
 void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t from, size_t to)
 {
 	bool forward = from <= to ? true : false;
-	size_t n = std::max(from, to) - std::min(from, to);
+	size_t n = std::max(from, to) - std::min(from, to) + 1;
 	for (size_t i = 0; i < n; i++)
 	{
 		size_t ind = forward ? from + i : from - i;
 		dst.push_back(src[ind]);
 	}
+	// print_matrix(dst);
+	// std::cout << "--" << std::endl;
 }
 
 Composition generate_projections(size_t s, size_t u, size_t k,
@@ -302,73 +305,91 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 		size_t curr_rank = u - 1;
 		for (size_t q = qmax; q >= u; q--)
 		{
-			Compositions itogmass = generate_compositions(q, u);
-			RAREFMatrix matrix;
-			for (size_t j = 0; j < itogmass.size(); j++)
+			bool flag = 0;
+			Compositions comp_arr = generate_compositions(q, u);
+			RAREFMatrix matrix = {};
+			RAREF r;
+			for (size_t j = 0; j < comp_arr.size(); j++)
 			{
 				size_t matrix_rank;
-				RAREF r;
 				if (j >= 1)
 				{
-					Composition abs_diff(itogmass[0].size());
-					std::transform(itogmass[j].begin(), itogmass[j].end(), itogmass[j - 1].begin(),
+					Composition abs_diff(comp_arr[0].size());
+					std::transform(comp_arr[j].begin(), comp_arr[j].end(), comp_arr[j - 1].begin(),
 					               abs_diff.begin(), [](size_t a, size_t b){return std::max(a, b) - std::min(a, b);});
+					// std::cout << "transformed " << j << std::endl;
 					if (*std::max_element(abs_diff.begin(), abs_diff.end()) == 1)
 					{
+						// std::cout << "if " << abs_diff.size() << std::endl;
 						RAREFMatrix old_matrix = matrix;
 						matrix = {};
-						Composition mass;
-						for (size_t ind = 0; i < abs_diff.size(); ind++)
+						Composition abs_diff_ones;
+						for (size_t ind = 0; ind < abs_diff.size(); ind++)
 						{
-							if (abs_diff[i] == 1)
+							if (abs_diff[ind] == 1)
 							{
-								mass.push_back(i);
+								abs_diff_ones.push_back(ind);
 							}
 						}
-						size_t koeff = mass[1];
+						size_t coeff = abs_diff_ones[1];
+						// std::cout << "here" << std::endl;
 
-						for (size_t P = 0; P < itogmass[0].size(); P++)
+						for (size_t P = 0; P < comp_arr[0].size(); P++)
 						{
-							if (P != koeff)
+							if (P != coeff)
 							{
-								add_rows(matrix, gen_mat[c[i][P]], 0, itogmass[j][P] - 1);
+								add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
 							}
 							else
 							{
-								add_rows(matrix, gen_mat[c[i][P]], itogmass[j][P] - 1, 0);
+								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1, 0);
 							}
 						}
+						// std::cout << "UPD" << std::endl;
+						// print_matrix(old_matrix);
+						// print_matrix(matrix);
+						// print_RAREF(r, "r");
 						r = update_RAREF(old_matrix, matrix, r);
+						// std::cout << "updated" << std::endl;
 						matrix_rank = r.p.size();
 					}
 					else
 					{
-						for (size_t P = 0; P < itogmass[0].size(); P++)
+						// std::cout << "else" << std::endl;
+						matrix = {};
+						for (size_t P = 0; P < comp_arr[0].size(); P++)
 						{
-							add_rows(matrix, gen_mat[c[i][P]], 0, itogmass[j][P] - 1);
+							add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
 						}
+						// std::cout << "CMP" << std::endl;
 						r = compute_RAREF(matrix);
 						matrix_rank = r.p.size();
 					}
 				}
 				else
 				{
-					for (size_t P = 0; P < itogmass[0].size(); P++)
+					for (size_t P = 0; P < comp_arr[0].size(); P++)
 					{
-						add_rows(matrix, gen_mat[c[i][P]], 0, itogmass[j][P] - 1);
+						add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
 					}
+					// std::cout << "CMP2 " << j << std::endl;
 					r = compute_RAREF(matrix);
+					// std::cout << "computed" << std::endl;
 					matrix_rank = r.p.size();
 				}
 				if (matrix_rank < q)
 				{
+					flag = 1;
 					break;
 				}
 				else
 				{
 					curr_rank = q;
 				}
-				
+			}
+			if (!flag)
+			{
+				break;
 			}
 		}
 		ro_tilda = curr_rank;
@@ -467,4 +488,69 @@ int main(int argc, char **argv)
 	// 	}
 	// 	std::cout << std::endl;
 	// }
+
+	// RAREFMatrix a = {{1, 1, 1},
+	//                  {1, 0, 1},
+	//                  {0, 0, 1}};
+	// RAREFMatrix b = {{1, 0, 0},
+	//                  {0, 1, 0},
+	//                  {0, 0, 1}};
+	// RAREFMatrix c = {{0, 1, 1},
+	//                  {1, 1, 0},
+	//                  {0, 1, 0}};
+	// std::vector<RAREFMatrix> genMat = {a, b, c};
+	// auto res = find_defect(2, 3, 3, 3, genMat);
+	// for (auto i : res){
+	// 	std::cout << i << " ";
+	// }
+	// RAREFMatrix a = {{1, 0, 0, 0},
+	//                  {0, 1, 0, 0},
+	//                  {0, 0, 1, 0},
+	//                  {0, 0, 0, 1}};
+	// RAREFMatrix b = {{1, 1, 0, 1},
+	//                  {1, 1, 1, 0},
+	//                  {0, 1, 1, 1},
+	//                  {1, 0, 1, 1}};
+	// RAREFMatrix c = {{1, 1, 0, 0},
+	//                  {0, 1, 1, 0},
+	//                  {0, 0, 1, 1},
+	//                  {0, 1, 0, 1}};
+	// RAREFMatrix d = {{1, 0, 1, 0},
+	//                  {1, 0, 0, 1},
+	//                  {1, 1, 1, 0},
+	//                  {1, 1, 0, 1}};
+	// std::vector<RAREFMatrix> genMat = {a, b, c, d};
+	// auto res = find_defect(2, 4, 4, 4, genMat);
+	// for (auto i : res){
+	// 	std::cout << i << " ";
+	// }
+	// std::cout << std::endl;
+
+	RAREFMatrix a = {{1, 0, 0, 1, 1, 0, 0},
+	                 {1, 1, 0, 1, 0, 0, 1},
+	                 {1, 0, 1, 1, 1, 0, 0},
+	                 {0, 1, 0, 1, 0, 1, 0},
+					 {0, 1, 1, 0, 0, 1, 1},
+					 {1, 0, 1, 0, 0, 0, 1},
+					 {1, 1, 0, 0, 0, 1, 1}};
+	RAREFMatrix b = {{1, 1, 0, 1, 1, 0, 1},
+	                 {1, 1, 0, 0, 1, 0, 1},
+	                 {0, 0, 1, 0, 1, 0, 1},
+	                 {0, 0, 0, 1, 1, 1, 0},
+					 {0, 1, 1, 1, 1, 0, 0},
+					 {1, 0, 0, 0, 1, 1, 1},
+					 {0, 0, 1, 1, 0, 0, 1}};
+	RAREFMatrix c = {{1, 0, 1, 1, 1, 0, 0},
+	                 {1, 0, 0, 1, 1, 0, 1},
+	                 {1, 1, 1, 0, 0, 1, 0},
+	                 {1, 1, 1, 1, 0, 0, 1},
+					 {1, 1, 1, 0, 1, 1, 0},
+					 {1, 1, 1, 1, 0, 1, 1},
+					 {0, 1, 1, 1, 0, 1, 0}};
+	std::vector<RAREFMatrix> genMat = {a, b, c};
+	auto res = find_defect(2, 7, 3, 3, genMat);
+	for (auto i : res){
+		std::cout << i << " ";
+	}
+	std::cout << std::endl;
 }
