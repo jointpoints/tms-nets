@@ -212,6 +212,11 @@ RAREF update_RAREF(RAREFMatrix const &C, RAREFMatrix const &C2, RAREF const &src
 	res.T = src.T;
 	res.p = src.p;
 
+	if (C == C2)
+	{
+		return res;
+	}
+
 	size_t diff_row = 0;
 	for (size_t i = 0; i < q; i++)
 	{
