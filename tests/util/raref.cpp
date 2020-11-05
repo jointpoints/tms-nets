@@ -4,6 +4,8 @@
  *	\author
  *		Arseny Zakharov (Russian Technological University, KMBO-01-17, Russia, 2020)
  *	\author
+ *		Daria Sabirianova (Russian Technological University, KMBO-01-17, Russia, 2020)
+ *	\author
  *		Sergey Kharlamov (Russian Technological University, KMBO-01-17, Russia, 2020)
  */
 
@@ -375,7 +377,7 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 	return res;
 }
 
-Composition find_deffect(size_t t, size_t k, size_t s, size_t dmax,
+Composition find_defect(size_t t, size_t k, size_t s, size_t dmax,
                          std::vector<RAREFMatrix> const &gen_mat)
 {
 	Composition ro;
