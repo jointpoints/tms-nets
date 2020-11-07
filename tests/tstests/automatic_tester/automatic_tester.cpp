@@ -4,8 +4,7 @@
  *	\author
  *		Andrew Yeliseyev (Russian Technological University, KMBO-03-16, Russia, 2020)
  */
-#define TMS_EXPERIMENTAL
-#include "../../include/tms-nets/niederreiter2.hpp"
+#include "../../../include/tms-nets/niederreiter2.hpp"
 
 
 
@@ -20,10 +19,7 @@
 
 
 #define DIGITAL_POINT_GETTER(UIntType, gen)     [&gen](uint64_t const point_i){std::vector<UIntType> point = gen.generate_point_int(point_i); return std::vector<TSTESTS_DIGITAL_TYPE>(point.begin(), point.end());}
-
-#ifdef TMS_EXPERIMENTAL
 #define GAMMA_MATRIX_GETTER(gen)                [&gen](uint const dim){return gen.get_gamma_matrix(dim);}
-#endif
 
 
 
@@ -60,16 +56,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 0,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint8_t, generator),
-#			ifdef TMS_EXPERIMENTAL
 			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator),
-#			endif
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info)
-#			ifdef TMS_EXPERIMENTAL
-			+ tstest_defect(&tests_info)
-#			endif
-			)
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_defect(&tests_info))
 			increment_counter(tests_results, 0);
 	}
 	// 2. Boundary values
@@ -88,16 +78,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 8,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint8_t, generator8),
-#			ifdef TMS_EXPERIMENTAL
 			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator8),
-#			endif
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info)
-#			ifdef TMS_EXPERIMENTAL
-			+ tstest_defect(&tests_info)
-#			endif
-			)
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_defect(&tests_info))
 			increment_counter(tests_results, 1);
 		
 		fprintf(out, "\n\n\nTest case #3.\n\t(4, 16, 1)-net with UIntType = uint16_t.\n\n");
@@ -108,16 +92,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 16,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint16_t, generator16),
-#			ifdef TMS_EXPERIMENTAL
 			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator16),
-#			endif
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info)
-#			ifdef TMS_EXPERIMENTAL
-			+ tstest_defect(&tests_info)
-#			endif
-			)
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_defect(&tests_info))
 			increment_counter(tests_results, 2);
 		
 		fprintf(out, "\n\n\nTest case #4.\n\tFirst 2^18 points of (17, 32, 1)-net with UIntType = uint32_t.\n\n");
@@ -128,16 +106,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 32,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint32_t, generator32),
-#			ifdef TMS_EXPERIMENTAL
 			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator32),
-#			endif
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info)
-#			ifdef TMS_EXPERIMENTAL
-			+ tstest_defect(&tests_info)
-#			endif
-			)
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_defect(&tests_info))
 			increment_counter(tests_results, 3);
 		
 		fprintf(out, "\n\n\nTest case #5.\n\tFirst 2^18 points of (17, 64, 1)-net with UIntType = uint64_t.\n\tUniqueness is skipped due to memory limitations.\n\n");
@@ -148,17 +120,11 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 64,
 			.next_point_getter = [&generator64](uint64_t const point_i){return generator64.generate_point_int(point_i);},
-#			ifdef TMS_EXPERIMENTAL
 			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator64),
-#			endif
 			.log_file          = out
 		};
 		// Uniqueness would require 147 billion GB
-		if (/*tstest_uniqueness(&tests_info) + */tstest_definition(&tests_info) + tstest_principals(&tests_info)
-#			ifdef TMS_EXPERIMENTAL
-			+ tstest_defect(&tests_info)
-#			endif
-			)
+		if (/*tstest_uniqueness(&tests_info) + */tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_defect(&tests_info))
 			increment_counter(tests_results, 4);
 	}
 	
@@ -201,16 +167,10 @@ void perform_regular_tests(FILE *out, BitCounters *const tests_results)
 				.s                 = curr_s,
 				.bitwidth          = curr_m,
 				.next_point_getter = [&generator](uint64_t const point_i){return generator.generate_point_int(point_i);},
-#				ifdef TMS_EXPERIMENTAL
 				.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator),
-#				endif
 				.log_file          = out
 			};
-			if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info)
-#				ifdef TMS_EXPERIMENTAL
-				+ tstest_defect(&tests_info)
-#				endif
-				)
+			if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_defect(&tests_info))
 				increment_counter(tests_results, test_i);
 			
 			++test_i;
@@ -244,16 +204,10 @@ void perform_exhaustive_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 10,
 			.bitwidth          = 32,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint32_t, generator),
-#			ifdef TMS_EXPERIMENTAL
 			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator),
-#			endif
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info)
-#			ifdef TMS_EXPERIMENTAL
-			+ tstest_defect(&tests_info)
-#			endif
-			)
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_defect(&tests_info))
 			increment_counter(tests_results, 0);
 	}
 	

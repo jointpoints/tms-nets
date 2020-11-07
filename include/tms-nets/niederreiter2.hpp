@@ -129,7 +129,11 @@ namespace tms
 		 *  @param [in] pos - number of the first point in the section of the net */
 		void        for_each_point    (std::function<void (Point    const &, CountInt)> handler, CountInt amount, CountInt pos = 0) const;
 		
-		
+		/** Returns Gamma[dim] matrix of generator.
+		 * @param [out] matrix -
+		 * @param [in] dim - */
+		Matrix<BasicInt> get_gamma_matrix(BasicInt const dim) const;
+
 	private:
 		
 		BasicInt                 m_defect;             ///< t parameter of net (aka quality parameter or defect).
@@ -192,8 +196,7 @@ namespace tms
 		
 		/// Generates scaled by 2**m point with sequence number 'pos' of naturally enumerated (t,m,s)-net.
 		IntPoint	     generate_point_int_classical(CountInt const pos) const;
-		/// Returns Gamma[dim] matrix of generator.
-		Matrix<BasicInt> get_gamma_matrix(BasicInt const dim) const;
+		
 		/// Compute rank of  Gamma[dim] matrix of generator.
 		BasicInt		 get_rank_of_gamma_matrix(BasicInt const dim) const;
 		
@@ -640,6 +643,22 @@ namespace tms
 		}
 	}
 	
+	template <typename UIntType>
+	std::vector< std::vector<BasicInt> >
+	Niederreiter<UIntType>::get_gamma_matrix(BasicInt const dim) const
+	{
+		std::vector< std::vector<BasicInt> > gamma_matrix(m_nbits);
+		for (int j = 0; j < m_nbits; ++j)
+		{
+			gamma_matrix[j] = std::vector<BasicInt>(m_nbits);
+			for (int k = 0; k < m_nbits; ++k)
+			{
+				gamma_matrix[j][k] = (m_direction_numbers[dim][k] >> (m_nbits - 1 - j)) & 1;
+				//((UIntType)v[k + u]) << (m_nbits - 1 - j) << ' ';
+			}
+		}
+		return gamma_matrix;
+	}
 	
 #ifdef TMS_EXPERIMENTAL
 	//=========================================================================================================

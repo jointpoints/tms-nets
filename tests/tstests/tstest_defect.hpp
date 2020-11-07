@@ -5,12 +5,24 @@
  *		Arseny Zakharov (Russian Technological University, KMBO-01-17, Russia, 2020)
  */
 
-#ifdef TMS_EXPERIMENTAL
 #ifndef _TSTEST_DEFECT_HPP_
 #define _TSTEST_DEFECT_HPP_
 
 #include "util/raref.hpp"
 
+/**
+ *  \brief
+ *  This test performs (t,m,s)-net's defect calculation.
+ *
+ *  \param[in]  test_info   A valid pointer to \c TsTestsInfo.
+ *
+ *  \return
+ *  \c TSTESTS_RETURNCODE_SUCCESS in case of successful completion of calculations.
+ *  \c TSTESTS_RETURNCODE_FAIL_INPUT in case of invalidity of \c test_info
+ *  pointer.
+ *  \c TSTESTS_RETURNCODE_FAIL_MEMORY in case of dynamic memory allocation
+ *  fail.
+ */
 TSTESTS_TEST_FUNCTION(tstest_defect)
 {
 	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_DEFECT)
@@ -35,10 +47,11 @@ TSTESTS_TEST_FUNCTION(tstest_defect)
 	{
 		case TSTESTS_RETURNCODE_SUCCESS:
 			{
-				PUSHLOG_1("+")
-				PUSHLOG_2("+")
-				PUSHLOG_3("Answer: POSITIVE.")
-				APPENDLOGF_3("The following defect was calculated: %u", defect)
+				PUSHLOG_1   ("+")
+				PUSHLOG_2   ("+")
+				PUSHLOGF_2  ("The following t was calculated: %u", test_info->m - defect)
+				PUSHLOG_3   ("Answer: POSITIVE.")
+				APPENDLOGF_3("The following t was calculated: %u", test_info->m - defect)
 				break;
 			}
 		case TSTESTS_RETURNCODE_FAIL_GENERAL:
@@ -71,5 +84,4 @@ TSTESTS_TEST_FUNCTION(tstest_defect)
 	TSTESTS_TEST_FUNCTION_END
 }
 
-#endif
 #endif
