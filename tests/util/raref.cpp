@@ -13,10 +13,21 @@
 #include <algorithm>
 #include <iostream>
 
-typedef std::vector<size_t> Composition;
+
+
+typedef std::vector<bool>           RAREFVector;
+typedef std::vector<RAREFVector>    RAREFMatrix;
+
+typedef struct RAREF
+{
+	RAREFMatrix L;
+	RAREFMatrix T;
+	std::vector<size_t> p;
+} RAREF;
+
+typedef std::vector<size_t>      Composition;
 typedef std::vector<Composition> Compositions;
-void print_matrix(RAREFMatrix const &matrix);
-void print_RAREF(RAREF const &r, std::string const &name);
+
 /*
  * Change row to absolute value of subtaction with another row
  */
@@ -403,10 +414,15 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 	return res;
 }
 
-Composition find_defect(size_t t, size_t k, size_t s, size_t dmax,
+Composition find_defect_inner(size_t k, size_t s, size_t dmax,
                          std::vector<RAREFMatrix> const &gen_mat)
 {
 	Composition ro;
+	if (s == 1)
+	{
+		ro.push_back(k);
+		return ro;
+	}
 	for (size_t u = 2; u <= dmax; u++)
 	{
 		ro = generate_projections(s, u, k, gen_mat, ro);
@@ -442,120 +458,44 @@ void print_RAREF(RAREF const &r, std::string const &name)
 			  << std::endl;
 }
 
-int main(int argc, char **argv)
+RAREFMatrix cast_matrix(std::vector<std::vector<uint>> const &src)
 {
-	// RAREFMatrix matrix = {{1, 2, 3, 4, 5, 6},
-	//                       {2, 3, 4, 5, 6, 7}};
-	// print_matrix(matrix);
-	// std::cout << std::endl;
-	// swap_row(matrix, 0, 1);
-	// print_matrix(matrix);
-	// std::cout << std::endl;
-	// subtract_row(matrix, 1, 0);
-	// print_matrix(matrix);
-	// std::cout << std::endl;
-
-	// auto ans = generate_compositions(6, 5);
-	// for (auto i : ans){
-	// 	for (auto j : i){
-	// 		std::cout << j << " ";
-	// 	}
-	// 	std::cout << std::endl;
-	// }
-
-	// RAREFMatrix a = {{1, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 1, 0}};
-	// RAREFMatrix b = {{1, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 1, 1}};
-	// RAREFMatrix x = {{0, 0, 1, 1, 0, 0}, {1, 1, 1, 1, 1, 1}, {0, 1, 1, 0, 0, 1}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 1}};
-	// RAREFMatrix y = {{1, 1, 1, 1, 0}, {0, 1, 1, 1, 0}, {1, 0, 1, 1, 1}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 1}};
-	// RAREFMatrix z = {{1, 1, 1, 0, 0}, {0, 1, 1, 1, 0}, {1, 0, 1, 1, 1}, {1, 0, 0, 0, 0}, {1, 0, 0, 0, 1}};
-
-	// RAREF ar = compute_RAREF(a);
-	// RAREF br = compute_RAREF(b);
-	// RAREF cr = update_RAREF(a, b, ar);
-// 	RAREF xr = compute_RAREF(x);
-// 	RAREF yr = compute_RAREF(y);
-// 	RAREF zr = compute_RAREF(z);
-// 	RAREF wr = update_RAREF(y, z, yr);
-
-// 	print_RAREF(xr, "x");
-// 	print_RAREF(yr, "y");
-// 	print_RAREF(zr, "z");
-// 	print_RAREF(wr, "w");
-
-	// std::cout << binomial_coefficent(6, 3) << std::endl;
-
-	// auto bin = binomial_coefficient(0, 5, 3);
-	// for (auto i : bin)
-	// {
-	// 	for (auto j : i)
-	// 	{
-	// 		std::cout << j << " ";
-	// 	}
-	// 	std::cout << std::endl;
-	// }
-
-	// RAREFMatrix a = {{1, 1, 1},
-	//                  {1, 0, 1},
-	//                  {0, 0, 1}};
-	// RAREFMatrix b = {{1, 0, 0},
-	//                  {0, 1, 0},
-	//                  {0, 0, 1}};
-	// RAREFMatrix c = {{0, 1, 1},
-	//                  {1, 1, 0},
-	//                  {0, 1, 0}};
-	// std::vector<RAREFMatrix> genMat = {a, b, c};
-	// auto res = find_defect(2, 3, 3, 3, genMat);
-	// for (auto i : res){
-	// 	std::cout << i << " ";
-	// }
-	// RAREFMatrix a = {{1, 0, 0, 0},
-	//                  {0, 1, 0, 0},
-	//                  {0, 0, 1, 0},
-	//                  {0, 0, 0, 1}};
-	// RAREFMatrix b = {{1, 1, 0, 1},
-	//                  {1, 1, 1, 0},
-	//                  {0, 1, 1, 1},
-	//                  {1, 0, 1, 1}};
-	// RAREFMatrix c = {{1, 1, 0, 0},
-	//                  {0, 1, 1, 0},
-	//                  {0, 0, 1, 1},
-	//                  {0, 1, 0, 1}};
-	// RAREFMatrix d = {{1, 0, 1, 0},
-	//                  {1, 0, 0, 1},
-	//                  {1, 1, 1, 0},
-	//                  {1, 1, 0, 1}};
-	// std::vector<RAREFMatrix> genMat = {a, b, c, d};
-	// auto res = find_defect(2, 4, 4, 4, genMat);
-	// for (auto i : res){
-	// 	std::cout << i << " ";
-	// }
-	// std::cout << std::endl;
-
-	RAREFMatrix a = {{1, 0, 0, 1, 1, 0, 0},
-	                 {1, 1, 0, 1, 0, 0, 1},
-	                 {1, 0, 1, 1, 1, 0, 0},
-	                 {0, 1, 0, 1, 0, 1, 0},
-					 {0, 1, 1, 0, 0, 1, 1},
-					 {1, 0, 1, 0, 0, 0, 1},
-					 {1, 1, 0, 0, 0, 1, 1}};
-	RAREFMatrix b = {{1, 1, 0, 1, 1, 0, 1},
-	                 {1, 1, 0, 0, 1, 0, 1},
-	                 {0, 0, 1, 0, 1, 0, 1},
-	                 {0, 0, 0, 1, 1, 1, 0},
-					 {0, 1, 1, 1, 1, 0, 0},
-					 {1, 0, 0, 0, 1, 1, 1},
-					 {0, 0, 1, 1, 0, 0, 1}};
-	RAREFMatrix c = {{1, 0, 1, 1, 1, 0, 0},
-	                 {1, 0, 0, 1, 1, 0, 1},
-	                 {1, 1, 1, 0, 0, 1, 0},
-	                 {1, 1, 1, 1, 0, 0, 1},
-					 {1, 1, 1, 0, 1, 1, 0},
-					 {1, 1, 1, 1, 0, 1, 1},
-					 {0, 1, 1, 1, 0, 1, 0}};
-	std::vector<RAREFMatrix> genMat = {a, b, c};
-	auto res = find_defect(2, 7, 3, 3, genMat);
-	for (auto i : res){
-		std::cout << i << " ";
+	RAREFMatrix dst;
+	for (auto i : src)
+	{
+		RAREFVector row;
+		for (auto j : i)
+		{
+			row.push_back(j);
+		}
+		dst.push_back(row);
 	}
-	std::cout << std::endl;
+	return dst;
+}
+
+TsTestsReturnCode find_defect(uint &ro, uint m, uint s, std::function<std::vector<std::vector<uint>>(uint const)> const &gamma_matrix_getter)
+{
+	try
+	{
+		std::vector<RAREFMatrix> genMat;
+		for (uint i = 0; i < s; i++)
+		{
+			genMat.push_back(cast_matrix(gamma_matrix_getter(i)));
+		}
+		Composition defect = find_defect_inner(m, s, s, genMat);
+		if (defect.size() != 1)
+		{
+			return TSTESTS_RETURNCODE_FAIL_GENERAL;
+		}
+		ro = defect[0];
+	}
+	catch(const std::bad_alloc &e)
+	{
+		return TSTESTS_RETURNCODE_FAIL_MEMORY;
+	}
+	catch(const std::logic_error &e)
+	{
+		return TSTESTS_RETURNCODE_FAIL_INPUT;
+	}
+	return TSTESTS_RETURNCODE_SUCCESS;
 }

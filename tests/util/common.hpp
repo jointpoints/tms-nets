@@ -124,6 +124,9 @@ typedef struct TsTestsInfo
 #	else
 	std::function<std::vector<TSTESTS_COORDINATE_TYPE>(uint64_t const)> next_point_getter;
 #	endif // TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
+#	ifdef TMS_EXPERIMENTAL
+	std::function<std::vector<std::vector<uint>>(uint const)> gamma_matrix_getter;
+#	endif
 	FILE       *log_file;
 }
 TsTestsInfo;

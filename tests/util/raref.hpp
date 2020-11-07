@@ -14,20 +14,7 @@
 
 #include "common.hpp"
 
-typedef std::vector<bool>           RAREFVector;
-typedef std::vector<RAREFVector>    RAREFMatrix;
 
-typedef struct RAREF
-{
-	RAREFMatrix L;
-	RAREFMatrix T;
-	std::vector<size_t> p;
-} RAREF;
-
-RAREF               compute_RAREF(RAREFMatrix const &C);
-RAREF               compute_RAREF(RAREFMatrix const &C, RAREFMatrix const &L);
-RAREF               update_RAREF (RAREFMatrix const &C, RAREFMatrix const &C2, RAREF const &src);
-std::vector<size_t> find_defect  (size_t t, size_t k, size_t s, size_t dmax,
-                                  std::vector<RAREFMatrix> const &gen_mat);
+TsTestsReturnCode find_defect(uint &ro, uint m, uint s, std::function<std::vector<std::vector<uint>>(uint const)> const &gamma_matrix_getter);
 
 #endif
