@@ -14,7 +14,7 @@
 /*
  * Allocate memory for counters
  */
-TsTestsReturnCode init_bit_counters(BitCounters target, uint64_t const num_of_counters, uint64_t const size_of_counter)
+TsTestsReturnCode init_bit_counters(BitCounters *target, uint64_t const num_of_counters, uint64_t const size_of_counter)
 {
 	/*
 	 * We define the size of the array of bit counters by the following scheme.
