@@ -48,8 +48,7 @@ TSTESTS_TEST_FUNCTION(tstest_defect)
 		case TSTESTS_RETURNCODE_SUCCESS:
 			{
 				PUSHLOG_1   ("+")
-				PUSHLOG_2   ("+")
-				PUSHLOGF_2  ("The following t was calculated: %u", test_info->m - defect)
+				PUSHLOGF_2  ("+ The following t was calculated: %u", test_info->m - defect)
 				PUSHLOG_3   ("Answer: POSITIVE.")
 				APPENDLOGF_3("The following t was calculated: %u", test_info->m - defect)
 				break;
