@@ -107,7 +107,7 @@ size_t binomial_coefficient(size_t n, size_t k)
 }
 
 /*
- * Generate compositions
+ * Generate compositions from [from:to] of size k
  */
 Compositions binomial_coefficient(size_t from, size_t to, size_t k)
 {
@@ -296,6 +296,10 @@ RAREF update_RAREF(RAREFMatrix const &C, RAREFMatrix const &C2, RAREF const &src
 	return compute_RAREF(res.T, res.L);
 }
 
+/*
+ * Add rows from [from:to] of src to the end of dst
+ * If from is greater than to, rows will be added in reverse order
+ */
 void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t from, size_t to)
 {
 	bool forward = from <= to ? true : false;
@@ -305,8 +309,6 @@ void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t from, size_t to)
 		size_t ind = forward ? from + i : from - i;
 		dst.push_back(src[ind]);
 	}
-	// print_matrix(dst);
-	// std::cout << "--" << std::endl;
 }
 
 Composition generate_projections(size_t s, size_t u, size_t k,
@@ -333,10 +335,8 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 					Composition abs_diff(comp_arr[0].size());
 					std::transform(comp_arr[j].begin(), comp_arr[j].end(), comp_arr[j - 1].begin(),
 					               abs_diff.begin(), [](size_t a, size_t b){return std::max(a, b) - std::min(a, b);});
-					// std::cout << "transformed " << j << std::endl;
 					if (*std::max_element(abs_diff.begin(), abs_diff.end()) == 1)
 					{
-						// std::cout << "if " << abs_diff.size() << std::endl;
 						RAREFMatrix old_matrix = matrix;
 						matrix = {};
 						Composition abs_diff_ones;
@@ -348,7 +348,6 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 							}
 						}
 						size_t coeff = abs_diff_ones[1];
-						// std::cout << "here" << std::endl;
 
 						for (size_t P = 0; P < comp_arr[0].size(); P++)
 						{
@@ -361,23 +360,16 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1, 0);
 							}
 						}
-						// std::cout << "UPD" << std::endl;
-						// print_matrix(old_matrix);
-						// print_matrix(matrix);
-						// print_RAREF(r, "r");
 						r = update_RAREF(old_matrix, matrix, r);
-						// std::cout << "updated" << std::endl;
 						matrix_rank = r.p.size();
 					}
 					else
 					{
-						// std::cout << "else" << std::endl;
 						matrix = {};
 						for (size_t P = 0; P < comp_arr[0].size(); P++)
 						{
 							add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
 						}
-						// std::cout << "CMP" << std::endl;
 						r = compute_RAREF(matrix);
 						matrix_rank = r.p.size();
 					}
@@ -388,9 +380,7 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 					{
 						add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
 					}
-					// std::cout << "CMP2 " << j << std::endl;
 					r = compute_RAREF(matrix);
-					// std::cout << "computed" << std::endl;
 					matrix_rank = r.p.size();
 				}
 				if (matrix_rank < q)
@@ -414,6 +404,9 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 	return res;
 }
 
+/*
+ * Find defect of (t,m,s)-net
+ */
 Composition find_defect_inner(size_t k, size_t s, size_t dmax,
                          std::vector<RAREFMatrix> const &gen_mat)
 {
@@ -458,6 +451,9 @@ void print_RAREF(RAREF const &r, std::string const &name)
 			  << std::endl;
 }
 
+/*
+ * Cast matrix of uints to matrix of bools
+ */
 RAREFMatrix cast_matrix(std::vector<std::vector<uint>> const &src)
 {
 	RAREFMatrix dst;
