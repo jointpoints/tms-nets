@@ -27,7 +27,7 @@ TSTESTS_TEST_FUNCTION(tstest_defect)
 {
 	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_DEFECT)
 
-	uint defect = 0;
+	uint64_t defect = 0;
 
 	PUSHLOG_4("Test started.")
 

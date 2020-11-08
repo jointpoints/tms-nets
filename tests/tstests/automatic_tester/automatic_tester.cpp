@@ -19,7 +19,7 @@
 
 
 #define DIGITAL_POINT_GETTER(UIntType, gen)     [&gen](uint64_t const point_i){std::vector<UIntType> point = gen.generate_point_int(point_i); return std::vector<TSTESTS_DIGITAL_TYPE>(point.begin(), point.end());}
-#define GAMMA_MATRIX_GETTER(gen)                [&gen](uint const dim){return gen.get_gamma_matrix(dim);}
+#define GAMMA_MATRIX_GETTER(gen)                [&gen](uint64_t const dim){return gen.get_gamma_matrix(dim);}
 
 
 

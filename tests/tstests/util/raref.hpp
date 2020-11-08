@@ -15,6 +15,6 @@
 #include "common.hpp"
 
 
-TsTestsReturnCode find_defect(uint &ro, uint m, uint s, std::function<std::vector<std::vector<uint>>(uint const)> const &gamma_matrix_getter);
+TsTestsReturnCode find_defect(uint64_t &ro, uint64_t m, uint64_t s, std::function<std::vector<std::vector<uint>>(uint64_t const)> const &gamma_matrix_getter);
 
 #endif
