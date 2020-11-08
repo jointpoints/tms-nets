@@ -469,7 +469,7 @@ RAREFMatrix cast_matrix(std::vector<std::vector<uint>> const &src)
 	return dst;
 }
 
-TsTestsReturnCode find_defect(uint64_t &ro, uint64_t m, uint64_t s, std::function<std::vector<std::vector<uint>>(uint64_t const)> const &gamma_matrix_getter)
+TsTestsReturnCode find_defect(uint64_t &ro, uint64_t m, uint64_t s, std::function<std::vector<std::vector<unsigned int>>(uint64_t const)> const &gamma_matrix_getter)
 {
 	try
 	{
