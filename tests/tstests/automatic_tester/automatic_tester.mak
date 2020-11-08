@@ -48,7 +48,7 @@ release_object3_win: ..\\util\\incremental_pca.cpp
 	$(CXX) $(CFLAGS) $(INC) -c ..\\util\\incremental_pca.cpp -o $(OBJDIR)\\util\\incremental_pca.o
 
 release_object4_win: ..\\util\\raref.cpp
-	$(CXX) $(CFLAGS) $(INC) -c ..\\util\\raref.cpp -o $(OBJDIR)\\util\\raref_pca.o
+	$(CXX) $(CFLAGS) $(INC) -c ..\\util\\raref.cpp -o $(OBJDIR)\\util\\raref.o
 
 release_assemble_win:
 	$(LD) -o $(OUT) $(OBJ) $(LDFLAGS)
