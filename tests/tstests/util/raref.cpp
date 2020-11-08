@@ -454,7 +454,7 @@ void print_RAREF(RAREF const &r, std::string const &name)
 /*
  * Cast matrix of uints to matrix of bools
  */
-RAREFMatrix cast_matrix(std::vector<std::vector<uint>> const &src)
+RAREFMatrix cast_matrix(std::vector<std::vector<unsigned int>> const &src)
 {
 	RAREFMatrix dst;
 	for (auto i : src)
