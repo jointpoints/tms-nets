@@ -10,10 +10,10 @@ AR = ar.exe
 LD = g++.exe
 LDFLAGS = -static
 WINDRES = windres.exe
-OBJ = $(OBJDIR)\\automatic_tester.o $(OBJDIR)\\util\\bit_counters.o $(OBJDIR)\\util\\incremental_pca.o
+OBJ = $(OBJDIR)\\automatic_tester.o $(OBJDIR)\\util\\bit_counters.o $(OBJDIR)\\util\\incremental_pca.o $(OBJDIR)\\util\\raref.o
 OUT = automatic_tester.exe
 	
-release: release_prepare_win release_object1_win release_object2_win release_object3_win release_assemble_win release_clean_win
+release: release_prepare_win release_object1_win release_object2_win release_object3_win release_object4_win release_assemble_win release_clean_win
 
 else
 
@@ -26,10 +26,10 @@ endif
 CC = gcc
 CXX = g++
 LD = g++
-OBJ = $(OBJDIR)/automatic_tester.o $(OBJDIR)/util/bit_counters.o $(OBJDIR)/util/incremental_pca.o
+OBJ = $(OBJDIR)/automatic_tester.o $(OBJDIR)/util/bit_counters.o $(OBJDIR)/util/incremental_pca.o $(OBJDIR)/util/raref.o 
 OUT = automatic_tester.out
 
-release: release_prepare_unix release_object1_unix release_object2_unix release_object3_unix release_assemble_unix release_clean_unix
+release: release_prepare_unix release_object1_unix release_object2_unix release_object3_unix release_object4_unix release_assemble_unix release_clean_unix
 
 endif
 
@@ -46,6 +46,9 @@ release_object2_win: ..\\util\\bit_counters.cpp
 
 release_object3_win: ..\\util\\incremental_pca.cpp
 	$(CXX) $(CFLAGS) $(INC) -c ..\\util\\incremental_pca.cpp -o $(OBJDIR)\\util\\incremental_pca.o
+
+release_object4_win: ..\\util\\raref.cpp
+	$(CXX) $(CFLAGS) $(INC) -c ..\\util\\raref.cpp -o $(OBJDIR)\\util\\raref.o
 
 release_assemble_win:
 	$(LD) -o $(OUT) $(OBJ) $(LDFLAGS)
@@ -68,6 +71,9 @@ release_object2_unix: ../util/bit_counters.cpp
 
 release_object3_unix: ../util/incremental_pca.cpp
 	$(CXX) $(CFLAGS) $(INC) -c ../util/incremental_pca.cpp -o $(OBJDIR)/util/incremental_pca.o
+
+release_object4_unix: ../util/raref.cpp
+	$(CXX) $(CFLAGS) $(INC) -c ../util/raref.cpp -o $(OBJDIR)/util/raref.o
 
 release_assemble_unix:
 	$(LD) -o $(OUT) $(OBJ) $(LDFLAGS)
