@@ -1,12 +1,12 @@
 /*!
- *	\file tstest_defect.hpp
+ *	\file tstest_truedefect.hpp
  *
  *	\author
  *		Arseny Zakharov (Russian Technological University, KMBO-01-17, Russia, 2020)
  */
 
-#ifndef _TSTEST_DEFECT_HPP_
-#define _TSTEST_DEFECT_HPP_
+#ifndef _TSTEST_TRUEDEFECT_HPP_
+#define _TSTEST_TRUEDEFECT_HPP_
 
 #include "util/raref.hpp"
 
@@ -18,14 +18,15 @@
  *
  *  \return
  *  \c TSTESTS_RETURNCODE_SUCCESS in case of successful completion of calculations.
+ *  \c TSTESTS_RETURNCODE_FAIL_GENERAL in case of inability to find defect.
  *  \c TSTESTS_RETURNCODE_FAIL_INPUT in case of invalidity of \c test_info
  *  pointer.
  *  \c TSTESTS_RETURNCODE_FAIL_MEMORY in case of dynamic memory allocation
  *  fail.
  */
-TSTESTS_TEST_FUNCTION(tstest_defect)
+TSTESTS_TEST_FUNCTION(tstest_truedefect)
 {
-	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_DEFECT)
+	TSTESTS_TEST_FUNCTION_BEGIN(TSTEST_TRUEDEFECT)
 
 	uint64_t defect = 0;
 
@@ -48,7 +49,7 @@ TSTESTS_TEST_FUNCTION(tstest_defect)
 		case TSTESTS_RETURNCODE_SUCCESS:
 			{
 				PUSHLOG_1   ("+")
-				PUSHLOGF_2  ("+ The following t was calculated: %u", test_info->m - defect)
+				PUSHLOGF_2  ("+ (%u)", test_info->m - defect)
 				PUSHLOG_3   ("Answer: POSITIVE.")
 				APPENDLOGF_3("The following t was calculated: %u", test_info->m - defect)
 				break;
