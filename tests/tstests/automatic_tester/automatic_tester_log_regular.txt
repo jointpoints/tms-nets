@@ -1,12 +1,12 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Automatic tester for digital (t, m, s)-nets       *
-* Built on Sep 24 2020 14:55:07                     *
+* Built on Dec  1 2020 15:30:21                     *
 * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 
                    REGULAR TESTS
-          started on 24.09.2020 14:55:23
+          started on 01.12.2020 19:05:54
 
          scroll to the bottom of this log
              to see the brief summary
@@ -20,13 +20,16 @@
 Test case #1.
 	(0, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (0, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -35,13 +38,16 @@ Test completed in 0.000000 seconds.
 Test case #2.
 	(0, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (0, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -50,13 +56,16 @@ Test completed in 0.000000 seconds.
 Test case #3.
 	(1, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (1, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -65,13 +74,16 @@ Test completed in 0.000000 seconds.
 Test case #4.
 	(2, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (2, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -80,13 +92,16 @@ Test completed in 0.000000 seconds.
 Test case #5.
 	(2, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (2, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -95,13 +110,16 @@ Test completed in 0.000000 seconds.
 Test case #6.
 	(3, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (3, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -110,13 +128,16 @@ Test completed in 0.000000 seconds.
 Test case #7.
 	(3, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
+Test completed in 0.001000 seconds.
+
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (3, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -125,13 +146,16 @@ Test completed in 0.000000 seconds.
 Test case #8.
 	(3, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (3, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -140,13 +164,16 @@ Test completed in 0.000000 seconds.
 Test case #9.
 	(4, 5, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (4, 5, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -159,13 +186,16 @@ Test completed in 0.000000 seconds.
 Test case #10.
 	(0, 5, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (0, 5, 2)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -174,13 +204,16 @@ Test completed in 0.000000 seconds.
 Test case #11.
 	(1, 5, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (1, 5, 2)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -189,13 +222,16 @@ Test completed in 0.000000 seconds.
 Test case #12.
 	(3, 5, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (3, 5, 2)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (1)
 Test completed in 0.000000 seconds.
 
 
@@ -204,13 +240,16 @@ Test completed in 0.000000 seconds.
 Test case #13.
 	(4, 5, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (4, 5, 2)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (2)
 Test completed in 0.000000 seconds.
 
 
@@ -219,13 +258,16 @@ Test completed in 0.000000 seconds.
 Test case #14.
 	(5, 10, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (5, 10, 2)
+Test completed in 0.001000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (1)
 Test completed in 0.000000 seconds.
 
 
@@ -234,13 +276,16 @@ Test completed in 0.000000 seconds.
 Test case #15.
 	(6, 10, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (6, 10, 2)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.001000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (2)
 Test completed in 0.000000 seconds.
 
 
@@ -249,13 +294,16 @@ Test completed in 0.000000 seconds.
 Test case #16.
 	(6, 10, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (6, 10, 2)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.001000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (2)
 Test completed in 0.000000 seconds.
 
 
@@ -264,13 +312,16 @@ Test completed in 0.000000 seconds.
 Test case #17.
 	(7, 10, 2)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (7, 10, 2)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (2)
 Test completed in 0.000000 seconds.
 
 
@@ -283,13 +334,16 @@ Test completed in 0.000000 seconds.
 Test case #18.
 	(1, 5, 3)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (1, 5, 3)
+Test completed in 0.001000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (1)
 Test completed in 0.000000 seconds.
 
 
@@ -298,13 +352,16 @@ Test completed in 0.000000 seconds.
 Test case #19.
 	(3, 5, 3)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (3, 5, 3)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (2)
 Test completed in 0.000000 seconds.
 
 
@@ -313,13 +370,16 @@ Test completed in 0.000000 seconds.
 Test case #20.
 	(5, 10, 3)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
-Test completed in 0.000000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (5, 10, 3)
+Test completed in 0.001000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.001000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (1)
 Test completed in 0.000000 seconds.
 
 
@@ -328,14 +388,17 @@ Test completed in 0.000000 seconds.
 Test case #21.
 	(7, 10, 3)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (7, 10, 3)
+Test completed in 0.001000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
-Test completed in 0.000000 seconds.
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (2)
+Test completed in 0.001000 seconds.
 
 
 
@@ -343,13 +406,16 @@ Test completed in 0.000000 seconds.
 Test case #22.
 	(8, 10, 3)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (8, 10, 3)
+Test completed in 0.001000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (3)
 Test completed in 0.000000 seconds.
 
 
@@ -358,14 +424,17 @@ Test completed in 0.000000 seconds.
 Test case #23.
 	(9, 10, 3)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (9, 10, 3)
+Test completed in 0.001000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
-Test completed in 0.000000 seconds.
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (4)
+Test completed in 0.001000 seconds.
 
 
 
@@ -373,14 +442,17 @@ Test completed in 0.000000 seconds.
 Test case #24.
 	(10, 15, 3)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
-Test completed in 0.015000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32768)
+Test completed in 0.003000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
-Test completed in 0.047000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (10, 15, 3)
+Test completed in 0.048000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
-Test completed in 0.000000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.009000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (4)
+Test completed in 0.001000 seconds.
 
 
 
@@ -392,13 +464,16 @@ Test completed in 0.000000 seconds.
 Test case #25.
 	(3, 5, 4)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (3, 5, 4)
+Test completed in 0.001000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (2)
 Test completed in 0.000000 seconds.
 
 
@@ -407,14 +482,17 @@ Test completed in 0.000000 seconds.
 Test case #26.
 	(5, 10, 4)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
-Test completed in 0.016000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (5, 10, 4)
+Test completed in 0.004000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (3)
+Test completed in 0.001000 seconds.
 
 
 
@@ -422,14 +500,17 @@ Test completed in 0.000000 seconds.
 Test case #27.
 	(8, 10, 4)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (8, 10, 4)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
-Test completed in 0.000000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.001000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (3)
+Test completed in 0.001000 seconds.
 
 
 
@@ -437,14 +518,17 @@ Test completed in 0.000000 seconds.
 Test case #28.
 	(10, 15, 4)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
-Test completed in 0.000000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32768)
+Test completed in 0.004000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:23] +
-Test completed in 0.125000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (10, 15, 4)
+Test completed in 0.130000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:23] +
-Test completed in 0.015000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.012000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (5)
+Test completed in 0.005000 seconds.
 
 
 
@@ -452,14 +536,17 @@ Test completed in 0.015000 seconds.
 Test case #29.
 	(11, 15, 4)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:23] +
-Test completed in 0.000000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32768)
+Test completed in 0.004000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:24] +
-Test completed in 0.078000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (11, 15, 4)
+Test completed in 0.084000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:24] +
-Test completed in 0.016000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.011000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (7)
+Test completed in 0.003000 seconds.
 
 
 
@@ -467,14 +554,17 @@ Test completed in 0.016000 seconds.
 Test case #30.
 	(13, 15, 4)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:24] +
-Test completed in 0.000000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32768)
+Test completed in 0.004000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:24] +
-Test completed in 0.016000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (13, 15, 4)
+Test completed in 0.025000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:24] +
-Test completed in 0.015000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.012000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (7)
+Test completed in 0.002000 seconds.
 
 
 
@@ -486,14 +576,17 @@ Test completed in 0.015000 seconds.
 Test case #31.
 	(5, 10, 5)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:24] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:24] +
-Test completed in 0.016000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (5, 10, 5)
+Test completed in 0.009000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:24] +
-Test completed in 0.000000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.001000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (3)
+Test completed in 0.003000 seconds.
 
 
 
@@ -501,14 +594,17 @@ Test completed in 0.000000 seconds.
 Test case #32.
 	(8, 10, 5)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:24] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:24] +
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (8, 10, 5)
+Test completed in 0.001000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:24] +
-Test completed in 0.000000 seconds.
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (5)
+Test completed in 0.002000 seconds.
 
 
 
@@ -516,14 +612,17 @@ Test completed in 0.000000 seconds.
 Test case #33.
 	(11, 15, 5)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:24] +
-Test completed in 0.000000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32768)
+Test completed in 0.005000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:24] +
-Test completed in 0.156000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (11, 15, 5)
+Test completed in 0.170000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:24] +
-Test completed in 0.016000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.013000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (8)
+Test completed in 0.011000 seconds.
 
 
 
@@ -531,14 +630,17 @@ Test completed in 0.016000 seconds.
 Test case #34.
 	(13, 15, 5)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:24] +
-Test completed in 0.000000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:54] + (32768)
+Test completed in 0.005000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:24] +
-Test completed in 0.046000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:54] + (13, 15, 5)
+Test completed in 0.039000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:24] +
-Test completed in 0.000000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:54] +
+Test completed in 0.014000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:54] + (7)
+Test completed in 0.009000 seconds.
 
 
 
@@ -546,14 +648,17 @@ Test completed in 0.000000 seconds.
 Test case #35.
 	(15, 20, 5)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:24] +
-Test completed in 0.157000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:55] + (1048576)
+Test completed in 0.166000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:33] +
-Test completed in 9.279000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:05] + (15, 20, 5)
+Test completed in 10.536000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:34] +
-Test completed in 0.390000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:06] +
+Test completed in 0.458000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:06] + (9)
+Test completed in 0.044000 seconds.
 
 
 
@@ -565,14 +670,17 @@ Test completed in 0.390000 seconds.
 Test case #36.
 	(8, 10, 6)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:34] +
+TSTEST_UNIQUENESS [01.12.2020 19:06:06] + (1024)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:34] +
+TSTEST_DEFINITION [01.12.2020 19:06:06] + (8, 10, 6)
+Test completed in 0.002000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:06:06] +
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:34] +
-Test completed in 0.000000 seconds.
+TSTEST_TRUEDEFECT [01.12.2020 19:06:06] + (5)
+Test completed in 0.005000 seconds.
 
 
 
@@ -580,14 +688,17 @@ Test completed in 0.000000 seconds.
 Test case #37.
 	(11, 15, 6)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:34] +
-Test completed in 0.016000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:06:06] + (32768)
+Test completed in 0.005000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:34] +
-Test completed in 0.297000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:06] + (11, 15, 6)
+Test completed in 0.370000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:34] +
-Test completed in 0.015000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:06] +
+Test completed in 0.017000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:06] + (8)
+Test completed in 0.023000 seconds.
 
 
 
@@ -595,14 +706,17 @@ Test completed in 0.015000 seconds.
 Test case #38.
 	(14, 15, 6)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:34] +
+TSTEST_UNIQUENESS [01.12.2020 19:06:06] + (32768)
+Test completed in 0.006000 seconds.
+
+TSTEST_DEFINITION [01.12.2020 19:06:06] + (14, 15, 6)
+Test completed in 0.020000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:06:06] +
 Test completed in 0.016000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:34] +
-Test completed in 0.016000 seconds.
-
-TSTEST_PRINCIPALS [24.09.2020 14:55:34] +
-Test completed in 0.015000 seconds.
+TSTEST_TRUEDEFECT [01.12.2020 19:06:06] + (8)
+Test completed in 0.018000 seconds.
 
 
 
@@ -610,14 +724,17 @@ Test completed in 0.015000 seconds.
 Test case #39.
 	(17, 20, 6)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:34] +
-Test completed in 0.172000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:06:06] + (1048576)
+Test completed in 0.185000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:38] +
-Test completed in 4.312000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:11] + (17, 20, 6)
+Test completed in 4.799000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:39] +
-Test completed in 0.453000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:12] +
+Test completed in 0.507000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:12] + (9)
+Test completed in 0.101000 seconds.
 
 
 
@@ -629,14 +746,17 @@ Test completed in 0.453000 seconds.
 Test case #40.
 	(11, 15, 7)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:39] +
-Test completed in 0.015000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:06:12] + (32768)
+Test completed in 0.005000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:39] +
-Test completed in 0.516000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:12] + (11, 15, 7)
+Test completed in 0.545000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:39] +
-Test completed in 0.015000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:12] +
+Test completed in 0.017000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:12] + (8)
+Test completed in 0.045000 seconds.
 
 
 
@@ -644,14 +764,17 @@ Test completed in 0.015000 seconds.
 Test case #41.
 	(14, 15, 7)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:39] +
-Test completed in 0.000000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:06:12] + (32768)
+Test completed in 0.005000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:40] +
-Test completed in 0.016000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:12] + (14, 15, 7)
+Test completed in 0.023000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:40] +
-Test completed in 0.016000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:12] +
+Test completed in 0.018000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:12] + (8)
+Test completed in 0.028000 seconds.
 
 
 
@@ -659,14 +782,17 @@ Test completed in 0.016000 seconds.
 Test case #42.
 	(18, 20, 7)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:40] +
-Test completed in 0.187000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:06:13] + (1048576)
+Test completed in 0.190000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:42] +
-Test completed in 2.453000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:15] + (18, 20, 7)
+Test completed in 2.433000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:43] +
-Test completed in 0.531000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:16] +
+Test completed in 0.577000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:16] + (9)
+Test completed in 0.247000 seconds.
 
 
 
@@ -678,14 +804,17 @@ Test completed in 0.531000 seconds.
 Test case #43.
 	(14, 15, 8)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:43] +
-Test completed in 0.000000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:06:16] + (32768)
+Test completed in 0.006000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:43] +
-Test completed in 0.031000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:16] + (14, 15, 8)
+Test completed in 0.027000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:43] +
-Test completed in 0.016000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:16] +
+Test completed in 0.020000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:16] + (8)
+Test completed in 0.049000 seconds.
 
 
 
@@ -693,14 +822,17 @@ Test completed in 0.016000 seconds.
 Test case #44.
 	(18, 20, 8)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:43] +
+TSTEST_UNIQUENESS [01.12.2020 19:06:16] + (1048576)
 Test completed in 0.203000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:46] +
-Test completed in 3.311000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:20] + (18, 20, 8)
+Test completed in 3.368000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:47] +
-Test completed in 0.610000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:20] +
+Test completed in 0.654000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:21] + (9)
+Test completed in 0.518000 seconds.
 
 
 
@@ -712,14 +844,17 @@ Test completed in 0.610000 seconds.
 Test case #45.
 	(18, 20, 9)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:47] +
-Test completed in 0.203000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:06:21] + (1048576)
+Test completed in 0.219000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:52] +
-Test completed in 4.436000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:06:26] + (18, 20, 9)
+Test completed in 4.637000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:52] +
-Test completed in 0.672000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:06:26] +
+Test completed in 0.735000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:06:27] + (10)
+Test completed in 1.083000 seconds.
 
 
 
@@ -740,6 +875,6 @@ one of the tests in it has failed.
 
 
                     END OF LOG
-          finished on 24.09.2020 14:55:52
+          finished on 01.12.2020 19:06:27
 
 

@@ -1,12 +1,12 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Automatic tester for digital (t, m, s)-nets       *
-* Built on Sep 24 2020 14:55:07                     *
+* Built on Dec  1 2020 15:30:21                     *
 * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 
                    CRITICAL TESTS
-          started on 24.09.2020 14:55:18
+          started on 01.12.2020 19:05:41
 
          scroll to the bottom of this log
              to see the brief summary
@@ -20,13 +20,16 @@
 Test case #1.
 	(0, 0, 1)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:18] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:41] + (1)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:18] +
+TSTEST_DEFINITION [01.12.2020 19:05:41] + (0, 0, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:18] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:41] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:41] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -39,13 +42,16 @@ Test completed in 0.000000 seconds.
 Test case #2.
 	(4, 8, 1)-net with UIntType = uint8_t.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:18] +
+TSTEST_UNIQUENESS [01.12.2020 19:05:41] + (256)
 Test completed in 0.000000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:18] +
+TSTEST_DEFINITION [01.12.2020 19:05:41] + (4, 8, 1)
 Test completed in 0.000000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:18] +
+TSTEST_PRINCIPALS [01.12.2020 19:05:41] +
+Test completed in 0.000000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:41] + (0)
 Test completed in 0.000000 seconds.
 
 
@@ -54,14 +60,17 @@ Test completed in 0.000000 seconds.
 Test case #3.
 	(4, 16, 1)-net with UIntType = uint16_t.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:18] +
-Test completed in 0.015000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:41] + (65536)
+Test completed in 0.009000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:18] +
+TSTEST_DEFINITION [01.12.2020 19:05:41] + (4, 16, 1)
+Test completed in 0.012000 seconds.
+
+TSTEST_PRINCIPALS [01.12.2020 19:05:41] +
 Test completed in 0.016000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:18] +
-Test completed in 0.015000 seconds.
+TSTEST_TRUEDEFECT [01.12.2020 19:05:41] + (0)
+Test completed in 0.000000 seconds.
 
 
 
@@ -69,14 +78,17 @@ Test completed in 0.015000 seconds.
 Test case #4.
 	First 2^18 points of (17, 32, 1)-net with UIntType = uint32_t.
 
-TSTEST_UNIQUENESS [24.09.2020 14:55:18] +
-Test completed in 0.344000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 19:05:41] + (262144)
+Test completed in 0.260000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 14:55:18] +
-Test completed in 0.063000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:41] + (17, 18, 1)
+Test completed in 0.052000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:18] +
-Test completed in 0.046000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:41] +
+Test completed in 0.062000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:41] + (0)
+Test completed in 0.000000 seconds.
 
 
 
@@ -85,11 +97,14 @@ Test case #5.
 	First 2^18 points of (17, 64, 1)-net with UIntType = uint64_t.
 	Uniqueness is skipped due to memory limitations.
 
-TSTEST_DEFINITION [24.09.2020 14:55:19] +
-Test completed in 0.047000 seconds.
+TSTEST_DEFINITION [01.12.2020 19:05:41] + (17, 18, 1)
+Test completed in 0.040000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 14:55:19] +
-Test completed in 0.047000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 19:05:41] +
+Test completed in 0.049000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 19:05:41] + (0)
+Test completed in 0.000000 seconds.
 
 
 
@@ -110,6 +125,6 @@ one of the tests in it has failed.
 
 
                     END OF LOG
-          finished on 24.09.2020 14:55:19
+          finished on 01.12.2020 19:05:41
 
 
