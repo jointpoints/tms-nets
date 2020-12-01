@@ -251,7 +251,7 @@ Output:
 
 ## Testing
 
-For information about testing see [TsTests Usage and Development Guide](https://github.com/jointpoints/tms-nets/blob/master/tests/README.md).
+For information about testing see [TsTests Usage and Development Guide](https://github.com/jointpoints/tms-nets/blob/master/tests/tstests/README.md).
 
 [^ to the top ^](#contents)
 
@@ -443,7 +443,7 @@ ZIP-архивы всех существующих стабильных верс
 
 ###### Пример 1. Простейший способ использования
 
-Участок кода ниже генерирует и выводит все 10 точек (t, 4, 3)-сети, где оптимальное *t* выбирается автоматически.
+Участок кода ниже генерирует и выводит все 16 точек (t, 4, 3)-сети, где оптимальное *t* выбирается автоматически.
 
     uint32_t s = 3;
     uint32_t m = 4; // m = log₂ (число точек в сети) = log₂ 16
@@ -537,7 +537,7 @@ ZIP-архивы всех существующих стабильных верс
 
 ## Тестирование
 
-Информация о тестировании может быть найдена в документе [TsTests Usage and Development Guide](https://github.com/jointpoints/tms-nets/blob/master/tests/README.md) (на английском языке).
+Информация о тестировании может быть найдена в документе [TsTests Usage and Development Guide](https://github.com/jointpoints/tms-nets/blob/master/tests/tstests/README.md) (на английском языке).
 
 [^ наверх ^](#содержание)
 

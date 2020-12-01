@@ -36,9 +36,7 @@ namespace tms
 	using 	Point		= std::vector<Real>;
 	/// Type used for storing polynomials.
 	using 	Polynomial 	= irrpoly::gfpoly;
-	
-	template <typename T>
-	using Matrix = std::vector< std::vector<T> >;
+
 	
 	/** Provides an interface to create various generators of a digital base 2 Niederreiter's (t,m,s)-nets.	*/
 	template <typename UIntType>
@@ -109,6 +107,14 @@ namespace tms
 		/** Returns s parameter of (t,m,s)-net. */
 		BasicInt    get_s(void) const;
 		
+		
+		/** Returns vector of direction numbers corresponging to certain dimension.
+		 *  @param [in] dim - dimension */
+		std::vector<UIntType> get_direction_numbers(BasicInt const dim) const;
+		/** Returns generating matrix corresponging to certain dimension.
+		 *  @param [in] dim - dimension */
+		std::vector< std::vector<BasicInt> > get_gamma_matrix(BasicInt const dim) const;
+		
 		/** Generates scaled point of (t,m,s)-net with certain number, enumerated according to Gray's code.
 		 *  @param [in] pos - sequence number of scaled generated point */
 		IntPoint    generate_point_int(CountInt const pos) const;
@@ -116,37 +122,51 @@ namespace tms
 		 *  @param [in] pos - sequence number of generated point */
 		Point       generate_point    (CountInt const pos) const;
 		
+		/** Generates point of (t,m,s)-net with certain number.
+		 *  @param [in] pos - sequence number of generated point */
+		Point       generate_point_classical(CountInt const pos) const;
+		
 		/** Sequentially generates a section of scaled (t,m,s)-net points and applies the handler function to each pair:
 		 *  (point, point's number).
 		 *  @param [in] handler - handler function to apply
 		 *  @param [in] amount - amount of points in the section of the net
 		 *  @param [in] pos - number of the first point in the section of the net */
-		void        for_each_point_int(std::function<void (IntPoint const &, CountInt)> handler, CountInt amount, CountInt pos = 0) const;
+		void        for_each_point_int(std::function<void (IntPoint const &, CountInt)> handler,
+									   CountInt                                         amount,
+									   CountInt                                         pos = 0) const;
 		/** Sequentially generates a section of (t,m,s)-net points and applies the handler function to each pair:
 		 *  (point, point's number).
 		 *  @param [in] handler - handler function to apply
 		 *  @param [in] amount - amount of points in the section of the net
 		 *  @param [in] pos - number of the first point in the section of the net */
-		void        for_each_point    (std::function<void (Point    const &, CountInt)> handler, CountInt amount, CountInt pos = 0) const;
+		void        for_each_point    (std::function<void (Point const &, CountInt)> handler,
+									   CountInt                                      amount,
+									   CountInt                                      pos = 0) const;
 		
-		
+
 	private:
 		
-		BasicInt                 m_defect;             ///< t parameter of net (aka quality parameter or defect).
-		BasicInt                 m_nbits;              ///< m parameter of net that defines net cardinality and bitwidth of computations.
-		BasicInt                 m_dim;                ///< s parameter of net that defines spatial dimensionality.
-		Real                     m_recip;              ///< Coefficient, equal to \f$ 2^{-m} \f$.
-		std::vector<Polynomial>	 m_irrpolys;           ///< Vector of s initial irreducible polynomials of a (t,m,s)-net.
-		Matrix<UIntType>         m_direction_numbers;  ///< Matrix of a (t,m,s)-net direction numbers g[i](k).
+		/// t parameter of net (aka quality parameter).
+		BasicInt                             m_quality_param;
+		/// m parameter of net that defines net cardinality and bitwidth of computations.
+		BasicInt                             m_nbits;
+		/// s parameter of net that defines spatial dimensionality.
+		BasicInt                             m_dim;
+		/// Coefficient, equal to \f$ 2^{-m} \f$.
+		Real                                 m_recip;
+		/// Vector of s initial irreducible polynomials of a (t,m,s)-net.
+		std::vector<Polynomial>	             m_irrpolys;
+		/// Matrix of a (t,m,s)-net direction numbers g[i](k).
+		std::vector< std::vector<UIntType> > m_direction_numbers;
 		
 		/** Verifies the initial values of recursive sequences supplied by user during generator construction time right
 		 *  after irredusible polynomials were successfully verified.
 		 *  @param [in] nbits - m parameter of the net
 		 *  @param [in] valid_irrpolys - vector of successfully verified initial irreducible polynomials
 		 *  @param [in] matrix_of_initial_values - matrix of initial values to be verified */
-		static bool is_matrix_of_initial_values_valid(BasicInt                const  nbits,
-													  std::vector<Polynomial> const &valid_irrpolys,
-													  Matrix<uintmax_t>       const &matrix_of_initial_values);
+		static bool is_matrix_of_initial_values_valid(BasicInt                              const  nbits,
+													  std::vector<Polynomial>               const &valid_irrpolys,
+													  std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values);
 		
 		/** Fills vector sequentially with elements of the recursive sequence over GF(2), defined by certain characteristic
 		 *  polynomial and initial values.
@@ -156,7 +176,7 @@ namespace tms
 		static void fill_container_recursively(std::vector<BasicInt> &container, uintmax_t const initial_values, Polynomial const &char_poly);
 		/** Initializes (t,m,s)-net direction numbers g[i](k).
 		 *  @param [in] matrix_of_initial_values - initial values provided by user (empty matrix otherwise) */
-		       void initialize_direction_numbers(Matrix<uintmax_t> const &matrix_of_initial_values);
+		       void initialize_direction_numbers(std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values);
 		
 		/** Returns transformed given integer point into a real point from a unit hypercube.
 		 *  @param [in] point_int - point to be transformed (multiplied by \f$ 2^{-m} \f$) */
@@ -178,7 +198,7 @@ namespace tms
 		
 	private:
 		
-		Matrix<uintmax_t> m_matrix_of_initial_values;
+		std::vector< std::vector<uintmax_t> > m_matrix_of_initial_values;
 		/** Resets specified section in a certain (t,m,s)-net generating matrix.
 		 *  */
 		void reset_gamma_matrix_section(BasicInt const dim, BasicInt const q, Polynomial const &char_poly, std::vector<BasicInt> &alpha);
@@ -186,14 +206,11 @@ namespace tms
 		
 	public:
 		
-		std::vector<UIntType> get_direction_numbers(BasicInt const dim) const;
-		
 		uintmax_t get_irrpoly_degree(BasicInt const dim) const;
 		
 		/// Generates scaled by 2**m point with sequence number 'pos' of naturally enumerated (t,m,s)-net.
 		IntPoint	     generate_point_int_classical(CountInt const pos) const;
-		/// Returns Gamma[dim] matrix of generator.
-		Matrix<BasicInt> get_gamma_matrix(BasicInt const dim) const;
+		
 		/// Compute rank of  Gamma[dim] matrix of generator.
 		BasicInt		 get_rank_of_gamma_matrix(BasicInt const dim) const;
 		
@@ -204,9 +221,6 @@ namespace tms
 		/// Reforms the generator of (t,m,s)-net to the generator of (t,m',s)-net, where m' = 'nbits'
 		void decrease_nbits(BasicInt const nbits);
 		
-		/* 	 Work in progress */
-		void increase_nbits(BasicInt const nbits, Matrix<uintmax_t> const &additional_initial_values = Matrix<uintmax_t>());
-		
 		/* }Experimental features */
 #endif
 	};
@@ -216,12 +230,12 @@ namespace tms
 	Niederreiter<UIntType>::Niederreiter(BasicInt const nbits,
 										 BasicInt const dim,
 										 bool     const in_parallel) :
-	    m_defect(0),
+	    m_quality_param(0),
 		m_nbits(nbits),
 	    m_dim(dim),
 		m_recip( pow(2, -static_cast<Real>(nbits)) ),
 		m_irrpolys( (in_parallel ? tms::gf2poly::generate_irrpolys_in_parallel : tms::gf2poly::generate_irrpolys)(dim, nbits) ),
-		m_direction_numbers( Matrix<UIntType>(m_dim, std::vector<UIntType>(nbits, 0)) )
+		m_direction_numbers( std::vector< std::vector<UIntType> >(m_dim, std::vector<UIntType>(nbits, 0)) )
 	{
 		if ( nbits > sizeof(UIntType)*8 )
 		{
@@ -237,15 +251,15 @@ namespace tms
 		// computing t parameter of the net:
 		for (Polynomial const &poly : m_irrpolys)
 		{
-			m_defect += poly.size();
+			m_quality_param += poly.size();
 		}
-		m_defect -= 2*m_dim;
+		m_quality_param -= 2*m_dim;
 		
 #ifdef TMS_EXPERIMENTAL
-		m_matrix_of_initial_values = Matrix<uintmax_t>(m_dim);
+		m_matrix_of_initial_values = std::vector< std::vector<uintmax_t> >(m_dim);
 #endif
 		
-		initialize_direction_numbers(Matrix<uintmax_t>());
+		initialize_direction_numbers(std::vector< std::vector<uintmax_t> >());
 	}
 	
 	
@@ -253,12 +267,12 @@ namespace tms
 	Niederreiter<UIntType>::Niederreiter(BasicInt                              const  nbits,
 										 std::vector<BasicInt>                 const &degrees_of_irrpolys,
 										 std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values) :
-		m_defect(0),
+		m_quality_param(0),
 	    m_nbits(nbits),
 		m_dim(static_cast<BasicInt>(degrees_of_irrpolys.size())),
 	    m_recip( pow(2, -static_cast<Real>(nbits)) ),
 		m_irrpolys(gf2poly::generate_irrpolys_with_degrees(degrees_of_irrpolys, nbits)),
-		m_direction_numbers(Matrix<UIntType>(m_dim, std::vector<UIntType>(nbits, 0)))
+		m_direction_numbers(std::vector< std::vector<UIntType> >(m_dim, std::vector<UIntType>(nbits, 0)))
 	{
 		if ( nbits > sizeof(UIntType)*8 )
 		{
@@ -267,11 +281,11 @@ namespace tms
 		
 		for (BasicInt const degree : degrees_of_irrpolys)
 		{
-			m_defect += degree;
+			m_quality_param += degree;
 		}
-		m_defect -= degrees_of_irrpolys.size();
+		m_quality_param -= degrees_of_irrpolys.size();
 		// if degrees_of_irrpolys is empty or
-		//  if there is no polynomials with such degrees that induced t (m_defect) <= m (nbits)
+		//  if there is no polynomials with such degrees that induced t (m_quality_param) <= m (nbits)
 		if ( degrees_of_irrpolys.size() == 0 || m_irrpolys.size() != degrees_of_irrpolys.size() )
 		{
 			throw std::logic_error("\nWrong polynomial degrees or the nbits parameter");
@@ -283,7 +297,7 @@ namespace tms
 		}
 		
 #ifdef TMS_EXPERIMENTAL
-		m_matrix_of_initial_values = Matrix<uintmax_t>(m_dim);
+		m_matrix_of_initial_values = std::vector< std::vector<uintmax_t> >(m_dim);
 #endif
 		
 		initialize_direction_numbers(matrix_of_initial_values);
@@ -296,7 +310,7 @@ namespace tms
 										 std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values) :
 		Niederreiter(nbits,
 					 std::vector<BasicInt>{degrees_of_irrpolys},
-					 Matrix<uintmax_t>{matrix_of_initial_values})
+					 std::vector< std::vector<uintmax_t> >{matrix_of_initial_values})
 	{}
 	
 	
@@ -304,11 +318,11 @@ namespace tms
 	Niederreiter<UIntType>::Niederreiter(BasicInt                              const  nbits,
 										 std::vector< std::vector<uintmax_t> > const &irrpolys_coeffs,
 										 std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values) :
-	    m_defect(0),
+	    m_quality_param(0),
 	    m_nbits(nbits),
 		m_dim( static_cast<BasicInt>(irrpolys_coeffs.size()) ),
 		m_recip( pow(2, -static_cast<Real>(nbits)) ),
-		m_direction_numbers(Matrix<UIntType>(m_dim, std::vector<UIntType>(nbits, 0)))
+		m_direction_numbers(std::vector< std::vector<UIntType> >(m_dim, std::vector<UIntType>(nbits, 0)))
 	{
 		if ( nbits > sizeof(UIntType)*8 )
 		{
@@ -330,16 +344,16 @@ namespace tms
 			// 2. we need to keep original order of polynomials.
 			std::map<Polynomial, BasicInt, bool(*)(Polynomial const &, Polynomial const &)> just_set(irrpoly::operator!=);
 			while ( i < m_irrpolys.size()  &&  just_set.size() == i && \
-				    m_defect <= m_nbits    &&  irrpoly::is_irreducible_berlekamp(m_irrpolys[i]) )
+				    m_quality_param <= m_nbits    &&  irrpoly::is_irreducible_berlekamp(m_irrpolys[i]) )
 			{
 				just_set.insert(std::make_pair(m_irrpolys[i], i));
-				m_defect += m_irrpolys[i].size() - 2;
+				m_quality_param += m_irrpolys[i].size() - 2;
 				++i;
 			}
 			// if irrpolys.empty() or
 			//  if irrpolys contains not unique polynomials
-			//  if induced t (m_defect) is greater than m (m_nbits)
-			if ( m_irrpolys.empty() || just_set.size() != m_irrpolys.size() || m_defect > m_nbits )
+			//  if induced t (m_quality_param) is greater than m (m_nbits)
+			if ( m_irrpolys.empty() || just_set.size() != m_irrpolys.size() || m_quality_param > m_nbits )
 			{
 				throw std::logic_error("\nWrong polynomials");
 			}
@@ -352,7 +366,7 @@ namespace tms
 		}
 		
 #ifdef TMS_EXPERIMENTAL
-		m_matrix_of_initial_values = Matrix<uintmax_t>(m_dim);
+		m_matrix_of_initial_values = std::vector< std::vector<uintmax_t> >(m_dim);
 #endif
 		
 		initialize_direction_numbers(matrix_of_initial_values);
@@ -365,7 +379,7 @@ namespace tms
 										 std::initializer_list< std::vector<uintmax_t> > const &matrix_of_initial_values) :
 		Niederreiter(nbits,
 					 std::vector< std::vector<uintmax_t> >{irrpolys_coeffs},
-					 Matrix<uintmax_t>{matrix_of_initial_values})
+					 std::vector< std::vector<uintmax_t> >{matrix_of_initial_values})
 	{}
 	
 	
@@ -381,7 +395,7 @@ namespace tms
 	BasicInt
 	Niederreiter<UIntType>::get_t(void) const
 	{
-		return m_defect;
+		return m_quality_param;
 	}
 	
 	
@@ -390,6 +404,32 @@ namespace tms
 	Niederreiter<UIntType>::get_m(void) const
 	{
 		return m_nbits;
+	}
+	
+	
+	template <typename UIntType>
+	std::vector<UIntType>
+	Niederreiter<UIntType>::get_direction_numbers(BasicInt const dim) const
+	{
+		return m_direction_numbers[dim];
+	}
+	
+	
+	template <typename UIntType>
+	std::vector< std::vector<BasicInt> >
+	Niederreiter<UIntType>::get_gamma_matrix(BasicInt const dim) const
+	{
+		std::vector< std::vector<BasicInt> > gamma_matrix(m_nbits);
+		for (int j = 0; j < m_nbits; ++j)
+		{
+			gamma_matrix[j] = std::vector<BasicInt>(m_nbits);
+			for (int k = 0; k < m_nbits; ++k)
+			{
+				gamma_matrix[j][k] = (m_direction_numbers[dim][k] >> (m_nbits - 1 - j)) & 1;
+				//((UIntType)v[k + u]) << (m_nbits - 1 - j) << ' ';
+			}
+		}
+		return gamma_matrix;
 	}
 	
 	
@@ -403,7 +443,6 @@ namespace tms
 		return point_int;
 	}
 	
-
 	
 	template <typename UIntType>
 	Point
@@ -413,6 +452,24 @@ namespace tms
 		store_point_int(point_int, pos);
 		
 		return cast_point_int_to_real(point_int);
+	}
+	
+	
+	template <typename UIntType>
+	Point
+	Niederreiter<UIntType>::generate_point_classical(CountInt const pos) const
+	{
+		Point point(m_dim, 0);
+		for (int i = 0; i < m_dim; ++i)
+		{
+			UIntType acc = 0;
+			for (int k = 0; k < m_nbits; ++k)
+			{
+				acc ^= m_direction_numbers[i][k] * ((pos >> k) & 1);
+			}
+			point[i] = static_cast<Real>(acc) * pow(2.0, -static_cast<Real>(m_nbits));
+		}
+		return point;
 	}
 	
 	
@@ -464,7 +521,7 @@ namespace tms
 	bool
 	Niederreiter<UIntType>::is_matrix_of_initial_values_valid(BasicInt                const  nbits,
 															  std::vector<Polynomial> const &valid_irrpolys,
-															  Matrix<uintmax_t>       const &matrix_of_initial_values)
+															  std::vector< std::vector<uintmax_t> >       const &matrix_of_initial_values)
 	{
 		if ( matrix_of_initial_values.size() != 0 )
 		{
@@ -521,7 +578,7 @@ namespace tms
 	
 	template <typename UIntType>
 	void
-	Niederreiter<UIntType>::initialize_direction_numbers(Matrix<uintmax_t> const &matrix_of_initial_values)
+	Niederreiter<UIntType>::initialize_direction_numbers(std::vector< std::vector<uintmax_t> > const &matrix_of_initial_values)
 	{
 		std::vector<BasicInt> alpha(m_nbits + \
 									std::max_element(
@@ -639,19 +696,12 @@ namespace tms
 			point[i] = prev_point[i] ^ m_direction_numbers[i][rightmost_zero_bit_pos];
 		}
 	}
-	
+
 	
 #ifdef TMS_EXPERIMENTAL
 	//=========================================================================================================
 	// 	Experimental features
 	//=========================================================================================================
-	
-	template <typename UIntType>
-	std::vector<UIntType>
-	Niederreiter<UIntType>::get_direction_numbers(BasicInt const dim) const
-	{
-		return m_direction_numbers[dim];
-	}
 	
 	template <typename UIntType>
 	void
@@ -700,24 +750,6 @@ namespace tms
 			}
 		}
 		return point;
-	}
-	
-	
-	template <typename UIntType>
-	std::vector< std::vector<BasicInt> >
-	Niederreiter<UIntType>::get_gamma_matrix(BasicInt const dim) const
-	{
-		std::vector< std::vector<BasicInt> > gamma_matrix(m_nbits);
-		for (int j = 0; j < m_nbits; ++j)
-		{
-			gamma_matrix[j] = std::vector<BasicInt>(m_nbits);
-			for (int k = 0; k < m_nbits; ++k)
-			{
-				gamma_matrix[j][k] = (m_direction_numbers[dim][k] >> (m_nbits - 1 - j)) & 1;
-				//((UIntType)v[k + u]) << (m_nbits - 1 - j) << ' ';
-			}
-		}
-		return gamma_matrix;
 	}
 	
 	
@@ -803,7 +835,7 @@ namespace tms
 	void
 	Niederreiter<UIntType>::decrease_nbits(const BasicInt nbits)
 	{
-		if ( nbits <= m_nbits && m_defect <= nbits )
+		if ( nbits <= m_nbits && m_quality_param <= nbits )
 		{
 			for (BasicInt i = 0; i < m_dim; ++i)
 			{
@@ -817,12 +849,7 @@ namespace tms
 		}
 	}
 	
-	
-	template <typename UIntType>
-	void
-	Niederreiter<UIntType>::increase_nbits(BasicInt const nbits, Matrix<uintmax_t> const &additional_initial_values)
-	{
-	}
+
 #endif // #ifdef TMS_EXPERIMENTAL
 	
 };// namespace tms

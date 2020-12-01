@@ -4,22 +4,22 @@
  *	\author
  *		Andrew Yeliseyev (Russian Technological University, KMBO-03-16, Russia, 2020)
  */
-#include "../../include/tms-nets/niederreiter2.hpp"
+#include "../../../include/tms-nets/niederreiter2.hpp"
 
 
 
-#define TSTESTS_VERBOSITY_LEVEL     1           // Try setting this value to 0, 1, 2, 3 or 4
+#define TSTESTS_VERBOSITY_LEVEL     2           // Try setting this value to 0, 1, 2, 3 or 4
 #define TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
 
 #include "../tstest_uniqueness.hpp"
 #include "../tstest_definition.hpp"
 #include "../tstest_principals.hpp"
+#include "../tstest_truedefect.hpp"
 
 
 
 #define DIGITAL_POINT_GETTER(UIntType, gen)     [&gen](uint64_t const point_i){std::vector<UIntType> point = gen.generate_point_int(point_i); return std::vector<TSTESTS_DIGITAL_TYPE>(point.begin(), point.end());}
-
-
+#define GAMMA_MATRIX_GETTER(gen)                [&gen](uint64_t const dim){return gen.get_gamma_matrix((tms::BasicInt)dim);}
 
 
 
@@ -56,9 +56,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 0,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint8_t, generator),
+			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator),
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info))
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_truedefect(&tests_info))
 			increment_counter(tests_results, 0);
 	}
 	// 2. Boundary values
@@ -77,9 +78,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 8,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint8_t, generator8),
+			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator8),
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info))
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_truedefect(&tests_info))
 			increment_counter(tests_results, 1);
 		
 		fprintf(out, "\n\n\nTest case #3.\n\t(4, 16, 1)-net with UIntType = uint16_t.\n\n");
@@ -90,9 +92,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 16,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint16_t, generator16),
+			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator16),
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info))
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_truedefect(&tests_info))
 			increment_counter(tests_results, 2);
 		
 		fprintf(out, "\n\n\nTest case #4.\n\tFirst 2^18 points of (17, 32, 1)-net with UIntType = uint32_t.\n\n");
@@ -103,9 +106,10 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 32,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint32_t, generator32),
+			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator32),
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info))
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_truedefect(&tests_info))
 			increment_counter(tests_results, 3);
 		
 		fprintf(out, "\n\n\nTest case #5.\n\tFirst 2^18 points of (17, 64, 1)-net with UIntType = uint64_t.\n\tUniqueness is skipped due to memory limitations.\n\n");
@@ -116,10 +120,11 @@ void perform_critical_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 1,
 			.bitwidth          = 64,
 			.next_point_getter = [&generator64](uint64_t const point_i){return generator64.generate_point_int(point_i);},
+			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator64),
 			.log_file          = out
 		};
 		// Uniqueness would require 147 billion GB
-		if (/*tstest_uniqueness(&tests_info) + */tstest_definition(&tests_info) + tstest_principals(&tests_info))
+		if (/*tstest_uniqueness(&tests_info) + */tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_truedefect(&tests_info))
 			increment_counter(tests_results, 4);
 	}
 	
@@ -162,9 +167,10 @@ void perform_regular_tests(FILE *out, BitCounters *const tests_results)
 				.s                 = curr_s,
 				.bitwidth          = curr_m,
 				.next_point_getter = [&generator](uint64_t const point_i){return generator.generate_point_int(point_i);},
+				.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator),
 				.log_file          = out
 			};
-			if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info))
+			if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_truedefect(&tests_info))
 				increment_counter(tests_results, test_i);
 			
 			++test_i;
@@ -198,9 +204,10 @@ void perform_exhaustive_tests(FILE *out, BitCounters *const tests_results)
 			.s                 = 10,
 			.bitwidth          = 32,
 			.next_point_getter = DIGITAL_POINT_GETTER(uint32_t, generator),
+			.gamma_matrix_getter = GAMMA_MATRIX_GETTER(generator),
 			.log_file          = out
 		};
-		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info))
+		if (tstest_uniqueness(&tests_info) + tstest_definition(&tests_info) + tstest_principals(&tests_info) + tstest_truedefect(&tests_info))
 			increment_counter(tests_results, 0);
 	}
 	

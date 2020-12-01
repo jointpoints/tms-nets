@@ -22,6 +22,9 @@ TsTests Usage and Development Guide
 	* [3. `tstest_principals`. Test for principal components analysis](#3-tstest_principals-test-for-principal-components-analysis)
 	  * [3.1. Description](#31-description)
 	  * [3.2. Limits of applicability](#32-limits-of-applicability)
+	* [4. `tstest_truedefect`. Test for determining the defect of a net](#4-tstest_truedefect-test-for-determining-the-defect-of-a-net)
+	  * [4.1. Description](#41-description)
+	  * [4.2. Limits of applicability](#42-limits-of-applicability)
   * [Automatic tester](#automatic-tester)
   * [Development guidelines](#development-guidelines)
 
@@ -72,13 +75,13 @@ Each return code `r` **may** be printed into console in a form of human-readable
 
 TsTests directly support 5 levels of verbosity that affect the amount of details to be included into logs. Information that is needed to be displayed on each verbosity level varies for validation tests and analytical tests.
 
-  | Verbosity level | Validation tests                                                                                                                                                                                                                                                                                               | Analytical tests                                                                                                                                                             |
-  |:---------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | `0`             | no logging is performed                                                                                                                                                                                                                                                                                        | no logging is performed                                                                                                                                                      |
-  | `1`             | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                                                                                                                                                     | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                   |
-  | `2`             | `+` and the short statement of verified hypothesis, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-` and the short statement of unverified hypothesis, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                                                     | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                   |
-  | `3`             | `Answer: POSITIVE.` and the full statement of verified hypothesis, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `Answer: NEGATIVE.` and the full statement of unverified hypothesis, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `Answer: NEGATIVE.` and the full description of occured error otherwise | `Answer: POSITIVE.` and all calculated characteristics, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `Answer: NEGATIVE.` and the full description of occured error otherwise |
-  | `4`             | logs of all intermediate steps followed by the information described for verbosity level `3`                                                                                                                                                                                                                   | logs of all intermediate steps followed by the information described for verbosity level `3`                                                                                 |
+  | Verbosity level | Validation tests                                                                                                                                                                                                                                                                                               | Analytical tests                                                                                                                                                                                                                 |
+  |:---------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | `0`             | no logging is performed                                                                                                                                                                                                                                                                                        | no logging is performed                                                                                                                                                                                                          |
+  | `1`             | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                                                                                                                                                     | `+`, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                                                                                                       |
+  | `2`             | `+` followed by the short statement of verified hypothesis in round parentheses, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-` followed by the short statement of unverified hypothesis in round parentheses, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise                           | `+` followed by the value of the most important test characteristic (if there is one) in round parentheses, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `-`, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `- [!]` otherwise|
+  | `3`             | `Answer: POSITIVE.` and the full statement of verified hypothesis, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `Answer: NEGATIVE.` and the full statement of unverified hypothesis, if `TSTESTS_RETURNCODE_FAIL_GENERAL` is returned; `Answer: NEGATIVE.` and the full description of occured error otherwise | `Answer: POSITIVE.` and all calculated characteristics, if `TSTESTS_RETURNCODE_SUCCESS` is returned; `Answer: NEGATIVE.` and the full description of occured error otherwise                                                     |
+  | `4`             | logs of all intermediate steps followed by the information described for verbosity level `3`                                                                                                                                                                                                                   | logs of all intermediate steps followed by the information described for verbosity level `3`                                                                                                                                     |
 
 Verbosity level **can** be specified by defining the `TSTESTS_VERBOSITY_LEVEL n` macro where `n` **must** be replaced with one of the values described above. If verbosity level is not manually set, it is implied to be `0`.
 
@@ -105,8 +108,9 @@ In order to pass parameters into TsTests, the `TsTestsInfo` structure **must** b
   * `t` — expected defect of a given (t, m, s)-net (this value is verified by `tstest_definition`, see below for more info);
   * `m` — binary logarithm of the amount of points in a given (t, m, s)-net (net **must** consist of `2^m` points);
   * `s` — dimension of space;
-  * `bitwidth` — number of bits used for points generation (meaningful for digital nets only);
+  * `bitwidth` — number of bits used for points generation (meaningful for digital nets only, can be set to arbitrary value for non-digital nets);
   * `next_point_getter` — a function that returns net's point by its index as a vector of `TSTESTS_DIGITAL_TYPE`, if `TSTESTS_OPTIMISE_FOR_DIGITAL_NETS` is defined, or of `TSTESTS_COORDINATE_TYPE` otherwise;
+  * `gamma_matrix_getter` — a function that returns net's generator matrix for corresponding axis number as a vector of vectors of `unsigned int`s (meaningful for digital nets only, can be set to arbitrary value for non-digital nets);
   * `log_file` — `TSTESTS_LOG_IN_CONSOLE` or a valid `FILE` pointer to the opened file.
 
 A pointer to a `TsTestsInfo` structure is the only argument of any TsTest.
@@ -201,6 +205,34 @@ This test can be used to find the axes in multidimensional space along which the
 | Maximum possible `bitwidth` value | 64
 | Support of digital nets           | supported
 | Support of non-digital nets       | supported
+
+
+#### 4. `tstest_truedefect`. Test for determining the defect of a net
+
+###### 4.1. Description
+
+*File*: `tstest_truedefect.hpp`
+
+*Type*: Analytical test.
+
+*Brief*: This test performs calculation of a defect for a (t, m, s)-net.
+
+This test can be used to find the minimum value of *t* for which a point set constructed by a given generator will be a (t, m, s)-net.
+
+*Returns*:
+
+  * `TSTESTS_RETURNCODE_SUCCESS` in case of successful completion of calculations;
+  * `TSTESTS_RETURNCODE_FAIL_GENERAL` in case of inability to find defect;
+  * `TSTESTS_RETURNCODE_FAIL_INPUT` in case of invalidity of `test_info` pointer;
+  * `TSTESTS_RETURNCODE_FAIL_MEMORY` in case of dynamic memory allocation fail.
+
+###### 4.2. Limits of applicability
+
+| Criterion                         | Value
+|-----------------------------------|-------
+| Maximum possible `bitwidth` value | 64
+| Support of digital nets           | supported
+| Support of non-digital nets       | not supported
 
 [^ to the top ^](#contents)
 

@@ -1,12 +1,12 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Automatic tester for digital (t, m, s)-nets       *
-* Built on Sep 24 2020 14:55:07                     *
+* Built on Dec  1 2020 15:30:21                     *
 * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 
                  EXHAUSTIVE TESTS
-          started on 24.09.2020 14:56:26
+          started on 01.12.2020 15:31:11
 
          scroll to the bottom of this log
              to see the brief summary
@@ -20,14 +20,17 @@
 Test case #1.
 	(26, 29, 10)-net.
 
-TSTEST_UNIQUENESS [24.09.2020 15:02:23] +
-Test completed in 357.369000 seconds.
+TSTEST_UNIQUENESS [01.12.2020 15:38:06] + (536870912)
+Test completed in 415.575000 seconds.
 
-TSTEST_DEFINITION [24.09.2020 17:55:36] +
-Test completed in 10393.093000 seconds.
+TSTEST_DEFINITION [01.12.2020 18:49:18] + (26, 29, 10)
+Test completed in 11471.839000 seconds.
 
-TSTEST_PRINCIPALS [24.09.2020 18:02:49] +
-Test completed in 433.071000 seconds.
+TSTEST_PRINCIPALS [01.12.2020 18:57:14] +
+Test completed in 475.299000 seconds.
+
+TSTEST_TRUEDEFECT [01.12.2020 18:59:32] + (12)
+Test completed in 138.326000 seconds.
 
 
 
@@ -48,6 +51,6 @@ one of the tests in it has failed.
 
 
                     END OF LOG
-          finished on 24.09.2020 18:02:49
+          finished on 01.12.2020 18:59:32
 
 

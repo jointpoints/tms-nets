@@ -103,6 +103,7 @@
  *  \param      bitwidth            Number of bits used for points generation (i.e. number of columns in generating matrices).
  *  \param      next_point_getter   A function that returns net's point by its index as a vector of \c TSTEST_DIGITAL_TYPE,
  *                                  if \c TSTESTS_OPTIMISE_FOR_DIGITAL_NETS is defined, or of \c TSTESTS_COORDINATE_TYPE otherwise.
+ *  \param      gamma_matrix_getter A function that returns generator's Gamma matrices.
  *  \param      log_file            A valid \c FILE pointer to the opened file or \c TSTESTS_LOG_IN_CONSOLE.
  *
  *  \warning
@@ -124,6 +125,7 @@ typedef struct TsTestsInfo
 #	else
 	std::function<std::vector<TSTESTS_COORDINATE_TYPE>(uint64_t const)> next_point_getter;
 #	endif // TSTESTS_OPTIMISE_FOR_DIGITAL_NETS
+	std::function<std::vector<std::vector<unsigned int>>(uint64_t const)> gamma_matrix_getter;
 	FILE       *log_file;
 }
 TsTestsInfo;
