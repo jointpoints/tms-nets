@@ -1,0 +1,75 @@
+/**
+ * \page download How to download
+ *
+ * \tableofcontents{html:1}
+ *
+ * Before you get deep into this library's possibilities and interface, please do get acquainted with
+ * the system requirements it imposes.
+ *
+ * \section download_requirements System requirements
+ *
+ * This library binds you to have:
+ * * C++17 compiler;
+ * * 64-bit processor with 2 or more cores.
+ *
+ *
+ *
+ *
+ *
+ * \section download_stable How to download the stable version
+ *
+ * We strongly advise everybody who wishes to utilise this library in their production to \b only download
+ * stable versions of it. Stable versions have proven to produce correct results and not exhibit unexpected
+ * behaviour given the validity of input. Here is the instruction on how to download the stable version.
+ *
+ * \paragraph download_stable_1 Step 1. Go to Releases section of repository
+ *
+ * Navigate to [<b>this web-page</b>](https://github.com/jointpoints/tms-nets/releases) or click on the
+ * "Releases" link, if you are on the repository's main page.
+ *
+ * <div class="image" style="text-align:left"><img src="download_StableStep1.jpg"></div>
+ *
+ * Look through the list of releases and choose the one most appropriate to you. We recommend choosing the
+ * latest available release (it will be marked with "Latest release" sign), since it provides users with the
+ * most enhanced features and is highly likely to contain less bugs.
+ *
+ * \note If you have already used the library and wish to update it, always read the changelog attentively!
+ *
+ * \paragraph download_stable_2 Step 2. Get the archive with the source files
+ *
+ * Once you have made up your mind about the version of library you wish to use, find the link "Source code"
+ * at the bottom of the release description.
+ *
+ * <div class="image" style="text-align:left"><img src="download_StableStep2.jpg"></div>
+ *
+ * Choose one of the available archives (either <tt>.zip</tt> or <tt>.tar.gz</tt>) and click on the
+ * corresponding link.
+ *
+ * \paragraph download_stable_3 Step 3. Be happy!
+ *
+ * Unpack the downloaded archive to any folder you prefer. Now it is ready for use! If you do not know how, consider
+ * going through our set of tutorials.
+ *
+ *
+ *
+ *
+ *
+ * \section download_unstable How to download the unstable version
+ *
+ * If you wish to use some newest features that were not included in available releases and you are not afraid of
+ * possible malfunctions, you can download the unstable version of this library.
+ *
+ * \paragraph download_unstable_1 Step 1. Get the archive with the source files from repository
+ *
+ * Open the main page of the repository and download the <tt>.zip</tt>-archive with the source code by clicking on
+ * "Code" button.
+ *
+ * <div class="image" style="text-align:left"><img src="download_UnstableStep1.jpg"></div>
+ *
+ * There is also another way to do this if you use \c git command line utility. Just execute the command
+ * <tt>git clone --single-branch --branch master https://github.com/jointpoints/tms-nets</tt>.
+ *
+ * \paragraph download_unstable_2 Step 2. Be happy (as far as the unstable code works)!
+ *
+ * Unpack the downloaded archive to any folder you prefer. Now it is ready for use!
+ */

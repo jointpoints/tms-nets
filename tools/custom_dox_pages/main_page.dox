@@ -1,0 +1,175 @@
+/**
+ * \mainpage Main page
+ *
+ * \tableofcontents{html:1}
+ *
+ *
+ *
+ *
+ *
+ * \section mainpage_introduction Introduction
+ *
+ * Welcome to the documentation for a C++ library housed at [<b>this GitHub repository</b>](https://github.com/jointpoints/tms-nets)!
+ * Corresponding library contains a generator of digital \f$(t, m, s)\f$-nets in base \f$2\f$ featuring the algorithm proposed
+ * by Harald Niederreiter in 1987 in his article "Low-Discrepancy and Low-Dispersion Sequences". Broadly speaking, \f$(t, m, s)\f$-nets
+ * are low-discrepancy discrete sets of points in \f$s\f$-dimensional unit cube. You may find more information about them in
+ * the sources listed in [Recommended literature](@ref literature).
+ *
+ * \image html mainpage_NetsConstruction.gif
+ *
+ *
+ *
+ *
+ *
+ *
+ * \section mainpage_contributors Contributors
+ *
+ * The following people (listed in alphabetical order) have contributed to the development of this project at its different stages. We express our
+ * deepest gratitude to you for your commitment! Working with you has been a great memory and experience.
+ *
+ * \subsection mainpage_contributors_main Main contributors
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_buralex Alexey Burimov (2019 - present)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/buralex-git))
+ *
+ * Alexey has dedicated roughly two years of his life to the development of generator class and general support of the library.
+ * He also participated in the creation of brief manual describing the \f$(t, m, s)\f$-nets generation algorithm by Niederreiter
+ * (check out [Recommended literature](@ref literature) for more info).
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_jointpoints Andrei Eliseev (2019 - present)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/jointpoints))
+ *
+ * Andrei has been responsible for tests, various validation checks of the generator (see TsTests) and general support of the library.
+ * He co-authored the aforementioned brief manual with Alexey Burimov.
+ * </div>
+ *
+ *
+ *
+ * \subsection mainpage_contributors_significant Significant contributors
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_fruitpirate Artyom Antonov (2019)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/FruitPirate))
+ *
+ * Artyom was our guide through the jungles of CMake.
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_kharlamovsergey Sergey Kharlamov (2020)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/KharlamovSergey))
+ *
+ * Sergey was responsible for the development of TrueDefect test.
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_lazukov Mikhail Lazukov (2019)
+ *
+ * <div style="margin-left:30px">(no contact info)
+ *
+ * Michail participated in the development of autotester prototype.
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_sprlist Ekaterina Listyukhina (2019)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/sprlist))
+ *
+ * Ekaterina helped us with transition from 32-bit variables to 64-bit ones.
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_sabirida Darya Mashkovtseva (2020)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/Sabirida))
+ *
+ * Darya was responsible for the development of TrueDefect test.
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_aleksandrsmekhov Alexander Smekhov (2019)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/AleksandrSmekhov))
+ *
+ * Alexander helped us with transition from 32-bit variables to 64-bit ones.
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_vardanyan Avetik Vardanyan (2019)
+ *
+ * <div style="margin-left:30px">(no contact info)
+ *
+ * Avetik participated in the development of autotester prototype.
+ * </div>
+ *
+ *
+ *
+ * \paragraph mainpage_contributors_snaipasomoh Arseny Zakharov (2020)
+ *
+ * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/snaipasomoh))
+ *
+ * Arseny was responsible for the development of TrueDefect test and implementation of a number of continuous integration features.
+ * </div>
+ *
+ *
+ *
+ *
+ *
+ * \section license License
+ *
+ * This software is distributed under the following license.
+ *
+ * <tt>Boost Software License - Version 1.0 - August 17th, 2003
+ *
+ * Permission is hereby granted, free of charge, to any person or organization
+ * obtaining a copy of the software and accompanying documentation covered by
+ * this license (the "Software") to use, reproduce, display, distribute,
+ * execute, and transmit the Software, and to prepare derivative works of the
+ * Software, and to permit third-parties to whom the Software is furnished to
+ * do so, all subject to the following:
+ *
+ * The copyright notices in the Software and this entire statement, including
+ * the above license grant, this restriction and the following disclaimer,
+ * must be included in all copies of the Software, in whole or in part, and
+ * all derivative works of the Software, unless such copies or derivative
+ * works are solely in the form of machine-executable object code generated by
+ * a source language processor.
+ *
+ * (t, m, s)-nets generator (https://github.com/jointpoints/tms-nets)
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+ * SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+ * FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.</tt>
+ *
+ *
+ *
+ *
+ *
+ * \section literature Recommended literature
+ *
+ * If you wish to get acquainted with the theory concerning \f$(t, m, s)\f$-nets, you may consult with the following resources:
+ *
+ * 1. Harald Niederreiter (1987) "Low-Discrepancy and Low-Dispersion Sequences"
+ * 2. Harald Niederreiter (1992) "Random Number Generation and Quasi-Monte Carlo Methods"
+ * 3. Paul Brately, Bennett L. Fox, Harald Niederreiter (1992) "Implementation and Tests of Low-Discrepancy Sequences"
+ * 4. Josef Dick, Friedrich Pillichshammer (2010) "Digital Nets and Sequences (Discrepancy Theory and Quasi–Monte Carlo Integration)"
+ * 5. Our own materials (in Russian) that can be found [<b>here</b>](https://github.com/jointpoints/tms-nets/tree/knowledge)
+ */
