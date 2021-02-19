@@ -1,0 +1,47 @@
+/**
+ * \page tutorials Tutorials
+ *
+ * In spite of apparent complexity, our library is actually quite easy to use no matter how well educated you are in the field
+ * of quasirandom sequences or \f$(t, m, s)\f$-nets. If you have no time or desire to dig deep into this topic, there is a
+ * simple and quickly understandable interface that will help you get your things done with minimal expenses from your side.
+ * However, if you require advanced features that would give you full control over the process, there are also plenty of them.
+ *
+ * Let us now guide you through the possibilities of our library starting with the most basic things.
+ *
+ *
+ *
+ *
+ *
+ * \section tutorials_list List of available tutorials
+ *
+ * \subsection tutorials_list_basic Basic tutorials
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="tutorials_Tutorial1.jpg"></td></tr>
+ *                 <tr><td align="center">[Tutorial 1. Getting started](@ref tutorial1)</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="tutorials_Tutorial2.jpg"></td></tr>
+ *                 <tr><td align="center">[Tutorial 2. Estimating the volume of a body](@ref tutorial1)</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="tutorials_Tutorial3.jpg"></td></tr>
+ *                 <tr><td align="center">[Tutorial 3. Estimating the multivariate integral](@ref tutorial1)</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
+ */
