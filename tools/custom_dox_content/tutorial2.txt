@@ -1,0 +1,36 @@
+//! [generate_net]
+#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include <cstdint> // needed for uint*_t types
+
+int main()
+{
+	uint32_t const                      tms_net_point_count = 1UL << 20;
+	tms::Niederreiter<unsigned int>     tms_net(20, 3);
+
+	return 0;
+}
+//! [generate_net]
+
+
+
+//! [net_loop]
+#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include <cstdint> // needed for uint*_t types
+#include <iostream> // needed for output
+
+int main()
+{
+	uint32_t const                      tms_net_point_count = 1UL << 20;
+	tms::Niederreiter<unsigned int>     tms_net(20, 3);
+
+	uint32_t inside_point_count = 0;
+	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)
+	{
+		tms::Point current_point = tms_net.generate_point(point_i);
+		inside_point_count += (isPointInside(current_point)) ? (1) : (0);
+	}
+	std::cout << "V(Sigma) = " << (inside_point_count / tms_net_point_count) << '\n';
+
+	return 0;
+}
+//! [net_loop]

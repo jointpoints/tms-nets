@@ -1,0 +1,116 @@
+/**
+ * \page tutorial2 Tutorial 2. Estimating the volume of a body
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:10%">&lt;&lt;</td>
+ *                     <td align="center" style="width:90%">[Tutorial 1. Getting started](@ref tutorial1)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:90%">[Tutorial 3. Estimating the multivariate integral](@ref tutorial2)</td>
+ *                     <td align="center" style="width:10%">&gt;&gt;</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * In this tutorial we are going to demonstrate one of the possible applications of \f$(t, m, s)\f$-nets, namely, the
+ * approximate calculation of body volume. For our educational purposes we are going to consider a three-dimensional
+ * octahedron \f$\Sigma\f$ with vertices \f$(0.5,0.5,0)\f$, \f$(0,0,0.5)\f$, \f$(1,0,0.5)\f$, \f$(1,1,0.5)\f$, \f$(0,1,0.5)\f$,
+ * \f$(0.5,0.5,1)\f$. You may see \f$\Sigma\f$ inscribed into a three-dimensional unit cube in a figure below.
+ *
+ * \image html tutorial2_Step0_1.jpg
+ *
+ * To estimate the volume of \f$\Sigma\f$ signified hereafter with \f$V(\Sigma)\f$ we may saturate the unit cube with some
+ * \f$(t, m, s)\f$-net and use the following formula:
+ *
+ * \f$V(\Sigma) \approx \frac{|N \cap \Sigma|}{|N|}\f$
+ *
+ * where \f$N\f$ is the constructed \f$(t, m, s)\f$-net. Speaking in plain English, the approximate value of volume can be
+ * found as a ratio of the number of net points that ended up inside of the octahedron to the total number of net points.
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial2_1 1. Basic workflow
+ *
+ * Let us assume the same file structure as in the previous tutorial. Thus, we need to open and edit an empty <tt>main.cpp</tt>
+ * file that will contain the code for our desired program.
+ *
+ * It is quite natural to state that in order to get an accurate estimation of \f$V(\Sigma)\f$ we need to generate a rather
+ * huge net. Let us start, then, with construction of a three-dimensional net with, say, \f$2^{20} = 1,048,576\f$ points.
+ *
+ * \snippet tutorial2.txt generate_net
+ *
+ * After that we just need a loop that will traverse all points of our net and count how many of them are inside of \f$\Sigma\f$.
+ *
+ * \snippet tutorial2.txt net_loop
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:10%">&lt;&lt;</td>
+ *                     <td align="center" style="width:90%">[Tutorial 1. Getting started](@ref tutorial1)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:90%">[Tutorial 3. Estimating the multivariate integral](@ref tutorial2)</td>
+ *                     <td align="center" style="width:10%">&gt;&gt;</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
+ */
