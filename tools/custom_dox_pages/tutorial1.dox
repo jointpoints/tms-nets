@@ -28,7 +28,7 @@
  *
  *
  *
- * \section tutorial1_2 2. Create a generator
+ * \section tutorial1_2 2. Create a new net
  *
  * Let us now open and edit <tt>main.cpp</tt> file of our sample program. There, in order to use our library, we
  * first need to include it. One can do this with the help of the line
@@ -36,29 +36,30 @@
  * \snippet tutorial1.txt include_line
  *
  * The functionality of our library is completely stored within a sole namespace called \ref tms. In particular,
- * the generators of Niederreiter's \f$(t, m, s)\f$-nets in base \f$2\f$ will be represented as the objects of class
- * \ref tms::Niederreiter. Each generator has the parameters \f$t\f$, \f$m\f$ and \f$s\f$ as invariants meaning
- * that if at some moment of time you need to change their values, you'll have to create a new generator. These
+ * the Niederreiter's \f$(t, m, s)\f$-nets in base \f$2\f$ will be represented as the objects of class
+ * \ref tms::Niederreiter. Each object of this class has the parameters \f$t\f$, \f$m\f$ and \f$s\f$ as invariants
+ * meaning that if at some moment of time you need to change their values, you'll have to create a new net. These
  * parameters have the following meaning:
  *
- * * \f$t\f$ : this non-negative integer parameter signifies the quality of points' dispersion within the unit cube.
- * More precisely, the less its quantity is, the lower is the discrepancy of the net. Minimal possible value of
- * \f$t\f$ increases with the growth of dimension;
- * * \f$m\f$ : this non-negative integer parameter signifies the binary logarithm of maximal number \f$M\f$ of points
- * the generator can generate, i.e., \f$m = \log_2 M\f$. Please remember that \f$M\f$ must always be a power of \f$2\f$.
+ * * \f$t\f$ : this non-negative integer parameter signifies the "quality of points' dispersion" within the unit
+ * cube. More precisely, the less its quantity is, the lower is the discrepancy of the net. Minimal possible value
+ * of \f$t\f$ increases with the growth of dimension;
+ * * \f$m\f$ : this non-negative integer parameter signifies the binary logarithm of number \f$M\f$ of points
+ * within the net, i.e., \f$m = \log_2 M\f$. Please remember that \f$M\f$ must always be a power of \f$2\f$.
  * Minimal possible value of \f$m\f$ is \f$t\f$ and, hence, it increases with the growth of dimension as well;
  * * \f$s\f$ : positive integer dimension of the unit cube that we wish to fill with net's points.
  *
  * If you want to find out mathematically rigorous description of parameter \f$t\f$, check out the sources from
  * [Recommended literature](@ref literature). However, if you don't want to go deep into the theory, you shall not
  * despair, since our generator is capable of automatic selection of the best (i.e., the lowest) possible \f$t\f$
- * for each particular case. Having this, you may just forget about its existence.
+ * for each particular case. Having this, you may just forget about its existence (as long as your value of \f$m\f$
+ * is sufficiently large to satisfy \f$m \ge t\f$; don't worry: if your value of \f$m\f$ is too small for a
+ * particular \f$s\f$, our library will inform you about that with the help of a runtime exception).
  *
  * Let us now write a program that saturates a two-dimesional unit cube (i.e., a square with the length of each
- * edge being equal to \f$1\f$) with, say, \f$20\f$ quasirandom points. Here, \f$s = 2\f$, however, since \f$M\f$
- * must always be a power of \f$2\f$, we have to choose \f$M\f$ such that it is a power of \f$2\f$ and it is greater
- * than \f$20\f$. Let us consider the least possible such value, namely, \f$M = 32\f$ and, hence, \f$m = \log_2 32 = 5\f$.
- * Knowing this, we may finally create a new generator with the help of the following constructor.
+ * edge being equal to \f$1\f$) with a \f$(t, m, s)\f$-net containing \f$16\f$ quasirandom points. Here, \f$s = 2\f$
+ * (since the unit cube is two-dimensional) and \f$m = \log_2 M = \log_2 16 = \log_2 2^4 = 4\f$.
+ * Knowing this, we may finally create a new net with the help of the following constructor.
  *
  * \snippet tutorial1.txt class_constructor
  *
@@ -68,16 +69,16 @@
  *
  * \snippet tutorial1.txt creation_of_generator
  *
- * Thus, \c my_generator is a generator of Niederreiter's \f$(t, m, s)\f$-nets which is capable of construction of
- * at most \f$32\f$ quasirandom points within two-dimensional unit cube.
+ * Thus, \c my_first_net is the \f$(t, 4, 2)\f$-net (value of \f$t\f$ is still unknown) which was constructed with
+ * Niederreiter's algorithm and consists of \f$16\f$ distinct quasirandom points within two-dimensional unit cube.
  *
  *
  *
  *
  *
- * \section tutorial1_3 3. Check the parameters of generator
+ * \section tutorial1_3 3. Check the parameters of the net
  *
- * Let us now quickly check the parameters of our generator. To do this, we can utilise three corresponding functions:
+ * Let us now quickly verify the parameters of our net. To do this, we can utilise three corresponding functions:
  * \c get_t, \c get_m and \c get_s.
  *
  * \snippet tutorial1.txt param_check
@@ -93,36 +94,21 @@
  *
  *
  *
- * \section tutorial1_4 4. Generating points
+ * \section tutorial1_4 4. See the points of the net
  *
- * Let us finally generate some points! To do this we are going to use the
+ * Let us finally see the points! In order to optimise the consumption of resources our \c my_first_net doesn't actually
+ * store all its points in the memory. Instead, it calculates their coordinates on the fly right at the moment when we
+ * request them. To do this we are going to use the
  *
  * \snippet tutorial1.txt generate_method
  *
- * method. Its only argument \c pos specifies the ordinal number of the point we wish to generate. Since we want to get
- * not a single point but \f$20\f$ points at once, we should wrap the call of this method in a loop.
+ * method. Its only argument \c pos specifies the ordinal index of the point we wish to get. Since we want to take a
+ * look at not a single point of our new but all \f$16\f$ points at once, we should wrap the call of this method in a loop.
  *
  * \snippet tutorial1.txt generate_loop
  *
- * If you compile this code, you will see that it is still quite useless. Let us add the output of generated points to
- * finally be able to see their coordinates!
- *
- * \snippet tutorial1.txt generate_cout
- *
- * The expected output is:
- *
- * \snippet tutorial1.txt generate_cout_output
- *
- * However, <b>this is not a</b> \f$(t, m, s)\f$<b>-net</b>! This is just a set of \f$20\f$ quasirandom points obtained
- * with the help of \f$(t, m, s)\f$-nets generator!
- *
- * \note The result of generator work will be a \f$(t, m, s)\f$-net if:
- * 1. generated points have consecutive ordinal indices (\c pos)
- * 2. the number of generated points is a power of \f$2\f$ (say, \f$N\f$ where \f$N \le M\f$) and
- * 3. \f$N\f$ divides the ordinal index of the first point in this sequence.
- *
- * Let us then get a real \f$(t, m, s)\f$-net by cutting the number of generated points from \f$20\f$ to \f$16\f$. The
- * first and the third conditions have already been met (you may check this yourself).
+ * If you compile this code, you will see that it is still quite useless. Let us add the output of our points to
+ * finally see their coordinates!
  *
  * \snippet tutorial1.txt generate_net
  *
@@ -130,18 +116,37 @@
  *
  * \snippet tutorial1.txt generate_net_output
  *
- * The parameters of resulting net can be calculated as follows:
- *
- * * \f$t\f$ equals \f$t\f$ of generator;
- * * \f$m\f$ equals \f$\log_2 N\f$ (hence, \f$m\f$ of a net may be less or equal to the \f$m\f$ of generator);
- * * \f$s\f$ equals \f$s\f$ of generator.
- *
- * Thus, we have obtained a \f$(0, 4, 2)\f$-net with the help of \f$(0, 5, 2)\f$-nets generator. This is a regular practice.
- * By reducing the number of generated points even more we may get \f$(0, 3, 2)\f$-, \f$(0, 2, 2)\f$-, \f$(0, 1, 2)\f$- and
- * \f$(0, 0, 2)\f$-net but we will never be able to get a \f$(0, 6, 2)\f$-net because in this tutorial our generator is only
- * capable of generating \f$2^5=32\f$ distinct points and \f$(0, 6, 2)\f$-net has to contain \f$2^6=64\f$ points.
- *
- * Let us finally visualise our net with the help of a thirdparty plotter (feature is not included into the library).
+ * Let us visualise our net with the help of a thirdparty plotter (feature is not included into the library).
  *
  * \image html tutorial1_Step4_1.jpg
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:90%">[Tutorial 2. Estimating the volume of a body](@ref tutorial1)</td>
+ *                     <td align="center" style="width:10%">&gt;&gt;</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
  */
