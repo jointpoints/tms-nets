@@ -29,102 +29,25 @@
  *
  * \subsection mainpage_contributors_main Main contributors
  *
- *
- *
- * \paragraph mainpage_contributors_buralex Alexey Burimov (2019 - present)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/buralex-git))
- *
- * Alexey has dedicated roughly two years of his life to the development of generator class and general support of the library.
- * He also participated in the creation of brief manual describing the \f$(t, m, s)\f$-nets generation algorithm by Niederreiter
- * (check out [Recommended literature](@ref literature) for more info).
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_jointpoints Andrei Eliseev (2019 - present)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/jointpoints))
- *
- * Andrei has been responsible for tests, various validation checks of the generator (see TsTests) and general support of the library.
- * He co-authored the aforementioned brief manual with Alexey Burimov.
- * </div>
+ * * <b>Alexey Burimov (2019 - present)</b> ([<b>GitHub</b>](https://github.com/buralex-git)) — Alexey has dedicated roughly two years of his life
+ * to the development of generator class and general support of the library. He also participated in the creation of brief manual describing the
+ * \f$(t, m, s)\f$-nets generation algorithm by Niederreiter (check out [Recommended literature](@ref literature) for more info).
+ * * <b>Andrei Eliseev (2019 - present)</b> ([<b>GitHub</b>](https://github.com/jointpoints)) — Andrei has been responsible for tests, various
+ * validation checks of the generator (see TsTests) and general support of the library. He co-authored the aforementioned brief manual with
+ * Alexey Burimov.
  *
  *
  *
  * \subsection mainpage_contributors_significant Significant contributors
  *
- *
- *
- * \paragraph mainpage_contributors_fruitpirate Artyom Antonov (2019)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/FruitPirate))
- *
- * Artyom was our guide through the jungles of CMake.
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_kharlamovsergey Sergey Kharlamov (2020)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/KharlamovSergey))
- *
- * Sergey was responsible for the development of TrueDefect test.
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_lazukov Mikhail Lazukov (2019)
- *
- * <div style="margin-left:30px">(no contact info)
- *
- * Michail participated in the development of autotester prototype.
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_sprlist Ekaterina Listyukhina (2019)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/sprlist))
- *
- * Ekaterina helped us with transition from 32-bit variables to 64-bit ones.
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_sabirida Darya Mashkovtseva (2020)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/Sabirida))
- *
- * Darya was responsible for the development of TrueDefect test.
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_aleksandrsmekhov Alexander Smekhov (2019)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/AleksandrSmekhov))
- *
- * Alexander helped us with transition from 32-bit variables to 64-bit ones.
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_vardanyan Avetik Vardanyan (2019)
- *
- * <div style="margin-left:30px">(no contact info)
- *
- * Avetik participated in the development of autotester prototype.
- * </div>
- *
- *
- *
- * \paragraph mainpage_contributors_snaipasomoh Arseny Zakharov (2020)
- *
- * <div style="margin-left:30px">([<b>GitHub</b>](https://github.com/snaipasomoh))
- *
- * Arseny was responsible for the development of TrueDefect test and implementation of a number of continuous integration features.
- * </div>
+ * * <b>Artyom Antonov (2019)</b> ([<b>GitHub</b>](https://github.com/FruitPirate)) — Artyom was our guide through the jungles of CMake.
+ * * <b>Sergey Kharlamov (2020)</b> ([<b>GitHub</b>](https://github.com/KharlamovSergey)) — Sergey was responsible for the development of TrueDefect test.
+ * * <b>Mikhail Lazukov (2019)</b> (no contact info) — Michail participated in the development of autotester prototype.
+ * * <b>Ekaterina Listyukhina (2019)</b> ([<b>GitHub</b>](https://github.com/sprlist)) — Ekaterina helped us with transition from 32-bit variables to 64-bit ones.
+ * * <b>Darya Mashkovtseva (2020)</b> ([<b>GitHub</b>](https://github.com/Sabirida)) — Darya was responsible for the development of TrueDefect test.
+ * * <b>Alexander Smekhov (2019)</b> ([<b>GitHub</b>](https://github.com/AleksandrSmekhov)) — Alexander helped us with transition from 32-bit variables to 64-bit ones.
+ * * <b>Avetik Vardanyan (2019)</b> (no contact info) — Avetik participated in the development of autotester prototype.
+ * * <b>Arseny Zakharov (2020)</b> ([<b>GitHub</b>](https://github.com/snaipasomoh)) — Arseny was responsible for the development of TrueDefect test and implementation of a number of continuous integration features.
  *
  *
  *
