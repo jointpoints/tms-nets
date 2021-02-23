@@ -27,10 +27,52 @@ int main()
 	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)
 	{
 		tms::Point current_point = tms_net.generate_point(point_i);
-		inside_point_count += (isPointInside(current_point)) ? (1) : (0);
+		inside_point_count += isPointInside(current_point);
 	}
-	std::cout << "V(Sigma) = " << (inside_point_count / tms_net_point_count) << '\n';
+	// We transform inside_point_count into a floating-point type defined in our library
+	std::cout << "V(Sigma) = " << ((tms::Real)(inside_point_count) / tms_net_point_count) << '\n';
 
 	return 0;
 }
 //! [net_loop]
+
+
+
+// ![inside_check]
+#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include <cstdint> // needed for uint*_t types
+#include <iostream> // needed for output
+#include <algorithm> // needed for max
+#include <cmath> // needed for fabs
+
+bool isPointInside(tms::Point &point)
+{
+	// To calculate the value of Delta, we are going to use a floating-point type defined within our library
+	tms::Real Delta = 0.5 - std::max(std::fabs(point[0] - 0.5), std::fabs(point[1] - 0.5));
+
+	return (point[2] >= 0.5 - Delta) && (point[2] <= 0.5 + Delta);
+}
+
+int main()
+{
+	uint32_t const                      tms_net_point_count = 1UL << 20;
+	tms::Niederreiter<unsigned int>     tms_net(20, 3);
+
+	uint32_t inside_point_count = 0;
+	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)
+	{
+		tms::Point current_point = tms_net.generate_point(point_i);
+		inside_point_count += isPointInside(current_point);
+	}
+	// We transform inside_point_count into a floating-point type defined in our library
+	std::cout << "V(Sigma) = " << ((tms::Real)(inside_point_count) / tms_net_point_count) << '\n';
+
+	return 0;
+}
+// ![inside_check]
+
+
+
+// ![inside_check_output]
+V(Sigma) = 0.333347
+// ![inside_check_output]

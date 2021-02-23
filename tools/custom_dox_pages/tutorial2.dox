@@ -80,6 +80,30 @@
  *
  *
  *
+ * \section tutorial2_2 2. Identify points within the octahedron
+ *
+ * The only thing missing in our program is the aforementioned function \c isPointInside that would return \c true, if the given point
+ * is inside of the octahedron, and \c false, otherwise.
+ *
+ * As we may notice, \f$\Sigma\f$ is symmetric about the plane \f$z = 0.5\f$. Knowing this, we may state that there exists a function
+ * \f$\Delta(x,y)\f$ such that for any three-dimensional point \f$a = (x, y, z)\f$ it is true that
+ * \f$a \in \Sigma \Leftrightarrow 0.5 - \Delta(x,y) \le z \le 0.5 + \Delta(x,y)\f$. \f$\Delta(x,y)\f$ can be expressed in the following
+ * way: \f$\Delta(x,y) = 0.5 - \max \{|x - 0.5|, |y - 0.5|\}\f$. Let us now code this in C++.
+ *
+ * \snippet tutorial2.txt inside_check
+ *
+ * The expected output is:
+ *
+ * \snippet tutorial2.txt inside_check_output
+ *
+ * To check our answer let us find the precise value of \f$V(\Sigma)\f$ with the help of the formula: \f$V(\Sigma) = \frac{1}{3}Sh\f$
+ * where \f$S\f$ is the square of the base and \f$h\f$ is the distance between two opposing vertices about the base. If we substitue,
+ * we get \f$V(\Sigma) = \frac{1}{3} \cdot 1 \cdot 1 = \frac{1}{3}\f$. As we see, our estimation is pretty accurate.
+ *
+ *
+ *
+ *
+ *
  * <table style="width:100%">
  * <tr>
  *     <td style="width:33%">
