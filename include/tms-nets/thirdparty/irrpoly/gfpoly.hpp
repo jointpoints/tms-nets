@@ -20,23 +20,6 @@
 namespace irrpoly {
 
 /**
- * Binary operations for two gfn instances are correctly defined only
- * when field is the same for both of them. By default this is checked
- * only in Debug configuration and no checks performed in Release to speed
- * up computations. If you are not sure in correctness of your code add
- * #define IRRPOLY_RELEASE_CHECKED before #include <irrpoly.h> to enable
- * checks for Release configuration.
- */
-#if !defined(NDEBUG) || defined(IRRPOLY_RELEASE_CHECKED) // Debug or Release Checked
-#define CHECK_FIELD(comparison) \
-    if (!(comparison)) { \
-        throw std::logic_error("field check failed"); \
-    }
-#else // Release
-#define CHECK_FIELD(comparison)
-#endif
-
-/**
  * gfpoly represents a polynomial over Galois field.
  * This class is originally taken from Boost library but was significantly changed.
  * Get by index operation [i] returns polynomial term x^i.
@@ -73,151 +56,71 @@ public:
     }
 
     [[nodiscard]]
-    auto value() const -> const std::vector<uintmax_t>& {
-        return m_data;
-    }
+    auto value() const -> const std::vector<uintmax_t>&;
 
 private:
     /**
      * Removes leading zeroes.
      */
-    auto reduce() -> gfpoly & {
-        m_data.erase(std::find_if(
-            m_data.rbegin(), m_data.rend(),
-            [](uintmax_t x) { return x != 0; }
-        ).base(), m_data.end());
-        return *this;
-    }
+    auto reduce() -> gfpoly &;
 
 public:
     explicit
-    gfpoly(const gf &field) : m_field(field), m_data() {}
+    gfpoly(const gf &field);
 
-    gfpoly(const gf &field, const std::vector<uintmax_t> &l) :
-        m_field(field), m_data() {
-        m_data.reserve(l.size());
-        for (uintmax_t v : l) {
-            m_data.push_back(v % base());
-        }
-        reduce();
-    }
+    gfpoly(const gf &field, const std::vector<uintmax_t> &l);
 
-    gfpoly(const gf &field, std::vector<uintmax_t> &&l) :
-        m_field(field), m_data(l) {
-        for (uintmax_t &v : m_data) {
-            v %= base();
-        }
-        reduce();
-    }
+    gfpoly(const gf &field, std::vector<uintmax_t> &&l);
 
-    auto operator=(const std::vector<uintmax_t> &l) -> gfpoly & {
-        gfpoly copy(m_field, l);
-        std::swap(*this, copy);
-        return *this;
-    }
+    auto operator=(const std::vector<uintmax_t> &l) -> gfpoly &;
 
-    gfpoly(const gf &field, std::initializer_list<uintmax_t> l) :
-        gfpoly(field, std::move(std::vector<uintmax_t>{l})) {}
+    gfpoly(const gf &field, std::initializer_list<uintmax_t> l);
 
-    auto operator=(std::initializer_list<uintmax_t> l) -> gfpoly & {
-        gfpoly copy(m_field, l);
-        std::swap(*this, copy);
-        return *this;
-    }
+    auto operator=(std::initializer_list<uintmax_t> l) -> gfpoly &;
 
-    gfpoly(const gfpoly &p) = default;
+    gfpoly(const gfpoly &p);
 
-    gfpoly(gfpoly &&p) = default;
+    gfpoly(gfpoly &&p);
 
-    auto operator=(const gfpoly &p) -> gfpoly & {
-        if (this != &p) {
-            // m_field == nullptr means that gfn instance is uninitialised
-            // this happens during std::move, std::swap and inside some std::vector methods
-            CHECK_FIELD(m_field == nullptr || m_field == p.m_field)
-            m_field = p.m_field;
-            m_data = p.m_data;
-        }
-        return *this;
-    }
+    auto operator=(const gfpoly &p) -> gfpoly &;
 
     explicit
-    gfpoly(const gfn &value) :
-        m_field(value.field()), m_data() {
-        if (value) {
-            m_data.push_back(value.value());
-        }
-    }
+    gfpoly(const gfn &value);
 
-    auto operator=(const gfn &value) -> gfpoly & {
-        // m_field == nullptr means that gfn instance is uninitialised
-        // this happens during std::move, std::swap and inside some std::vector methods
-        CHECK_FIELD(m_field == nullptr || m_field == value.field())
-        gfpoly copy(value);
-        std::swap(*this, copy);
-        return *this;
-    }
+    auto operator=(const gfn &value) -> gfpoly &;
 
-    gfpoly(const gf &field, uintmax_t value) :
-        m_field(field), m_data() {
-        if (value % base() != 0) {
-            m_data.push_back(value % base());
-        }
-    }
+    gfpoly(const gf &field, uintmax_t value);
 
-    auto operator=(uintmax_t value) -> gfpoly & {
-        gfpoly copy(m_field, value);
-        std::swap(*this, copy);
-        return *this;
-    }
+    auto operator=(uintmax_t value) -> gfpoly &;
 
     [[nodiscard]]
-    auto field() const -> const gf & {
-        return m_field;
-    }
+    auto field() const -> const gf &;
 
     [[nodiscard]]
-    auto base() const -> uintmax_t {
-        return m_field->base();
-    }
+    auto base() const -> uintmax_t;
 
     [[nodiscard]]
-    auto size() const -> uintmax_t {
-        return m_data.size();
-    }
+    auto size() const -> uintmax_t;
 
     /**
      * Returns polynomial degree. For zero polynomial degree is undefined.
      */
     [[nodiscard]]
-    auto degree() const -> uintmax_t {
-        if (size() == 0) {
-            throw std::logic_error("degree is undefined for zero polynomial");
-        }
-        return m_data.size() - 1;
-    }
+    auto degree() const -> uintmax_t;
 
     /**
      * Polynomial couldn't be mutated by index because it would be possible to
      * replace some term by gfn instance with field different to polynomial's one.
      */
-    auto operator[](uintmax_t i) const -> uintmax_t {
-        return m_data[i];
-    }
+    auto operator[](uintmax_t i) const -> uintmax_t;
 
     [[nodiscard]]
-    auto is_zero() const -> bool {
-        return m_data.empty();
-    }
+    auto is_zero() const -> bool;
 
-    explicit operator bool() const {
-        return !is_zero();
-    }
+    explicit operator bool() const;
 
     [[maybe_unused]]
-    auto set_zero() -> gfpoly & {
-        m_data.clear();
-        return *this;
-    }
+    auto set_zero() -> gfpoly &;
 
 private:
     /**
@@ -225,127 +128,64 @@ private:
      * Returned number also lays between 0 and base().
      */
     [[nodiscard]]
-    auto add(uintmax_t lb, uintmax_t rb) const -> uintmax_t {
-        return (lb + rb) % base();
-    }
+    auto add(uintmax_t lb, uintmax_t rb) const -> uintmax_t;
 
     /**
      * UNSAFE! Requires lb and rb to lay between 0 and base().
      * Returned number also lays between 0 and base().
      */
     [[nodiscard]]
-    auto sub(uintmax_t lb, uintmax_t rb) const -> uintmax_t {
-        return (base() + lb - rb) % base();
-    }
+    auto sub(uintmax_t lb, uintmax_t rb) const -> uintmax_t;
 
     /**
      * UNSAFE! Requires lb and rb to lay between 0 and base().
      * Returned number also lays between 0 and base().
      */
     [[nodiscard]]
-    auto mul(uintmax_t lb, uintmax_t rb) const -> uintmax_t {
-        return (lb * rb) % base();
-    }
+    auto mul(uintmax_t lb, uintmax_t rb) const -> uintmax_t;
 
     /**
      * UNSAFE! Requires lb and rb to lay between 0 and base().
      * Returned number also lays between 0 and base().
      */
     [[nodiscard]]
-    auto div(uintmax_t lb, uintmax_t rb) const -> uintmax_t {
-        switch (rb) {
-        case 0:throw std::invalid_argument("division by zero");
-        default:return (lb * field()->mul_inv(rb)) % base();
-        }
-    }
+    auto div(uintmax_t lb, uintmax_t rb) const -> uintmax_t;
 
     /**
      * UNSAFE! Requires rb to lay between 0 and base().
      * Returned number also lays between 0 and base().
      */
     [[nodiscard]]
-    auto neg(uintmax_t rb) const -> uintmax_t {
-        return (base() - rb) % base();
-    }
+    auto neg(uintmax_t rb) const -> uintmax_t;
 
     using OP = uintmax_t (gfpoly::*)(uintmax_t, uintmax_t) const;
 
-    auto transform(uintmax_t value, OP op) -> gfpoly & {
-        if (m_data.empty()) {
-            m_data.resize(1, 0);
-        }
-        m_data[0] = std::invoke(op, this, m_data[0], value);
-        return reduce();
-    }
+    auto transform(uintmax_t value, OP op) -> gfpoly &;
 
-    auto transform(const gfn &value, OP op) -> gfpoly & {
-        CHECK_FIELD(field() == value.field())
-        if (m_data.empty()) {
-            m_data.resize(1, 0);
-        }
-        m_data[0] = std::invoke(op, this, m_data[0], value.value());
-        return reduce();
-    }
+    auto transform(const gfn &value, OP op) -> gfpoly &;
 
-    auto transform(const gfpoly &value, OP op) -> gfpoly & {
-        CHECK_FIELD(field() == value.field())
-        if (m_data.size() < value.size()) {
-            m_data.resize(value.size(), 0);
-        }
-        for (uintmax_t i = 0; i < value.size(); ++i) {
-            m_data[i] = std::invoke(op, this, m_data[i], value[i]);
-        }
-        return reduce();
-    }
+    auto transform(const gfpoly &value, OP op) -> gfpoly &;
 
 public:
-    auto operator+=(uintmax_t value) -> gfpoly & {
-        return transform(value, &gfpoly::add);
-    }
+    auto operator+=(uintmax_t value) -> gfpoly &;
 
-    auto operator+=(const gfn &value) -> gfpoly & {
-        return transform(value.value(), &gfpoly::add);
-    }
+    auto operator+=(const gfn &value) -> gfpoly &;
 
-    auto operator+=(const gfpoly &value) -> gfpoly & {
-        return transform(value, &gfpoly::add);
-    }
+    auto operator+=(const gfpoly &value) -> gfpoly &;
 
-    auto operator-=(uintmax_t value) -> gfpoly & {
-        return transform(value, &gfpoly::sub);
-    }
+    auto operator-=(uintmax_t value) -> gfpoly &;
 
-    auto operator-=(const gfn &value) -> gfpoly & {
-        return transform(value.value(), &gfpoly::sub);
-    }
+    auto operator-=(const gfn &value) -> gfpoly &;
 
-    auto operator-=(const gfpoly &value) -> gfpoly & {
-        return transform(value, &gfpoly::sub);
-    }
+    auto operator-=(const gfpoly &value) -> gfpoly &;
 
-    auto operator*=(uintmax_t value) -> gfpoly & {
-        std::transform(m_data.begin(), m_data.end(), m_data.begin(),
-                       [&](uintmax_t x) -> uintmax_t { return mul(x, value); });
-        return reduce();
-    }
+    auto operator*=(uintmax_t value) -> gfpoly &;
 
-    auto operator*=(const gfn &value) -> gfpoly & {
-        std::transform(m_data.begin(), m_data.end(), m_data.begin(),
-                       [&](uintmax_t x) -> uintmax_t { return mul(x, value.value()); });
-        return reduce();
-    }
+    auto operator*=(const gfn &value) -> gfpoly &;
 
-    auto operator/=(uintmax_t value) -> gfpoly & {
-        std::transform(m_data.begin(), m_data.end(), m_data.begin(),
-                       [&](uintmax_t x) -> uintmax_t { return div(x, value); });
-        return reduce();
-    }
+    auto operator/=(uintmax_t value) -> gfpoly &;
 
-    auto operator/=(const gfn &value) -> gfpoly & {
-        std::transform(m_data.begin(), m_data.end(), m_data.begin(),
-                       [&](uintmax_t x) -> uintmax_t { return div(x, value.value()); });
-        return reduce();
-    }
+    auto operator/=(const gfn &value) -> gfpoly &;
 
     template<class U>
     auto operator%=(const U & /*value*/) -> gfpoly & {
@@ -354,25 +194,10 @@ public:
     }
 
 private:
-    auto multiply(const gfpoly &a, const gfpoly &b) -> gfpoly & {
-        CHECK_FIELD(a.field() == b.field())
-        if (!a || !b) {
-            return set_zero();
-        }
-        std::vector<uintmax_t> prod(a.size() + b.size() - 1, 0);
-        for (uintmax_t i = 0; i < a.size(); ++i) {
-            for (uintmax_t j = 0; j < b.size(); ++j) {
-                prod[i + j] = add(prod[i + j], mul(a.m_data[i], b.m_data[j]));
-            }
-        }
-        m_data.swap(prod);
-        return reduce();
-    }
+    auto multiply(const gfpoly &a, const gfpoly &b) -> gfpoly &;
 
 public:
-    auto operator*=(const gfpoly &value) -> gfpoly & {
-        return multiply(*this, value);
-    }
+    auto operator*=(const gfpoly &value) -> gfpoly &;
 
 private:
     /**
@@ -380,14 +205,12 @@ private:
      * TODO: try implementing polynomial division using Discrete Fourier Transform.
      */
     static auto division(gfpoly u, const gfpoly &v) -> std::pair<gfpoly, gfpoly> {
-        CHECK_FIELD(u.field() == v.field() && v.size() <= u.size() && v && u)
         uintmax_t const m = u.size() - 1, n = v.size() - 1;
         uintmax_t k = m - n;
         gfpoly q(u.field());
         q.m_data.resize(m - n + 1, 0);
 
         auto division_impl = [](gfpoly *q, gfpoly *u, const gfpoly &v, auto n, auto k) {
-            CHECK_FIELD(q->field() == u->field() && u->field() == v.field())
             q->m_data[k] = q->div(u->m_data[n + k], v.m_data[n]);
             for (auto j = n + k; j > k;) {
                 j--;
@@ -410,7 +233,6 @@ private:
      */
     static auto quotient_remainder(const gfpoly &dividend, const gfpoly &divisor)
     -> std::pair<gfpoly, gfpoly> {
-        CHECK_FIELD(dividend.field() == divisor.field() && divisor)
         if (dividend.size() < divisor.size()) {
             return std::make_pair(gfpoly(dividend.field()), dividend);
         }
@@ -418,13 +240,9 @@ private:
     }
 
 public:
-    auto operator/=(const gfpoly &value) -> gfpoly & {
-        return *this = quotient_remainder(*this, value).first;
-    }
+    auto operator/=(const gfpoly &value) -> gfpoly &;
 
-    auto operator%=(const gfpoly &value) -> gfpoly & {
-        return *this = quotient_remainder(*this, value).second;
-    }
+    auto operator%=(const gfpoly &value) -> gfpoly &;
 
     /**
      * Logically equal to operation this /= x^n. Defined only when such devision is possible.
@@ -472,7 +290,6 @@ auto operator-(gfpoly a) -> gfpoly {
 
 inline
 auto operator+(const gfpoly &a, const gfpoly &b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     gfpoly result(a);
     result += b;
     return result;
@@ -480,28 +297,24 @@ auto operator+(const gfpoly &a, const gfpoly &b) -> gfpoly {
 
 inline
 auto operator+(gfpoly &&a, const gfpoly &b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     a += b;
     return a;
 }
 
 inline
 auto operator+(const gfpoly &a, gfpoly &&b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     b += a;
     return b;
 }
 
 inline
 auto operator+(gfpoly &&a, gfpoly &&b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     a += b;
     return a;
 }
 
 inline
 auto operator-(const gfpoly &a, const gfpoly &b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     gfpoly result(a);
     result -= b;
     return result;
@@ -509,21 +322,18 @@ auto operator-(const gfpoly &a, const gfpoly &b) -> gfpoly {
 
 inline
 auto operator-(gfpoly &&a, const gfpoly &b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     a -= b;
     return a;
 }
 
 inline
 auto operator-(const gfpoly &a, gfpoly &&b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     b -= a;
     return -b;
 }
 
 inline
 auto operator-(gfpoly &&a, gfpoly &&b) -> gfpoly {
-    CHECK_FIELD(a.field() == b.field())
     a -= b;
     return a;
 }
@@ -601,13 +411,11 @@ auto operator*(const U &a, gfpoly b) -> gfpoly {
 
 inline
 auto operator==(const gfpoly &a, const gfpoly &b) -> bool {
-    CHECK_FIELD(a.field() == b.field())
     return a.m_data == b.m_data;
 }
 
 inline
 auto operator!=(const gfpoly &a, const gfpoly &b) -> bool {
-    CHECK_FIELD(a.field() == b.field())
     return a.m_data != b.m_data;
 }
 
@@ -673,7 +481,5 @@ auto operator>>(std::basic_istream<charT, traits> &is, gfpoly &poly)
     poly = gfpoly(poly.field(), vec);
     return is;
 }
-
-#undef CHECK_FIELD
 
 } // namespace irrpoly

@@ -22,23 +22,6 @@
 
 namespace irrpoly {
 
-/**
- * Binary operations for two gfn instances are correctly defined only
- * when field is the same for both of them. By default this is checked
- * only in Debug configuration and no checks performed in Release to speed
- * up computations. If you are not sure in correctness of your code add
- * #define IRRPOLY_RELEASE_CHECKED before #include <irrpoly.h> to enable
- * checks for Release configuration.
- */
-#if !defined(NDEBUG) || defined(IRRPOLY_RELEASE_CHECKED) // Debug or Release Checked
-#define CHECK_FIELD(comparison) \
-    if (!(comparison)) { \
-        throw std::logic_error("field check failed"); \
-    }
-#else // Release
-#define CHECK_FIELD(comparison)
-#endif
-
 class gfbase;
 
 /**
@@ -75,13 +58,13 @@ public:
     auto mul_inv(uintmax_t /*val*/) const -> uintmax_t;
 };
 
-auto operator==(const gf &lb, const gf &rb) -> bool {
-    return lb->base() == rb->base();
-}
+auto operator==(const gf &lb, const gf &rb) -> bool;
 
-auto operator!=(const gf &lb, const gf &rb) -> bool {
-    return lb->base() != rb->base();
-}
+auto operator!=(const gf &lb, const gf &rb) -> bool;
+
+
+
+
 
 /**
  * gfn type represents number in GF[P]. The number is always within 0 and P-1.
@@ -108,215 +91,108 @@ public:
     }
 
     [[nodiscard]]
-    auto value() const -> uintmax_t {
-        return m_val;
-    }
+    auto value() const -> uintmax_t;
 
     explicit
-    gfn(const gf &field) : m_field(field), m_val(0) {}
+    gfn(const gf &field);
 
-    gfn(const gf &field, const uintmax_t val) :
-        m_field(field), m_val(val % m_field->base()) {}
+    gfn(const gf &field, const uintmax_t val);
 
-    gfn(const gfn &other) = default;
+    gfn(const gfn &other);
 
-    gfn(gfn &&other) = default;
+    gfn(gfn &&other);
 
-    auto operator=(const gfn &other) -> gfn & {
-        if (this != &other) {
-            // m_field == nullptr means that gfn instance is uninitialised
-            // this happens during std::move, std::swap and inside some std::vector methods
-            CHECK_FIELD(m_field == nullptr || m_field == other.m_field)
-            m_field = other.m_field;
-            m_val = other.m_val;
-        }
-        return *this;
-    }
+    auto operator=(const gfn &other) -> gfn &;
 
     [[nodiscard]]
-    auto base() const -> uintmax_t {
-        return m_field->base();
-    }
+    auto base() const -> uintmax_t;
 
-    auto operator=(const uintmax_t other) -> gfn & {
-        m_val = other % base();
-        return *this;
-    }
+    auto operator=(const uintmax_t other) -> gfn &;
 
     [[nodiscard]]
-    auto field() const -> const gf & {
-        return m_field;
-    }
+    auto field() const -> const gf &;
 
     [[nodiscard]]
-    auto operator+() const -> gfn {
-        return gfn{*this};
-    }
+    auto operator+() const -> gfn;
 
     [[nodiscard]]
-    auto operator+(const gfn &other) const -> gfn {
-        CHECK_FIELD(m_field == other.field())
-        return gfn{m_field, m_val + other.m_val};
-    }
+    auto operator+(const gfn &other) const -> gfn;
 
     [[nodiscard]]
-    auto operator+(const uintmax_t other) const -> gfn {
-        return gfn{m_field, m_val + (other % base())};
-    }
+    auto operator+(const uintmax_t other) const -> gfn;
 
     friend
     auto operator+(uintmax_t /*other*/, const gfn & /*curr*/) -> gfn;
 
-    auto operator+=(const gfn &other) -> gfn & {
-        CHECK_FIELD(m_field == other.field())
-        m_val = (m_val + other.m_val) % base();
-        return *this;
-    }
+    auto operator+=(const gfn &other) -> gfn &;
 
-    auto operator+=(const uintmax_t other) -> gfn {
-        m_val = (m_val + (other % base())) % base();
-        return *this;
-    }
+    auto operator+=(const uintmax_t other) -> gfn;
 
-    auto operator++() -> gfn & {
-        m_val = (m_val + 1) % base();
-        return *this;
-    }
+    auto operator++() -> gfn &;
 
     [[nodiscard]]
-    auto operator++(int) & -> gfn {
-        gfn tmp{*this};
-        m_val = (m_val + 1) % base();
-        return tmp;
-    }
+    auto operator++(int) & -> gfn;
 
     [[nodiscard]]
-    auto operator-() const -> gfn {
-        gfn tmp{*this};
-        tmp.m_val = (base() - m_val) % base();
-        return tmp;
-    }
+    auto operator-() const -> gfn;
 
     [[nodiscard]]
-    auto operator-(const gfn &other) const -> gfn {
-        CHECK_FIELD(m_field == other.field())
-        return gfn{m_field, base() + m_val - other.m_val};
-    }
+    auto operator-(const gfn &other) const -> gfn;
 
     [[nodiscard]]
-    auto operator-(const uintmax_t other) const -> gfn {
-        return gfn{m_field, base() + m_val - (other % base())};
-    }
+    auto operator-(const uintmax_t other) const -> gfn;
 
     friend
     auto operator-(uintmax_t /*other*/, const gfn & /*curr*/) -> gfn;
 
-    auto operator-=(const gfn &other) -> gfn & {
-        CHECK_FIELD(m_field == other.field())
-        m_val = (base() + m_val - other.m_val) % base();
-        return *this;
-    }
+    auto operator-=(const gfn &other) -> gfn &;
 
-    auto operator-=(const uintmax_t other) -> gfn {
-        m_val = (base() + m_val - (other % base())) % base();
-        return *this;
-    }
+    auto operator-=(const uintmax_t other) -> gfn;
 
-    auto operator--() -> gfn & {
-        m_val = (base() + m_val - 1) % base();
-        return *this;
-    }
+    auto operator--() -> gfn &;
 
     [[nodiscard]]
-    auto operator--(int) & -> gfn {
-        gfn tmp{*this};
-        m_val = (base() + m_val - 1) % base();
-        return tmp;
-    }
+    auto operator--(int) & -> gfn;
 
     [[nodiscard]]
-    auto operator*(const gfn &other) const -> gfn {
-        CHECK_FIELD(m_field == other.field())
-        return gfn{m_field, m_val * other.m_val};
-    }
+    auto operator*(const gfn &other) const -> gfn;
 
     [[nodiscard]]
-    auto operator*(const uintmax_t other) const -> gfn {
-        return gfn{m_field, m_val * (other % base())};
-    }
+    auto operator*(const uintmax_t other) const -> gfn;
 
     friend
     auto operator*(uintmax_t /*other*/, const gfn & /*curr*/) -> gfn;
 
-    auto operator*=(const gfn &other) -> gfn & {
-        CHECK_FIELD(m_field == other.field())
-        m_val = (m_val * other.m_val) % base();
-        return *this;
-    }
+    auto operator*=(const gfn &other) -> gfn &;
 
-    auto operator*=(const uintmax_t other) -> gfn {
-        m_val = (m_val * (other % base())) % base();
-        return *this;
-    }
+    auto operator*=(const uintmax_t other) -> gfn;
 
     /**
      * Returns multiplicative inverse for current gfn instance.
      */
     [[maybe_unused]] [[nodiscard]]
-    auto mul_inv() -> gfn {
-        return gfn{m_field, m_field->mul_inv(m_val)};
-    }
+    auto mul_inv() -> gfn;
 
     /**
      * Division is defined as multiplication by multiplicative inverse.
      */
     [[nodiscard]]
-    auto operator/(const gfn &other) const -> gfn {
-        CHECK_FIELD(m_field == other.field())
-        switch (other.m_val) {
-        case 0:throw std::invalid_argument("division by zero");
-        default:return gfn{m_field, m_val * m_field->mul_inv(other.m_val)};
-        }
-    }
+    auto operator/(const gfn &other) const -> gfn;
 
     [[nodiscard]]
-    auto operator/(const uintmax_t other) const -> gfn {
-        switch (other % base()) {
-        case 0:throw std::invalid_argument("division by zero");
-        default:
-            return gfn{m_field,
-                       m_val * m_field->mul_inv(other % base())};
-        }
-    }
+    auto operator/(const uintmax_t other) const -> gfn;
 
     friend
     auto operator/(uintmax_t /*other*/, const gfn & /*curr*/) -> gfn;
 
-    auto operator/=(const gfn &other) -> gfn & {
-        CHECK_FIELD(m_field == other.field())
-        switch (other.m_val) {
-        case 0:throw std::invalid_argument("division by zero");
-        default:m_val = (m_val * m_field->mul_inv(other.m_val)) % base();
-            return *this;
-        }
-    }
+    auto operator/=(const gfn &other) -> gfn &;
 
-    auto operator/=(const uintmax_t other) -> gfn {
-        switch (other % base()) {
-        case 0:throw std::invalid_argument("division by zero");
-        default:m_val = (m_val * m_field->mul_inv(other % base())) % base();
-            return *this;
-        }
-    }
+    auto operator/=(const uintmax_t other) -> gfn;
 
     [[nodiscard]]
-    auto is_zero() const -> bool {
-        return 0 == m_val;
-    }
+    auto is_zero() const -> bool;
 
-    explicit operator bool() const {
-        return 0 != m_val;
-    }
+    explicit operator bool() const;
 
     template<class charT, class traits>
     friend
@@ -332,7 +208,6 @@ public:
 #define GFN_COMPARISON_OPERATORS(op) \
     inline \
     auto operator op(const gfn &l, const gfn &r) -> bool { \
-        CHECK_FIELD(l.field() == r.field()) \
         return l.value() op r.value(); \
     } \
     \
@@ -356,29 +231,16 @@ GFN_COMPARISON_OPERATORS(>=)
 #undef GFN_COMPARISON_OPERATORS
 
 [[nodiscard]]
-auto operator+(const uintmax_t other, const gfn &curr) -> gfn {
-    return gfn{curr.m_field, (other % curr.base()) + curr.m_val};
-}
+auto operator+(const uintmax_t other, const gfn &curr) -> gfn;
 
 [[nodiscard]]
-auto operator-(const uintmax_t other, const gfn &curr) -> gfn {
-    return gfn{curr.m_field, curr.base() + (other % curr.base()) - curr.m_val};
-}
+auto operator-(const uintmax_t other, const gfn &curr) -> gfn;
 
 [[nodiscard]]
-auto operator*(const uintmax_t other, const gfn &curr) -> gfn {
-    return gfn{curr.m_field, (other % curr.base()) * curr.m_val};
-}
+auto operator*(const uintmax_t other, const gfn &curr) -> gfn;
 
 [[nodiscard]]
-auto operator/(const uintmax_t other, const gfn &curr) -> gfn {
-    switch (curr.m_val) {
-    case 0:throw std::invalid_argument("division by zero");
-    default:
-        return gfn{curr.m_field,
-                   (other % curr.base()) * curr.m_field->mul_inv(curr.m_val)};
-    }
-}
+auto operator/(const uintmax_t other, const gfn &curr) -> gfn;
 
 template<class charT, class traits>
 auto operator<<(std::basic_ostream<charT, traits> &os, const gfn &val)
@@ -452,7 +314,5 @@ auto make_gf(const uintmax_t base) -> gf {
     return dropbox::oxygen::nn< std::shared_ptr<gfbase> >(dropbox::oxygen::nn(
         dropbox::oxygen::i_promise_i_checked_for_null_t{}, new gfbase(base)));
 }
-
-#undef CHECK_FIELD
 
 } // namespace irrpoly
