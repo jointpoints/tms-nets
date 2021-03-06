@@ -5,13 +5,13 @@
  * @author Alexey Burimov
  */
 
-#ifndef GF2POLY_HPP
-#define GF2POLY_HPP
+#ifndef TMS_NETS_GF2POLY_HPP
+#define TMS_NETS_GF2POLY_HPP
 
-
-#include "../thirdparty/irrpoly/gfcheck.hpp"
+#include "common.hpp"
 
 #include <map>
+
 
 // coefficient number of polynomial over GF(2) is a such integer number that it's n-th bit is equal to n-th coefficient of polynomial.
 
@@ -21,19 +21,27 @@ namespace tms::gf2poly
 {
 	/** Returns polynomial over GF(2) with the specified coefficients (represents a wrapper above irrpoly::gfpoly constructor).
 	 *  @param [in] coeffs - desired polynomial coefficients */
-	irrpoly::gfpoly              make_gf2poly(std::vector<uintmax_t> const &coeffs);
+	Polynomial              make_gf2poly(std::vector<uintmax_t> const &coeffs);
 	/** Generates vector of first least-degree irreducible polynomials over GF(2).
 	 *  @param [in] amount - amount of irreducible polynomials to generate
 	 *  @param [in] max_defect - upper limit for sum of degrees of polynomials */
-	std::vector<irrpoly::gfpoly> generate_irrpolys(unsigned int const amount, unsigned int const max_defect = ~(unsigned int)(0));
+	std::vector<Polynomial> generate_irrpolys(unsigned int const amount, unsigned int const max_defect = ~(unsigned int)(0));
 	/** Generates vector of first least-degree irreducible polynomials over GF(2) using multithreading.
 	 *  @param [in] amount - amount of irreducible polynomials to generate
 	 *  @param [in] max_defect - upper limit for sum of degrees of polynomials */
-	std::vector<irrpoly::gfpoly> generate_irrpolys_in_parallel(unsigned int const amount, unsigned int const max_defect = ~(unsigned int)(0));
+	std::vector<Polynomial> generate_irrpolys_in_parallel(unsigned int const amount, unsigned int const max_defect = ~(unsigned int)(0));
 	/** Generates vector of first irreducible polynomials over GF(2) with specified degrees.
 	 *  @param [in] degrees - vector of desired degrees of irreducible polynomials
 	 *  @param [in] max_defect - upper limit for sum of degrees of polynomials */
-	std::vector<irrpoly::gfpoly> generate_irrpolys_with_degrees(std::vector<unsigned int> const &degrees, unsigned int const max_defect = ~(unsigned int)(0));
+	std::vector<Polynomial> generate_irrpolys_with_degrees(std::vector<unsigned int> const &degrees, unsigned int const max_defect = ~(unsigned int)(0));
+	
+	/** Generates vector of all first irreducible polynomials over GF(2) with degrees <= degree in "ascending" order
+	 *  @param [in] degree - greatest degree of generated polynomials */
+	std::vector<Polynomial> generate_irrpolys_until_degree(unsigned int const degree);
+	
+	
+	
+	
 	
 	
 	irrpoly::gfpoly
@@ -42,6 +50,54 @@ namespace tms::gf2poly
 		static irrpoly::gf const sc_gf2 = irrpoly::make_gf(2);
 		
 		return irrpoly::gfpoly(sc_gf2, coeffs);
+	}
+
+	std::vector<irrpoly::gfpoly>
+	generate_irrpolys(unsigned int const amount,
+					  unsigned int const max_defect)
+	{
+		std::vector<irrpoly::gfpoly> irrpolys;
+		
+		if ( amount == 0 )
+		{ return irrpolys; }
+		
+		irrpolys.reserve(amount);
+		irrpolys.emplace_back(make_gf2poly({0, 1}));
+		
+		auto number_to_poly = [&](uintmax_t coeffs_number) -> irrpoly::gfpoly {
+			std::vector<uintmax_t> coeffs;
+			unsigned int degree = 0;
+			while ( coeffs_number >> degree != 0 ) { ++degree; }
+			coeffs.reserve(degree--);
+			for (unsigned int i = 0; i <= degree; ++i)
+			{
+				coeffs.emplace_back((coeffs_number >> i) & 1);
+			}
+			return make_gf2poly(coeffs);
+		};
+	
+		uintmax_t coeffs_number = 3;
+		unsigned int defect = 0;
+		
+		while ( irrpolys.size() < amount && defect <= max_defect )
+		{
+			irrpolys.emplace_back(number_to_poly(coeffs_number));
+			
+			while ( !is_irreducible_berlekamp(irrpolys.back()) )
+			{
+				coeffs_number += 2;
+				irrpolys.back() = number_to_poly(coeffs_number);
+			}
+			coeffs_number += 2;
+			defect += irrpolys.back().size() - 2;
+		}
+		
+		if ( defect > max_defect )
+		{
+			irrpolys.pop_back();
+		}
+		
+		return irrpolys;
 	}
 	
 	std::vector<irrpoly::gfpoly>
@@ -115,55 +171,6 @@ namespace tms::gf2poly
 		return irrpolys;
 	}
 	
-
-	std::vector<irrpoly::gfpoly>
-	generate_irrpolys(unsigned int const amount,
-					  unsigned int const max_defect)
-	{
-		std::vector<irrpoly::gfpoly> irrpolys;
-		
-		if ( amount == 0 )
-		{ return irrpolys; }
-		
-		irrpolys.reserve(amount);
-		irrpolys.emplace_back(make_gf2poly({0, 1}));
-		
-		auto number_to_poly = [&](uintmax_t coeffs_number) -> irrpoly::gfpoly {
-			std::vector<uintmax_t> coeffs;
-			unsigned int degree = 0;
-			while ( coeffs_number >> degree != 0 ) { ++degree; }
-			coeffs.reserve(degree--);
-			for (unsigned int i = 0; i <= degree; ++i)
-			{
-				coeffs.emplace_back((coeffs_number >> i) & 1);
-			}
-			return make_gf2poly(coeffs);
-		};
-	
-		uintmax_t coeffs_number = 3;
-		unsigned int defect = 0;
-		
-		while ( irrpolys.size() < amount && defect <= max_defect )
-		{
-			irrpolys.emplace_back(number_to_poly(coeffs_number));
-			
-			while ( !is_irreducible_berlekamp(irrpolys.back()) )
-			{
-				coeffs_number += 2;
-				irrpolys.back() = number_to_poly(coeffs_number);
-			}
-			coeffs_number += 2;
-			defect += irrpolys.back().size() - 2;
-		}
-		
-		if ( defect > max_defect )
-		{
-			irrpolys.pop_back();
-		}
-		
-		return irrpolys;
-	}
-	
 	// RESTRICTIONS: degrees must be <= 63
 	std::vector<irrpoly::gfpoly>
 	generate_irrpolys_with_degrees(std::vector<unsigned int> const &degrees,
@@ -229,6 +236,50 @@ namespace tms::gf2poly
 		return irrpolys;
 	}
 	
+	std::vector<irrpoly::gfpoly>
+	generate_irrpolys_until_degree(unsigned int const degree)
+	{
+		std::vector<irrpoly::gfpoly> irrpolys;
+		
+		if ( degree < 2 )
+		{ return irrpolys; }
+		
+		//irrpolys.reserve(amount);
+		irrpolys.emplace_back(make_gf2poly({0, 1}));
+		
+		auto number_to_poly = [&](uintmax_t coeffs_number) -> irrpoly::gfpoly {
+			std::vector<uintmax_t> coeffs;
+			unsigned int degree = 0;
+			while ( coeffs_number >> degree != 0 ) { ++degree; }
+			coeffs.reserve(degree--);
+			for (unsigned int i = 0; i <= degree; ++i)
+			{
+				coeffs.emplace_back((coeffs_number >> i) & 1);
+			}
+			return make_gf2poly(coeffs);
+		};
+		
+		uintmax_t coeffs_number = 3, upper_lim = 1ULL << degree;
+		
+		while ( coeffs_number < upper_lim )
+		{
+			irrpolys.emplace_back(number_to_poly(coeffs_number));
+			
+			while ( coeffs_number < upper_lim && !is_irreducible_berlekamp(irrpolys.back()) )
+			{
+				coeffs_number += 2;
+				irrpolys.back() = number_to_poly(coeffs_number);
+			}
+			coeffs_number += 2;
+		}
+		
+		if ( !is_irreducible_berlekamp(irrpolys.back()) )
+		{
+			irrpolys.pop_back();
+		}
+		
+		return irrpolys;
+	}
 	
 };
 
