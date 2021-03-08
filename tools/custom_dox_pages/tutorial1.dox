@@ -65,7 +65,8 @@
  * \section tutorial1_2 2. Create a new net
  *
  * Let us now open and edit <tt>main.cpp</tt> file of our sample program. There, in order to use our library, we
- * first need to include it. One can do this with the help of the line
+ * first need to include the file with needed functionality. Say, we want to generate a \f$(t, m, s)\f$-net using
+ * Niederreiter's algorithm. Hence, we need to include the following file:
  *
  * \snippet tutorial1.txt include_line
  *
@@ -97,9 +98,8 @@
  *
  * \snippet tutorial1.txt class_constructor
  *
- * Here \c UIntType is an unsigned integral type that has a bit capacity of at least \f$m\f$, \c nbits shall be
- * replaced with \f$m\f$ and \c dim shall be replaced with \f$s\f$. Having this said, we may write the following
- * piece of code.
+ * Here \c nbits shall be replaced with \f$m\f$ and \c dim shall be replaced with \f$s\f$. Having this said, we may
+ * write the following piece of code.
  *
  * \snippet tutorial1.txt creation_of_generator
  *
@@ -111,6 +111,8 @@
  *
  *
  * \section tutorial1_3 3. Check the parameters of the net
+ *
+ * \warning Deprecated! Update this section before release.
  *
  * Let us now quickly verify the parameters of our net. To do this, we can utilise three corresponding functions:
  * \c get_t, \c get_m and \c get_s.

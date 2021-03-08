@@ -1,31 +1,32 @@
 //! [file_structure]
 sample_project_root_folder
  ├─ libraries
- │   └─ tms-nets
- │       └─ ... there go the files of our library ...
+ │   ├─ tms-nets
+ │   │   └─ ... there go the files of our library ...
+ │   └─ tms-nets.a
  └─ main.cpp
 //! [file_structure]
 
 
 
 //! [include_line]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/niederreiter.hpp"
 //! [include_line]
 
 
 
 //! [class_constructor]
-tms::Niederreiter<UIntType>(tms::BasicInt const nbits, tms::BasicInt const dim)
+tms::Niederreiter(tms::BasicInt const nbits, tms::BasicInt const dim)
 //! [class_constructor]
 
 
 
 //! [creation_of_generator]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/niederreiter.hpp"
 
 int main()
 {
-	tms::Niederreiter<unsigned int> my_first_net(4, 2); // unsigned int is capable of storing 4 bits
+	tms::Niederreiter my_first_net(4, 2);
 
 	return 0;
 }
@@ -34,7 +35,7 @@ int main()
 
 
 //! [param_check]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/niederreiter.hpp"
 #include <iostream> // to perform output
 
 int main()
@@ -62,18 +63,18 @@ Parameters of my_first_net:
 
 
 //! [generate_method]
-tms::Point tms::Niederreiter<UIntType>::generate_point(tms::CountInt const pos)
+tms::Point tms::Niederreiter::generate_point(tms::CountInt const pos)
 //! [generate_method]
 
 
 
 //! [generate_loop]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/niederreiter.hpp"
 #include <iostream> // to perform output
 
 int main()
 {
-	tms::Niederreiter<unsigned int> my_first_net(4, 2);
+	tms::Niederreiter my_first_net(4, 2);
 
 	std::cout << "Parameters of my_first_net:\n";
 	std::cout << "\tt = " << my_first_net.get_t() << '\n';
@@ -92,12 +93,12 @@ int main()
 
 
 //! [generate_net]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/niederreiter.hpp"
 #include <iostream> // to perform output
 
 int main()
 {
-	tms::Niederreiter<unsigned int> my_first_net(4, 2);
+	tms::Niederreiter my_first_net(4, 2);
 	
 	std::cout << "Parameters of my_first_net:\n";
 	std::cout << "\tt = " << my_first_net.get_t() << '\n';

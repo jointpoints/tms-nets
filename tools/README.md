@@ -1,10 +1,9 @@
-To build a static library from source code, type
+### Available `make` options
 
-    make
+* `make static_lib` : builds a "tms-nets" static library;
+* `make docs` : compiles HTML documentation using Doxygen.
 
-or
 
-    make static_lib
 
 ### Warning!
 

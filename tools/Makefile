@@ -31,6 +31,9 @@ LICENSE_IRRPOLY_FILE_OUT = LICENSE (irrpoly).txt
 
 static_lib: static_prepare_win $(UNITS) static_assemble_win static_clean_win
 
+docs:
+	powershell Set-Location ..; doxygen .\\tools\\doxygen_config; powershell Set-Location .\\tools
+
 else
 
 # "../" before "source" is omitted in SOURCE_FOLDER due to erroneous interpretation by make; it is manually added where needed
@@ -47,13 +50,16 @@ LICENSE_IRRPOLY_FILE_OUT = LICENSE (irrpoly).txt
 
 static_lib: static_prepare_unix $(UNITS) static_assemble_unix static_clean_unix
 
+docs:
+	cd ..; doxygen ./tools/doxygen_config; cd ./tools
+
 endif
 
 
 
 
 
-#TARGETS FOR WINDOWS
+# STATIC_LIB TARGETS FOR WINDOWS
 
 static_prepare_win:
 	powershell New-Item -ItemType Directory -Force -Path $(OBJECT_FOLDER)
@@ -73,7 +79,7 @@ static_clean_win:
 
 
 
-#TARGETS FOR LINUX/OSX
+# STATIC_LIB TARGETS FOR LINUX/OSX
 
 static_prepare_unix:
 	mkdir $(OBJECT_FOLDER)
