@@ -831,6 +831,7 @@ WARN_LOGFILE           =
 
 INPUT                  = ./include/tms-nets/ \
                          ./include/tms-nets/details \
+						 ./include/tms-nets/analysis \
                          ./tools/custom_dox_pages
 
 # This tag can be used to specify the character encoding of the source files
@@ -1070,7 +1071,7 @@ USE_HTAGS              = NO
 # See also: Section \class.
 # The default value is: YES.
 
-VERBATIM_HEADERS       = YES
+VERBATIM_HEADERS       = NO
 
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index

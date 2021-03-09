@@ -21,13 +21,12 @@ ifeq ($(OS),Windows_NT)
 SOURCE_FOLDER = source
 UNITS = $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gf.cpp $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gfpoly.cpp $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gfcheck.cpp\
         $(SOURCE_FOLDER)\\details\\common.cpp $(SOURCE_FOLDER)\\details\\gf2poly.cpp $(SOURCE_FOLDER)\\details\\genmat.cpp $(SOURCE_FOLDER)\\details\\recseq.cpp\
-        $(SOURCE_FOLDER)\\digital_net.cpp $(SOURCE_FOLDER)\\niederreiter.cpp $(SOURCE_FOLDER)\\modified_niederreiter.cpp
+        $(SOURCE_FOLDER)\\digital_net.cpp $(SOURCE_FOLDER)\\niederreiter.cpp $(SOURCE_FOLDER)\\modified_niederreiter.cpp\
+        $(SOURCE_FOLDER)\\analysis\\t.cpp
 
-INCLUDE_FOLDER = ..\\include\\tms-nets
+INCLUDE_FOLDER = ..\\include
 LICENSE_TMS_FILE = ..\\LICENSE.md
-LICENSE_TMS_FILE_OUT = LICENSE (tms-nets).txt
-LICENSE_IRRPOLY_FILE = ..\\include\\tms-nets\\thirdparty\\irrpoly\\LICENSE.md
-LICENSE_IRRPOLY_FILE_OUT = LICENSE (irrpoly).txt
+LICENSE_TMS_FILE_OUT = LICENSE.txt
 
 static_lib: static_prepare_win $(UNITS) static_assemble_win static_clean_win
 
@@ -40,13 +39,12 @@ else
 SOURCE_FOLDER = source
 UNITS = $(SOURCE_FOLDER)/thirdparty/irrpoly/gf.cpp $(SOURCE_FOLDER)/thirdparty/irrpoly/gfpoly.cpp $(SOURCE_FOLDER)/thirdparty/irrpoly/gfcheck.cpp\
         $(SOURCE_FOLDER)/details/common.cpp $(SOURCE_FOLDER)/details/gf2poly.cpp $(SOURCE_FOLDER)/details/genmat.cpp $(SOURCE_FOLDER)/details/recseq.cpp\
-        $(SOURCE_FOLDER)/digital_net.cpp $(SOURCE_FOLDER)/niederreiter.cpp $(SOURCE_FOLDER)/modified_niederreiter.cpp
+        $(SOURCE_FOLDER)/digital_net.cpp $(SOURCE_FOLDER)/niederreiter.cpp $(SOURCE_FOLDER)/modified_niederreiter.cpp\
+        $(SOURCE_FOLDER)/analysis/t.cpp
 
-INCLUDE_FOLDER = ../include/tms-nets
+INCLUDE_FOLDER = ../include
 LICENSE_TMS_FILE = ../LICENSE.md
-LICENSE_TMS_FILE_OUT = LICENSE (tms-nets).txt
-LICENSE_IRRPOLY_FILE = ../include/tms-nets/thirdparty/irrpoly/LICENSE.md
-LICENSE_IRRPOLY_FILE_OUT = LICENSE (irrpoly).txt
+LICENSE_TMS_FILE_OUT = LICENSE.txt
 
 static_lib: static_prepare_unix $(UNITS) static_assemble_unix static_clean_unix
 
@@ -64,9 +62,9 @@ endif
 static_prepare_win:
 	powershell New-Item -ItemType Directory -Force -Path $(OBJECT_FOLDER)
 	powershell New-Item -ItemType Directory -Force -Path \"$(STATIC_LIB_FOLDER)\"
-	powershell Copy-Item -Path $(INCLUDE_FOLDER) -Destination \"$(STATIC_LIB_FOLDER)\\tms-nets\" -Recurse
+	powershell Copy-Item -Path $(INCLUDE_FOLDER)\\tms-nets -Destination \"$(STATIC_LIB_FOLDER)\\tms-nets\" -Recurse
+	powershell Copy-Item -Path $(INCLUDE_FOLDER)\\tms-nets.hpp -Destination \"$(STATIC_LIB_FOLDER)\\tms-nets.hpp\"
 	powershell Copy-Item -Path $(LICENSE_TMS_FILE) -Destination \"$(STATIC_LIB_FOLDER)\\$(LICENSE_TMS_FILE_OUT)\"
-	powershell Copy-Item -Path $(LICENSE_IRRPOLY_FILE) -Destination \"$(STATIC_LIB_FOLDER)\\$(LICENSE_IRRPOLY_FILE_OUT)\"
 
 $(SOURCE_FOLDER)\\%.cpp:
 	$(CPP_COMPILER) $(COMPILER_FLAGS) -c $(addprefix ..\\,$@) -o $(OBJECT_FOLDER)\\$(addsuffix .o,$(basename $(notdir $@)))
@@ -84,9 +82,9 @@ static_clean_win:
 static_prepare_unix:
 	mkdir $(OBJECT_FOLDER)
 	mkdir "$(STATIC_LIB_FOLDER)"
-	cp -r $(INCLUDE_FOLDER) "$(STATIC_LIB_FOLDER)/tms-nets"
+	cp -r $(INCLUDE_FOLDER)/tms-nets "$(STATIC_LIB_FOLDER)/tms-nets"
+	cp $(INCLUDE_FOLDER)/tms-nets.hpp "$(STATIC_LIB_FOLDER)/tms-nets.hpp"
 	cp $(LICENSE_TMS_FILE) "$(STATIC_LIB_FOLDER)/$(LICENSE_TMS_FILE_OUT)"
-	cp $(LICENSE_IRRPOLY_FILE) "$(STATIC_LIB_FOLDER)/$(LICENSE_IRRPOLY_FILE_OUT)"
 
 $(SOURCE_FOLDER)/%.cpp:
 	$(CPP_COMPILER) $(COMPILER_FLAGS) -c $(addprefix ../,$@) -o $(OBJECT_FOLDER)/$(addsuffix .o,$(basename $(notdir $@)))
