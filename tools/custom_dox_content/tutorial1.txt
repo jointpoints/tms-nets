@@ -3,14 +3,15 @@ sample_project_root_folder
  ├─ libraries
  │   ├─ tms-nets
  │   │   └─ ... there go the files of our library ...
- │   └─ tms-nets.a
+ │   ├─ tms-nets.a
+ │   └─ tms-nets.hpp
  └─ main.cpp
 //! [file_structure]
 
 
 
 //! [include_line]
-#include "libraries/tms-nets/niederreiter.hpp"
+#include "libraries/tms-nets/tms-nets.hpp"
 //! [include_line]
 
 
@@ -22,7 +23,7 @@ tms::Niederreiter(tms::BasicInt const nbits, tms::BasicInt const dim)
 
 
 //! [creation_of_generator]
-#include "libraries/tms-nets/niederreiter.hpp"
+#include "libraries/tms-nets/tms-nets.hpp"
 
 int main()
 {
@@ -34,16 +35,22 @@ int main()
 
 
 
+//! [t_check]
+tms::BasicInt tms::analysis::t(DigitalNet const &net)
+//! [t_check]
+
+
+
 //! [param_check]
-#include "libraries/tms-nets/niederreiter.hpp"
+#include "libraries/tms-nets/tms-nets.hpp"
 #include <iostream> // to perform output
 
 int main()
 {
-	tms::Niederreiter<unsigned int> my_first_net(4, 2);
+	tms::Niederreiter my_first_net(4, 2);
 
 	std::cout << "Parameters of my_first_net:\n";
-	std::cout << "\tt = " << my_first_net.get_t() << '\n';
+	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
 	std::cout << "\tm = " << my_first_net.get_m() << '\n';
 	std::cout << "\ts = " << my_first_net.get_s() << '\n';
 
@@ -69,15 +76,15 @@ tms::Point tms::Niederreiter::generate_point(tms::CountInt const pos)
 
 
 //! [generate_loop]
-#include "libraries/tms-nets/niederreiter.hpp"
-#include <iostream> // to perform output
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <iostream>
 
 int main()
 {
 	tms::Niederreiter my_first_net(4, 2);
 
 	std::cout << "Parameters of my_first_net:\n";
-	std::cout << "\tt = " << my_first_net.get_t() << '\n';
+	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
 	std::cout << "\tm = " << my_first_net.get_m() << '\n';
 	std::cout << "\ts = " << my_first_net.get_s() << '\n';
 
@@ -93,15 +100,15 @@ int main()
 
 
 //! [generate_net]
-#include "libraries/tms-nets/niederreiter.hpp"
-#include <iostream> // to perform output
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <iostream>
 
 int main()
 {
 	tms::Niederreiter my_first_net(4, 2);
 	
 	std::cout << "Parameters of my_first_net:\n";
-	std::cout << "\tt = " << my_first_net.get_t() << '\n';
+	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
 	std::cout << "\tm = " << my_first_net.get_m() << '\n';
 	std::cout << "\ts = " << my_first_net.get_s() << '\n';
 

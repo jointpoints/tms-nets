@@ -1,11 +1,11 @@
 //! [generate_net]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/tms-nets.hpp"
 #include <cstdint> // needed for uint*_t types
 
 int main()
 {
 	uint32_t const                      tms_net_point_count = 1UL << 20;
-	tms::Niederreiter<unsigned int>     tms_net(20, 3);
+	tms::Niederreiter                   tms_net(20, 3);
 
 	return 0;
 }
@@ -14,14 +14,14 @@ int main()
 
 
 //! [net_loop]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/tms-nets.hpp"
 #include <cstdint> // needed for uint*_t types
 #include <iostream> // needed for output
 
 int main()
 {
 	uint32_t const                      tms_net_point_count = 1UL << 20;
-	tms::Niederreiter<unsigned int>     tms_net(20, 3);
+	tms::Niederreiter                   tms_net(20, 3);
 
 	uint32_t inside_point_count = 0;
 	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)
@@ -39,7 +39,7 @@ int main()
 
 
 // ![inside_check]
-#include "libraries/tms-nets/include/tms-nets/niederreiter2.hpp"
+#include "libraries/tms-nets/tms-nets.hpp"
 #include <cstdint> // needed for uint*_t types
 #include <iostream> // needed for output
 #include <algorithm> // needed for max
@@ -56,7 +56,7 @@ bool isPointInside(tms::Point &point)
 int main()
 {
 	uint32_t const                      tms_net_point_count = 1UL << 20;
-	tms::Niederreiter<unsigned int>     tms_net(20, 3);
+	tms::Niederreiter                   tms_net(20, 3);
 
 	uint32_t inside_point_count = 0;
 	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)

@@ -72,7 +72,7 @@
  *
  * The functionality of our library is completely stored within a sole namespace called \ref tms. In particular,
  * the Niederreiter's \f$(t, m, s)\f$-nets in base \f$2\f$ will be represented as the objects of class
- * \ref tms::Niederreiter. Each object of this class has the parameters \f$t\f$, \f$m\f$ and \f$s\f$ as invariants
+ * \ref tms::Niederreiter. Each digital net has the parameters \f$t\f$, \f$m\f$ and \f$s\f$ as its invariants
  * meaning that if at some moment of time you need to change their values, you'll have to create a new net. These
  * parameters have the following meaning:
  *
@@ -112,10 +112,14 @@
  *
  * \section tutorial1_3 3. Check the parameters of the net
  *
- * \warning Deprecated! Update this section before release.
+ * Let us now quickly verify the parameters \f$t\f$, \f$m\f$ and \f$s\f$ of our net. Since \f$m\f$ and \f$s\f$ are
+ * defined by user, their values can be retrieved from the net by the calls of member functions \c get_m and
+ * \c get_s. As for the parameter \f$t\f$, its value requires some additional analytical calculations which is why
+ * it can be retrieved with the special function \c t contained within \ref tms::analysis namespace:
  *
- * Let us now quickly verify the parameters of our net. To do this, we can utilise three corresponding functions:
- * \c get_t, \c get_m and \c get_s.
+ * \snippet tutorial1.txt t_check
+ *
+ * Here, \c net should be replaced with our digital net. The complete code may look as follows:
  *
  * \snippet tutorial1.txt param_check
  *
