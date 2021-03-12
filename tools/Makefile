@@ -22,7 +22,7 @@ SOURCE_FOLDER = source
 UNITS = $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gf.cpp $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gfpoly.cpp $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gfcheck.cpp\
         $(SOURCE_FOLDER)\\details\\common.cpp $(SOURCE_FOLDER)\\details\\gf2poly.cpp $(SOURCE_FOLDER)\\details\\genmat.cpp $(SOURCE_FOLDER)\\details\\recseq.cpp\
         $(SOURCE_FOLDER)\\digital_net.cpp $(SOURCE_FOLDER)\\niederreiter.cpp $(SOURCE_FOLDER)\\modified_niederreiter.cpp\
-        $(SOURCE_FOLDER)\\analysis\\t.cpp
+        $(SOURCE_FOLDER)\\analysis\\t.cpp $(SOURCE_FOLDER)\\analysis\\scatter_defect.cpp
 
 INCLUDE_FOLDER = ..\\include
 LICENSE_TMS_FILE = ..\\LICENSE.md
@@ -40,7 +40,7 @@ SOURCE_FOLDER = source
 UNITS = $(SOURCE_FOLDER)/thirdparty/irrpoly/gf.cpp $(SOURCE_FOLDER)/thirdparty/irrpoly/gfpoly.cpp $(SOURCE_FOLDER)/thirdparty/irrpoly/gfcheck.cpp\
         $(SOURCE_FOLDER)/details/common.cpp $(SOURCE_FOLDER)/details/gf2poly.cpp $(SOURCE_FOLDER)/details/genmat.cpp $(SOURCE_FOLDER)/details/recseq.cpp\
         $(SOURCE_FOLDER)/digital_net.cpp $(SOURCE_FOLDER)/niederreiter.cpp $(SOURCE_FOLDER)/modified_niederreiter.cpp\
-        $(SOURCE_FOLDER)/analysis/t.cpp
+        $(SOURCE_FOLDER)/analysis/t.cpp $(SOURCE_FOLDER)/analysis/scatter_defect.cpp
 
 INCLUDE_FOLDER = ../include
 LICENSE_TMS_FILE = ../LICENSE.md
@@ -63,6 +63,7 @@ static_prepare_win:
 	powershell New-Item -ItemType Directory -Force -Path $(OBJECT_FOLDER)
 	powershell New-Item -ItemType Directory -Force -Path \"$(STATIC_LIB_FOLDER)\"
 	powershell Copy-Item -Path $(INCLUDE_FOLDER)\\tms-nets -Destination \"$(STATIC_LIB_FOLDER)\\tms-nets\" -Recurse
+	powershell Remove-Item \"$(STATIC_LIB_FOLDER)\\tms-nets\\thirdparty\\jacobi\" -Force -Recurse
 	powershell Copy-Item -Path $(INCLUDE_FOLDER)\\tms-nets.hpp -Destination \"$(STATIC_LIB_FOLDER)\\tms-nets.hpp\"
 	powershell Copy-Item -Path $(LICENSE_TMS_FILE) -Destination \"$(STATIC_LIB_FOLDER)\\$(LICENSE_TMS_FILE_OUT)\"
 
@@ -80,9 +81,10 @@ static_clean_win:
 # STATIC_LIB TARGETS FOR LINUX/OSX
 
 static_prepare_unix:
-	mkdir $(OBJECT_FOLDER)
-	mkdir "$(STATIC_LIB_FOLDER)"
+	mkdir -p $(OBJECT_FOLDER)
+	mkdir -p "$(STATIC_LIB_FOLDER)"
 	cp -r $(INCLUDE_FOLDER)/tms-nets "$(STATIC_LIB_FOLDER)/tms-nets"
+	rm -rf "$(STATIC_LIB_FOLDER)/tms-nets/thirdparty/jacobi"
 	cp $(INCLUDE_FOLDER)/tms-nets.hpp "$(STATIC_LIB_FOLDER)/tms-nets.hpp"
 	cp $(LICENSE_TMS_FILE) "$(STATIC_LIB_FOLDER)/$(LICENSE_TMS_FILE_OUT)"
 

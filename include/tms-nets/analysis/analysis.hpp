@@ -47,7 +47,7 @@ namespace tms::analysis
 	 * 
 	 * @returns Precise value of parameter \f$t\f$ the given digital net.
 	 */
-	BasicInt t(DigitalNet const &net);
+	BasicInt            t               (DigitalNet const &net);
 
 	///@}
 
@@ -57,9 +57,32 @@ namespace tms::analysis
 	/// @{
 	
 	/**
+	 * Calculates the scatter defect
 	 * 
+	 * Performs a special version of model-based principal component analysis that was specially
+	 * optimised for digital \f$(t, m, s)\f$-nets. Here, having a singular value decomposition
+	 * \f$C = U \Sigma V^*\f$ for a covariance matrix \f$C\f$, a \b scatter is defined as a sum of
+	 * squares of all singular values, <b>relative influence</b> of the \f$i\f$-th principal axis
+	 * is defined as a ratio of the squared \f$i\f$-th singular value to the scatter, and a
+	 * <b>scatter defect</b> of the \f$i\f$-th principal axis is defined as a difference between
+	 * its relative influence and the value of \f$s^{-1}\f$.
+	 * 
+	 * If points of the given digital net saturate the \f$s\f$-dimensional unit cube perfectly
+	 * equally in all directions, the scatter defect will be \f$\overrightarrow{0} \in
+	 * \mathbb{R}^s\f$. If points are scatterred along the \f$i\f$-th principal axis more than it
+	 * is expected under the perfectly equal saturation, then the \f$i\f$-th component of defect
+	 * vector will be positive, otherwise, negative.
+	 * 
+	 * @param   net     A digital net.
+	 * 
+	 * @returns A \ref tms::Point the \f$i\f$-th component of which equals the scatter defect along
+	 * the \f$i\f$-th principal axis.
+	 * 
+	 * @note Principal axes always form an orthonormal basis in the \f$s\f$-dimensional space,
+	 * however, there are <i>no guarantees</i> that they will match with the basis that is used to
+	 * express the coordinates of digital net points.
 	 */
-	//...
+	tms::Point          scatter_defect  (DigitalNet const &net);
 
 	/// @}
 
