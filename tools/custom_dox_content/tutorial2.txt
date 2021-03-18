@@ -23,12 +23,14 @@ int main()
 	uint32_t const                      tms_net_point_count = 1UL << 20;
 	tms::Niederreiter                   tms_net(20, 3);
 
-	uint32_t inside_point_count = 0;
+	uint32_t                            inside_point_count = 0;
+
 	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)
 	{
 		tms::Point current_point = tms_net.generate_point(point_i);
 		inside_point_count += isPointInside(current_point);
 	}
+
 	// We transform inside_point_count into a floating-point type defined in our library
 	std::cout << "V(Sigma) = " << ((tms::Real)(inside_point_count) / tms_net_point_count) << '\n';
 
@@ -58,12 +60,14 @@ int main()
 	uint32_t const                      tms_net_point_count = 1UL << 20;
 	tms::Niederreiter                   tms_net(20, 3);
 
-	uint32_t inside_point_count = 0;
+	uint32_t                            inside_point_count = 0;
+
 	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)
 	{
 		tms::Point current_point = tms_net.generate_point(point_i);
 		inside_point_count += isPointInside(current_point);
 	}
+
 	// We transform inside_point_count into a floating-point type defined in our library
 	std::cout << "V(Sigma) = " << ((tms::Real)(inside_point_count) / tms_net_point_count) << '\n';
 

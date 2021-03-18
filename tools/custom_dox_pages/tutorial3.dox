@@ -1,0 +1,127 @@
+/**
+ * \page tutorial3 Tutorial 3. Estimating the multivariate integral
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:10%">&lt;&lt;</td>
+ *                     <td align="center" style="width:90%">[Tutorial 2. Estimating the volume of a body](@ref tutorial2)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *     </td>
+ * </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * In this tutorial we are going to demonstrate yet another application of \f$(t, m, s)\f$-nets which is numerical calculation of
+ * definite integrals over cuboid regions of \f$s\f$-dimensional space. Say, we are given a \f$5\f$-dimensional integral over a unit
+ * cube \f$I^5\f$ where \f$I = [0,1)\f$:
+ *
+ * \f[J(\overrightarrow{x}) = \int_{I^5} \frac{  x^{(1)} \sin{(x^{(2)}\pi)}  }{  (x^{(3)} - 5) \cos{(x^{(4)}x^{(5)})}  } d\overrightarrow{x}\f]
+ *
+ * The function \f$f(\overrightarrow{x})\f$ inside the integral cannot be plotted since it depends on \f$5\f$ variables, however, an
+ * important note here is that this function is Lipschitz-continuous over the whole \f$I^5\f$. Knowing this, let us estimate the value of
+ * \f$J(\overrightarrow{x})\f$ with the help of the formula:
+ *
+ * \f[J(\overrightarrow{x}) \approx \frac{1}{2^m} \sum_{i=1}^{2^m} f(N_i)\f]
+ *
+ * where \f$N_i\f$ is the \f$i\f$-th point of a \f$(t, m, s)\f$-net.
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial3_1 1. Basic workflow
+ *
+ * We yet again assume the same file structure as in [tutorial 1](@ref tutorial1_1). This time, for the sake of variety we are
+ * going to utilise the modified Niederreiter nets that are represented with the \ref tms::ModifiedNiederreiter class. These nets
+ * have the same constructor as the regular Niederreiter nets, however, due to some inner changes in construction algorithms may
+ * potentially expose additional useful features.
+ *
+ * Let us define a \f$(t, 30, 5)\f$-net, that is, a five-dimensional net with \f$2^{30} = 1,073,741,824\f$ points.
+ *
+ * \snippet tutorial3.txt generate_net
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial3_2 2. Count values of function at each point of a net
+ *
+ * We now implement a function <tt>f</tt> that will calculate the value of function \f$f(\overrightarrow{x})\f$ at the given
+ * point of five-dimensional space.
+ *
+ * \snippet tutorial3.txt f
+ *
+ * Let us then apply our formula within the \c main function.
+ *
+ * \snippet tutorial3.txt estimation
+ *
+ * The expected output is:
+ *
+ * \snippet tutorial3.txt estimation_output
+ *
+ * The analytical solution for \f$J(\overrightarrow{x})\f$ cannot be expressed via elementary functions and is expressed as
+ * follows:
+ *
+ * \f[J(\overrightarrow{x}) = \frac{\log 4 - \log 5}{\pi} Si(1) \approx -0.0671991\f]
+ *
+ * where \f$Si(x)\f$ is a sine integral function defined as follows:
+ *
+ * \f[Si(x) = \int_0^x \frac{\sin t}{t} dt\f]
+ *
+ * As we see, a net with over a billion points was not capable to deliver a great accuracy, however, this result still exceeds
+ * accuracy of results that may be obtained with Monte Carlo method.
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:10%">&lt;&lt;</td>
+ *                     <td align="center" style="width:90%">[Tutorial 2. Estimating the volume of a body](@ref tutorial2)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *     </td>
+ * </tr>
+ * </table>
+ */

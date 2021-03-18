@@ -38,7 +38,7 @@
  *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
  *             <table style="width:100%">
  *                 <tr><td align="center"><img src="tutorials_Tutorial3.jpg"></td></tr>
- *                 <tr><td align="center">[Tutorial 3. Estimating the multivariate integral](@ref tutorial1)</td></tr>
+ *                 <tr><td align="center">[Tutorial 3. Estimating the multivariate integral](@ref tutorial3)</td></tr>
  *             </table>
  *         </div>
  *     </td>
