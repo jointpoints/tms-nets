@@ -86,14 +86,10 @@
  * The analytical solution for \f$J(\overrightarrow{x})\f$ cannot be expressed via elementary functions and is expressed as
  * follows:
  *
- * \f[J(\overrightarrow{x}) = \frac{\log 4 - \log 5}{\pi} Si(1) \approx -0.0671991\f]
+ * \f[J(\overrightarrow{x}) = \frac{\log 4 - \log 5}{\pi} \int_0^1 \frac{1}{t} \log{\left( \frac{2}{\cot{\frac{t}{2}} - 1} + 1 \right)} dt \approx -0.07573128645316662\f]
  *
- * where \f$Si(x)\f$ is a sine integral function defined as follows:
- *
- * \f[Si(x) = \int_0^x \frac{\sin t}{t} dt\f]
- *
- * As we see, a net with over a billion points was not capable to deliver a great accuracy, however, this result still exceeds
- * accuracy of results that may be obtained with Monte Carlo method.
+ * As we see, our net provides us with a great accuracy. You may try comparing its accuracy with accuracy of regular Monte Carlo method
+ * and see the difference on your own.
  *
  *
  *

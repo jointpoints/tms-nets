@@ -1,5 +1,5 @@
 /**
- * \page download How to download
+ * \page download Download
  *
  * \tableofcontents{html:1}
  *
@@ -16,60 +16,167 @@
  *
  *
  *
- * \section download_stable How to download the stable version
+ * \note We strongly recommend to \b only use stable builds of <tt>(t, m, s)-nets generator</tt> for
+ * production purposes.
  *
- * We strongly advise everybody who wishes to utilise this library in their production to \b only download
- * stable versions of it. Stable versions have proven to produce correct results and not exhibit unexpected
- * behaviour given the validity of input. Here is the instruction on how to download the stable version.
- *
- * \paragraph download_stable_1 Step 1. Go to Releases section of repository
- *
- * Navigate to [<b>this web-page</b>](https://github.com/jointpoints/tms-nets/releases) or click on the
- * "Releases" link, if you are on the repository's main page.
- *
- * <div class="image" style="text-align:left"><img src="download_StableStep1.jpg"></div>
- *
- * Look through the list of releases and choose the one most appropriate to you. We recommend choosing the
- * latest available release (it will be marked with "Latest release" sign), since it provides users with the
- * most enhanced features and is highly likely to contain less bugs.
- *
- * \note If you have already used the library and wish to update it, always read the changelog attentively!
- *
- * \paragraph download_stable_2 Step 2. Get the archive with the source files
- *
- * Once you have made up your mind about the version of library you wish to use, find the link "Source code"
- * at the bottom of the release description.
- *
- * <div class="image" style="text-align:left"><img src="download_StableStep2.jpg"></div>
- *
- * Choose one of the available archives (either <tt>.zip</tt> or <tt>.tar.gz</tt>) and click on the
- * corresponding link.
- *
- * \paragraph download_stable_3 Step 3. Be happy!
- *
- * Unpack the downloaded archive to any folder you prefer. Now it is ready for use! If you do not know how, consider
- * going through [our set of tutorials](@ref tutorials).
+ * \section download_stable Stable versions of library
  *
  *
  *
  *
  *
- * \section download_unstable How to download the unstable version
+ * \subsection download_stable_3_0_0 3.0.0 (latest release)
  *
- * If you wish to use some newest features that were not included in available releases and you are not afraid of
- * possible malfunctions, you can download the unstable version of this library.
+ * \subsubsection download_stable_3_0_0_build Builds
  *
- * \paragraph download_unstable_1 Step 1. Get the archive with the source files from repository
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="download_Windows.png"></td></tr>
+ *                 <tr><td align="center">[<b>Download for Windows</b>]()</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="download_Linux.png"></td></tr>
+ *                 <tr><td align="center">[<b>Download for Linux</b>]()</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="download_MacOS.png"></td></tr>
+ *                 <tr><td align="center">[<b>Download for MacOS</b>]()</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
  *
- * Open the main page of the repository and download the <tt>.zip</tt>-archive with the source code by clicking on
- * "Code" button.
+ * \subsubsection download_stable_3_0_0_source Source code
  *
- * <div class="image" style="text-align:left"><img src="download_UnstableStep1.jpg"></div>
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:100%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             &nbsp;[<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/3.0.0.zip)
+ *         </div>
+ *     </td>
+ * </tr>
+ * <tr>
+ *     <td style="width:100%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             &nbsp;[<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/3.0.0.tar.gz)
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
  *
- * There is also another way to do this if you use \c git command line utility. Just execute the command
- * <tt>git clone --single-branch --branch master https://github.com/jointpoints/tms-nets</tt>.
+ * <table style="border:none;">
+ *     <tr class="inherit_header changelog_3_0_0">
+ *         <td colspan="2" onclick="javascript:toggleInherit('changelog_3_0_0')">
+ *             <img src="closed.png" alt="-">&nbsp;Changelog
+ *         </td>
+ *     </tr>
+ *     <tr class="inherit changelog_3_0_0" style="display:none;">
+ *         <td style="border-left:1px solid #ccc; padding-left:10px">
+ *             To be replaced with actual changelog.
+ *         </td>
+ *     </tr>
+ * </table>
  *
- * \paragraph download_unstable_2 Step 2. Be happy (as far as the unstable code works)!
  *
- * Unpack the downloaded archive to any folder you prefer. Now it is ready for use!
+ *
+ *
+ *
+ * \subsection download_stable_2_0_0 2.0.0
+ *
+ * \subsubsection download_stable_3_0_0_source Source code
+ *
+ * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/2.0.0.zip)
+ * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/2.0.0.tar.gz)
+ *
+ * <table style="border:none;">
+ *     <tr class="inherit_header changelog_2_0_0">
+ *         <td colspan="2" onclick="javascript:toggleInherit('changelog_2_0_0')">
+ *             <img src="closed.png" alt="-">&nbsp;Changelog
+ *         </td>
+ *     </tr>
+ *     <tr class="inherit changelog_2_0_0" style="display:none;">
+ *         <td style="border-left:1px solid #ccc; padding-left:10px">
+ *             <b>WARNING</b><br>
+ *             The interface of the generator and its implementation have drastically changed in this version making it incompatible with the
+ *             previous one. Hereafter, the tips of the following form:
+ *
+ *                 <correct pattern for the previous version> -> <correct pattern for the new version>
+ *
+ *             have been written to simplify users' transition and resolution of likely compatibility issues.<br><br>
+ *             <b>Overall changes</b><br>
+ *             * The [`irrpoly` library](https://github.com/irreducible-polynoms/irrpoly) providing the interface for irreducible polynomials over finite fields has been updated to the latest version.
+ *             * Names and documentation have been changed to follow the notation from the the new theoretical materials that have been added to the "knowledge" branch.
+ *             * Experimental features have been added that can be toggled by defining `TMS_EXPERIMENTAL` macro.
+ *             * TsTests and automatic tester have been updated.
+ *
+ *             <b>Changes in the project structure</b><br>
+ *             * New structure of the `include` folder has been introduced:
+ *                 * The main include file `niederreiter2.hpp` has been relocated into `include/tms-nets`;
+ *                 * The new folder `include/tms-nets/details` has been created to store the first-party utility files;
+ *                 * The new folder `include/tms-nets/thirdparty` has been created to store the third-party utility files;
+ *
+ *             To avoid compatibility issues related to the changes in the project structure one needs to consider the new path of the main include file:
+ *             <b>`include/niederreiter2.hpp -> include/tms-nets/niederreiter2.hpp`</b>
+ *
+ *             * A first-party `gf2poly.hpp` include file with the functions handling the generation of irreducible polynomials over **F₂** has been added into `include/tms-nets/details` folder. Previously, these functions had been defined right inside the `niederreiter2.hpp` file;
+ *             * A third-party `irrpoly` library has been placed into `include/tms-nets/thirdparty` folder;
+ *             * A draft of the documentation main page has been added into `tools` folder.
+ *
+ *             <b>Changes in the user interface</b><br>
+ *             * A library's namespace name has been changed to `tms`;
+ *               <b>`sequences -> tms`</b>
+ *             * First-party utility functions handling the generation of irreducible polynomials over **F₂** have been placed inside `tms::gf2poly` namespace;
+ *               <b>`sequences:: -> tms::gf2poly::`</b>
+ *             * To provide compatibility with the new version of `irrpoly` a new utility function `make_gf2poly` has been added with the help of which a polynomial can be created by the vector of its coefficients. This function is advised to be used instead of the `irrpoly` native interface for creation of known polynomials;
+ *             * A new public template `tms::Matrix<T>` has been added which is equivalent to `std::vector< std::vector<T> >`;
+ *             * The `tms::Niederreiter` template class of a net generator has been redesigned to only depend on a single template parameter, namely the unsigned integral type needed to store the values of intermediate calculations. Digit capacity, at the same time, is now needs to be specified as the first argument of constructors;
+ *               <b>`sequences::Niederreiter<U, N>(...) -> tms::Niederreiter<U>(N, ...)`</b>
+ *             * Manual setting of a generator is now easier due to new constructors that accept initialiser lists;
+ *             * A user has been enabled to specify the initialising values of all recurring sequences that are used in the process of generation with the help of additional arguments of constructors;
+ *             * The getter for `nbits` has been renamed into `get_m`;
+ *               <b>`get_nbits -> get_m`</b>
+ *             * `store_point_real` and `get_next_point_int` methods have been removed;
+ *             * The `_real` suffix in the names of methods has been removed, the `get_` prefix in the names of methods has been replaced with `generate_`;
+ *               <b>`get_point_int -> generate_point_int`</b>
+ *               <b>`get_point_real -> generate_point`</b>
+ *               <b>`for_each_point_real -> for_each_point`</b>
+ *             * The role of getters is now played by `generate_point` and `generate_point_int` methods for a single point, and by `for_each_point*` methods for a range of points;
+ *             * `store*` methods and `cast_point_int_to_real` method have been removed from the public access.
+ *
+ *             <b>Changes in the implementation</b><br>
+ *             * `initialize_c` and `calculate_v` methods have been reorganised into `initialize_direction_numbers` and `fill_container_recursively`;
+ *             * New checks have been added in the process of generation, e.g. `is_matrix_of_initial_values_valid` method.
+ *
+ *             <b>Changes in the tests</b><br>
+ *             * TsTests' infrastructure has been updated to fix the bug with incorrect handling of NULL argument;
+ *             * Optimisations of TsTests for digital (t, m, s)-nets have been improved (follow new instructions in the TsTests Usage and Development Guide);
+ *             * Three different sets of test cases have been added into the automatic tester: critical, regular and exhaustive;
+ *             * Logging of the automatic tester has been improved.
+ *         </td>
+ *     </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * \subsection download_stable_1_0_0 1.0.0
+ *
+ * \subsubsection download_stable_1_0_0_source Source code
+ *
+ * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/1.0.zip)
+ * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/1.0.tar.gz)
  */
