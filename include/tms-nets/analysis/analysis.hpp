@@ -45,7 +45,7 @@ namespace tms::analysis
 	 * 
 	 * @param   net     A digital net.
 	 * 
-	 * @returns Precise value of parameter \f$t\f$ the given digital net.
+	 * @returns Precise value of parameter \f$t\f$ for the given digital net.
 	 */
 	BasicInt            t               (DigitalNet const &net);
 
