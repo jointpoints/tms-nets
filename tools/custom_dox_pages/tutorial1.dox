@@ -57,6 +57,8 @@
  *
  * File <tt>main.cpp</tt> was created manually and it is currently empty.
  *
+ * \note Do not forget to enable C++17 standard in your compiler!
+ *
  *
  *
  *
