@@ -1,0 +1,49 @@
+/*
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
+
+ The MIT License (MIT)
+
+ Copyright (C) 1997-2020 by Dimitri van Heesch
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
+*/
+var NAVTREE =
+[
+  [ "(t, m, s)-nets generator", "index.html", [
+    [ "Main page", "index.html", [
+      [ "Introduction", "index.html#mainpage_introduction", null ],
+      [ "Contributors", "index.html#mainpage_contributors", [
+        [ "Main contributors", "index.html#mainpage_contributors_main", null ],
+        [ "Significant contributors", "index.html#mainpage_contributors_significant", null ]
+      ] ],
+      [ "License", "index.html#license", null ],
+      [ "Recommended literature", "index.html#literature", null ]
+    ] ],
+    [ "Download", "download.html", null ],
+    [ "Tutorials", "tutorials.html", null ],
+    [ "Reference", "namespaces.html", "namespaces" ]
+  ] ]
+];
+
+var NAVTREEINDEX =
+[
+"common_8hpp.html#a03731000658f4568566d5acc35945c95"
+];
+
+var SYNCONMSG = 'click to disable panel synchronisation';
+var SYNCOFFMSG = 'click to enable panel synchronisation';

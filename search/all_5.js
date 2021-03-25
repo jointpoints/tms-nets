@@ -1,10 +1,18 @@
 var searchData=
 [
-  ['m_5fdim_20',['m_dim',['../classtms_1_1_niederreiter.html#aa2efc39d01cfc54d3f036209b418f8d4',1,'tms::Niederreiter']]],
-  ['m_5fdirection_5fnumbers_21',['m_direction_numbers',['../classtms_1_1_niederreiter.html#aa108d4fd4139e3c2c6b736e0e430d613',1,'tms::Niederreiter']]],
-  ['m_5firrpolys_22',['m_irrpolys',['../classtms_1_1_niederreiter.html#ada878d45cfc817d862fed3a9ca846937',1,'tms::Niederreiter']]],
-  ['m_5fnbits_23',['m_nbits',['../classtms_1_1_niederreiter.html#a95589f5a18284b575d9f97a1af4bedf4',1,'tms::Niederreiter']]],
-  ['m_5fquality_5fparam_24',['m_quality_param',['../classtms_1_1_niederreiter.html#a070d14cc0d34729846d85a7ca6600055',1,'tms::Niederreiter']]],
-  ['m_5frecip_25',['m_recip',['../classtms_1_1_niederreiter.html#ac64465c19267147a6b0e479caca9eac5',1,'tms::Niederreiter']]],
-  ['make_5fgf2poly_26',['make_gf2poly',['../namespacetms_1_1gf2poly.html#abfbe397bfdef3271ac0fa6801d875e4e',1,'tms::gf2poly']]]
+  ['generate_5firrpolys_18',['generate_irrpolys',['../namespacetms_1_1gf2poly.html#ad8fac385a219c6dd278cd479303fb39a',1,'tms::gf2poly']]],
+  ['generate_5firrpolys_5fin_5fparallel_19',['generate_irrpolys_in_parallel',['../namespacetms_1_1gf2poly.html#a391b94b91408d5d26005252553631922',1,'tms::gf2poly']]],
+  ['generate_5firrpolys_5funtil_5fdegree_20',['generate_irrpolys_until_degree',['../namespacetms_1_1gf2poly.html#ab0addc0e2ee83930043345e80c9ec6cf',1,'tms::gf2poly']]],
+  ['generate_5firrpolys_5fwith_5fdegrees_21',['generate_irrpolys_with_degrees',['../namespacetms_1_1gf2poly.html#ac27347560634196499dcb57b6afe836b',1,'tms::gf2poly']]],
+  ['generate_5fpoint_22',['generate_point',['../classtms_1_1_digital_net.html#a1e91356bef20d34b942c35afa6e4c971',1,'tms::DigitalNet']]],
+  ['generate_5fpoint_5fclassical_23',['generate_point_classical',['../classtms_1_1_digital_net.html#a92a65054347dce0a4081b83606ca90b8',1,'tms::DigitalNet']]],
+  ['generate_5fpoint_5fint_24',['generate_point_int',['../classtms_1_1_digital_net.html#aa4859f644899454fcdca67902bcfbc33',1,'tms::DigitalNet']]],
+  ['genmat_25',['GenMat',['../classtms_1_1_gen_mat.html',1,'tms']]],
+  ['genmatrow_26',['GenMatRow',['../classtms_1_1_gen_mat_row.html',1,'tms']]],
+  ['get_5fdirection_5fnumbers_27',['get_direction_numbers',['../classtms_1_1_digital_net.html#aa887fc4cefd7b8ee3076268933ac13c9',1,'tms::DigitalNet']]],
+  ['get_5fm_28',['get_m',['../classtms_1_1_digital_net.html#ac13e584eedf9a57d06e71890d74f9f8c',1,'tms::DigitalNet']]],
+  ['get_5fs_29',['get_s',['../classtms_1_1_digital_net.html#ad6c5eb4c3ae1f72657cf8ff43078358e',1,'tms::DigitalNet']]],
+  ['gfbase_30',['gfbase',['../classirrpoly_1_1gfbase.html',1,'irrpoly']]],
+  ['gfn_31',['gfn',['../classirrpoly_1_1gfn.html',1,'irrpoly']]],
+  ['gfpoly_32',['gfpoly',['../classirrpoly_1_1gfpoly.html',1,'irrpoly']]]
 ];
