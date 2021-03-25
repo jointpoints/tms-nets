@@ -35,7 +35,7 @@
  *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
  *             <table style="width:100%">
  *                 <tr><td align="center"><img src="download_Windows.png"></td></tr>
- *                 <tr><td align="center">[<b>Download for Windows</b>]()</td></tr>
+ *                 <tr><td align="center">[<b>Download for Windows</b>](https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Windows.zip)</td></tr>
  *             </table>
  *         </div>
  *     </td>
@@ -43,7 +43,7 @@
  *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
  *             <table style="width:100%">
  *                 <tr><td align="center"><img src="download_Linux.png"></td></tr>
- *                 <tr><td align="center">[<b>Download for Linux</b>]()</td></tr>
+ *                 <tr><td align="center">[<b>Download for Linux</b>](https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Linux.tar)</td></tr>
  *             </table>
  *         </div>
  *     </td>
@@ -51,7 +51,7 @@
  *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
  *             <table style="width:100%">
  *                 <tr><td align="center"><img src="download_MacOS.png"></td></tr>
- *                 <tr><td align="center">[<b>Download for MacOS</b>]()</td></tr>
+ *                 <tr><td align="center">[<b>Download for MacOS</b>](https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.MacOS.zip)</td></tr>
  *             </table>
  *         </div>
  *     </td>
@@ -64,14 +64,14 @@
  * <tr>
  *     <td style="width:100%">
  *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
- *             &nbsp;[<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/3.0.0.zip)
+ *             &nbsp;[<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/3.0.0.zip)
  *         </div>
  *     </td>
  * </tr>
  * <tr>
  *     <td style="width:100%">
  *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
- *             &nbsp;[<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/3.0.0.tar.gz)
+ *             &nbsp;[<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/3.0.0.tar.gz)
  *         </div>
  *     </td>
  * </tr>
@@ -119,8 +119,8 @@
  *
  * \subsubsection download_stable_3_0_0_source Source code
  *
- * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/2.0.0.zip)
- * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/2.0.0.tar.gz)
+ * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.zip)
+ * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.tar.gz)
  *
  * <table style="border:none;">
  *     <tr class="inherit_header changelog_2_0_0">
@@ -198,8 +198,8 @@
  *
  * \subsubsection download_stable_1_0_0_source Source code
  *
- * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/1.0.zip)
- * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/1.0.tar.gz)
+ * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/1.0.zip)
+ * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/1.0.tar.gz)
  *
  *
  *
@@ -207,6 +207,6 @@
  *
  * \section download_unstable Unstable versions of library
  *
- * * [<b>Download master source code as .zip</b>](https://github.com/jointpoints/tms-nets/archive/master.zip)
- * * [<b>Download development source code as .zip</b>](https://github.com/jointpoints/tms-nets/archive/development.zip)
+ * * [<b>Download master source code as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/heads/master.zip)
+ * * [<b>Download development source code as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/heads/development.zip)
  */
