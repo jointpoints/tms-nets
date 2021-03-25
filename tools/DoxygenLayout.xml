@@ -1,0 +1,8 @@
+<doxygenlayout version="1.0">
+	<navindex>
+		<tab type="mainpage" visible="yes" title="Main page"/>
+		<tab type="usergroup" visible="yes" title="Download" url="@ref download"/>
+		<tab type="usergroup" visible="yes" title="Tutorials" url="@ref tutorials"/>
+		<tab type="namespacelist" visible="yes" title="Reference"/>
+	</navindex>
+</doxygenlayout>

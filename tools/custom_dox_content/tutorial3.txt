@@ -1,0 +1,71 @@
+//! [generate_net]
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <cstdint> // needed for uint*_t types
+
+int main()
+{
+	uint32_t const                      tms_net_point_count = 1UL << 30;
+	tms::ModifiedNiederreiter           tms_net(30, 5);
+
+	return 0;
+}
+//! [generate_net]
+
+
+
+//! [f]
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <cmath>
+#include <cstdint> // needed for uint*_t types
+#define pi 3.14159265358979
+
+long double f(tms::Point x)
+{
+	return x[0] * sin(x[1] * pi) / ( (x[2] - 5) * cos(x[3] * x[4]) );
+}
+
+int main()
+{
+	uint32_t const                      tms_net_point_count = 1UL << 30;
+	tms::ModifiedNiederreiter           tms_net(30, 5);
+
+	return 0;
+}
+//! [f]
+
+
+
+//! [estimation]
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <cmath>
+#include <cstdint> // needed for uint*_t types
+#include <iostream>
+#define pi 3.14159265358979
+
+long double f(tms::Point x)
+{
+	return x[0] * sin(x[1] * pi) / ( (x[2] - 5) * cos(x[3] * x[4]) );
+}
+
+int main()
+{
+	uint32_t const                      tms_net_point_count = 1UL << 30;
+	tms::ModifiedNiederreiter           tms_net(30, 5);
+
+	long double                         answer = 0.0;
+
+	for (uint32_t point_i = 0; point_i < tms_net_point_count; ++point_i)
+		answer += f(tms_net.generate_point(point_i));
+	answer /= tms_net_point_count;
+
+	std::cout << "J(x) = " << answer << '\n';
+
+	return 0;
+}
+//! [estimation]
+
+
+
+//! [estimation_output]
+J(x) = -0.0757313
+//! [estimation_output]

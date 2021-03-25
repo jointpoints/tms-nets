@@ -1,17 +1,25 @@
-/*!
- *	\file raref.cpp
+/**
+ * @file    t.cpp
+ * 
+ * @brief   Contains functions for calculations of t parameter.
  *
- *	\author
- *		Arseny Zakharov (Russian Technological University, KMBO-01-17, Russia, 2020)
- *	\author
- *		Daria Sabirianova (Russian Technological University, KMBO-01-17, Russia, 2020)
- *	\author
- *		Sergey Kharlamov (Russian Technological University, KMBO-01-17, Russia, 2020)
+ * @author  Arseny Zakharov (Russian Technological University, KMBO-01-17, Russia, 2020)
+ *          Daria Sabirianova (Russian Technological University, KMBO-01-17, Russia, 2020)
+ *          Sergey Kharlamov (Russian Technological University, KMBO-01-17, Russia, 2020)
+ *          Andrei Eliseev (JointPoints), 2021
+ * 
  */
+#include "../../include/tms-nets/analysis/analysis.hpp"
 
-#include "raref.hpp"
-#include <algorithm>
-#include <iostream>
+#include <stdexcept>    // needed for exceptions
+
+
+
+
+
+// Auxiliary content
+
+
 
 
 
@@ -312,9 +320,9 @@ void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t from, size_t to)
 }
 
 Composition generate_projections(size_t s, size_t u, size_t k,
-                                 std::vector<RAREFMatrix> const &gen_mat, Composition const &ro)
+                                 std::vector<RAREFMatrix> const &gen_mat, Composition const &rho)
 {
-	size_t qmax = u == 2 ? k : *std::min_element(ro.begin(), ro.end());
+	size_t qmax = u == 2 ? k : *std::min_element(rho.begin(), rho.end());
 	Composition res;
 	Compositions c = binomial_coefficient(0, s - 1, u);
 	for (size_t i = 0; i < c.size(); i++)
@@ -410,20 +418,21 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 Composition find_rho_inner(size_t k, size_t s, size_t dmax,
                          std::vector<RAREFMatrix> const &gen_mat)
 {
-	Composition ro;
+	Composition rho;
 	if (s == 1)
 	{
-		ro.push_back(k);
-		return ro;
+		rho.push_back(k);
+		return rho;
 	}
 	for (size_t u = 2; u <= dmax; u++)
 	{
-		ro = generate_projections(s, u, k, gen_mat, ro);
+		rho = generate_projections(s, u, k, gen_mat, rho);
 	}
-	return ro;
+	return rho;
 }
 
-void print_matrix(RAREFMatrix const &matrix)
+// Debug
+/*void print_matrix(RAREFMatrix const &matrix)
 {
 	for (auto i : matrix)
 	{
@@ -449,49 +458,43 @@ void print_RAREF(RAREF const &r, std::string const &name)
 	}
 	std::cout << std::endl
 			  << std::endl;
-}
+}*/
 
 /*
  * Cast matrix of uints to matrix of bools
  */
-RAREFMatrix cast_matrix(std::vector<std::vector<unsigned int>> const &src)
+RAREFMatrix cast_matrix(tms::GenMat const &src)
 {
 	RAREFMatrix dst;
-	for (auto i : src)
+	for (tms::BasicInt i = 0; i < src.size(); ++i)
 	{
 		RAREFVector row;
-		for (auto j : i)
-		{
-			row.push_back(j);
-		}
+		for (tms::BasicInt j = 0; j < src.size(); ++j)
+			row.push_back(src[i][j]);
 		dst.push_back(row);
 	}
 	return dst;
 }
 
-TsTestsReturnCode find_defect(uint64_t &ro, uint64_t m, uint64_t s, std::function<std::vector<std::vector<unsigned int>>(uint64_t const)> const &gamma_matrix_getter)
+
+
+
+
+// Main function
+
+
+
+
+
+tms::BasicInt tms::analysis::t(DigitalNet const &net)
 {
-	try
+	std::vector<RAREFMatrix> genMat;
+	for (BasicInt dim_i = 0; dim_i < net.get_s(); dim_i++)
 	{
-		std::vector<RAREFMatrix> genMat;
-		for (uint64_t i = 0; i < s; i++)
-		{
-			genMat.push_back(cast_matrix(gamma_matrix_getter(i)));
-		}
-		Composition defect = find_rho_inner(m, s, s, genMat);
-		if (defect.size() != 1)
-		{
-			return TSTESTS_RETURNCODE_FAIL_GENERAL;
-		}
-		ro = defect[0];
+		genMat.push_back(cast_matrix(net.get_generating_matrix(dim_i)));
 	}
-	catch(const std::bad_alloc &e)
-	{
-		return TSTESTS_RETURNCODE_FAIL_MEMORY;
-	}
-	catch(const std::logic_error &e)
-	{
-		return TSTESTS_RETURNCODE_FAIL_INPUT;
-	}
-	return TSTESTS_RETURNCODE_SUCCESS;
+	Composition rho = find_rho_inner(net.get_m(), net.get_s(), net.get_s(), genMat);
+	if (rho.size() != 1)
+		throw std::runtime_error("Was not able to calculate t.");
+	return net.get_m() - rho[0];
 }

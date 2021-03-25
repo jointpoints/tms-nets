@@ -1,0 +1,212 @@
+/**
+ * \page download Download
+ *
+ * \tableofcontents{html:1}
+ *
+ * Before you get deep into this library's possibilities and interface, please do get acquainted with
+ * the system requirements it imposes.
+ *
+ * \section download_requirements System requirements
+ *
+ * This library binds you to have:
+ * * C++17 compiler;
+ * * 64-bit processor with 2 or more cores.
+ *
+ *
+ *
+ *
+ *
+ * \note We strongly recommend to \b only use stable builds of <tt>(t, m, s)-nets generator</tt> for
+ * production purposes.
+ *
+ * \section download_stable Stable versions of library
+ *
+ *
+ *
+ *
+ *
+ * \subsection download_stable_3_0_0 3.0.0 (latest release)
+ *
+ * \subsubsection download_stable_3_0_0_build Builds
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="download_Windows.png"></td></tr>
+ *                 <tr><td align="center">[<b>Download for Windows</b>]()</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="download_Linux.png"></td></tr>
+ *                 <tr><td align="center">[<b>Download for Linux</b>]()</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr><td align="center"><img src="download_MacOS.png"></td></tr>
+ *                 <tr><td align="center">[<b>Download for MacOS</b>]()</td></tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
+ *
+ * \subsubsection download_stable_3_0_0_source Source code
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:100%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             &nbsp;[<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/3.0.0.zip)
+ *         </div>
+ *     </td>
+ * </tr>
+ * <tr>
+ *     <td style="width:100%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             &nbsp;[<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/3.0.0.tar.gz)
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
+ *
+ * <table style="border:none;">
+ *     <tr class="inherit_header changelog_3_0_0">
+ *         <td colspan="2" onclick="javascript:toggleInherit('changelog_3_0_0')">
+ *             <img src="closed.png" alt="-">&nbsp;Changelog
+ *         </td>
+ *     </tr>
+ *     <tr class="inherit changelog_3_0_0" style="display:none;">
+ *         <td style="border-left:1px solid #ccc; padding-left:10px">
+ *             <b>WARNING</b><br>
+ *             The interface of the generator and its implementation have drastically changed in this version making it incompatible with the
+ *             previous one. Consult with tutorials or library reference to quickly get acquainted with all modifications.<br><br>
+ *             <b>New features</b><br>
+ *             * _More freedom in nets creation_: advanced users have been enabled to construct digital (t, m, s)-nets using arbitrary generator matrices over **F₂** or direction numbers with the help of new `GenMat` and `DirNum` objects, respectively.
+ *             * _New class of digital (t, m, s)-nets_: modified Niederreiter nets have been developed.
+ *             * _Qualitative analysis_: new functions to measure quality of nets have been introduced.
+ *
+ *             <b>Major improvements</b><br>
+ *             * _No more templates_: library has been completely redesigned to become template-free.
+ *             * Library has become static.
+ *             * _One Definition Rule_: library has become fully complient with ODR; no more linking errors should appear after inclusion of our library into various source files at once.
+ *             * The official license has finally been added.
+ *
+ *             <b>Implementation updates</b><br>
+ *             * All source code has been split into `.hpp`-files (in `./include` folder) and `.cpp`-files (in `./source` folder).
+ *             * `DigitalNet` class that contains the most general interface for digital (t, m, s)-nets has been added in `./include/tms-nets/digital_nets.hpp` and `./source/digital_nets.cpp` files.
+ *             * `ModifiedNiederreiter` class that contains modified Niederreiter (t, m, s)-nets generator has been added in `./include/tms-nets/modified_niederreiter.hpp` and `./source/modified_niederreiter.cpp` files.
+ *             * Inheritance chain has been introduced for classes of (t, m, s)-nets: `DigitalNet` ➞ `Niederreiter` ➞ `ModifiedNiederreiter`.
+ *             * Classes `GenMat`, `GenMatRow` and `DirNum` have been introduced in `./include/tms-nets/details/common.hpp` and `./source/details/common.cpp` files.
+ *             * Additional functions for linear recurrent sequences and generator matrices have been added into `./include/tms-nets/details/recseq.hpp`, `./source/details/recseq.cpp`, `./include/tms-nets/details/genmat.hpp` and `./source/details/genmat.cpp`, respectively.
+ *             * A universal header file `./include/tms-nets.hpp` has been added.
+ *         </td>
+ *     </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * \subsection download_stable_2_0_0 2.0.0
+ *
+ * \subsubsection download_stable_3_0_0_source Source code
+ *
+ * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/2.0.0.zip)
+ * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/2.0.0.tar.gz)
+ *
+ * <table style="border:none;">
+ *     <tr class="inherit_header changelog_2_0_0">
+ *         <td colspan="2" onclick="javascript:toggleInherit('changelog_2_0_0')">
+ *             <img src="closed.png" alt="-">&nbsp;Changelog
+ *         </td>
+ *     </tr>
+ *     <tr class="inherit changelog_2_0_0" style="display:none;">
+ *         <td style="border-left:1px solid #ccc; padding-left:10px">
+ *             <b>WARNING</b><br>
+ *             The interface of the generator and its implementation have drastically changed in this version making it incompatible with the
+ *             previous one. Hereafter, the tips of the following form:
+ *
+ *                 <correct pattern for the previous version> -> <correct pattern for the new version>
+ *
+ *             have been written to simplify users' transition and resolution of likely compatibility issues.<br><br>
+ *             <b>Overall changes</b><br>
+ *             * The [`irrpoly` library](https://github.com/irreducible-polynoms/irrpoly) providing the interface for irreducible polynomials over finite fields has been updated to the latest version.
+ *             * Names and documentation have been changed to follow the notation from the the new theoretical materials that have been added to the "knowledge" branch.
+ *             * Experimental features have been added that can be toggled by defining `TMS_EXPERIMENTAL` macro.
+ *             * TsTests and automatic tester have been updated.
+ *
+ *             <b>Changes in the project structure</b><br>
+ *             * New structure of the `include` folder has been introduced:
+ *                 * The main include file `niederreiter2.hpp` has been relocated into `include/tms-nets`;
+ *                 * The new folder `include/tms-nets/details` has been created to store the first-party utility files;
+ *                 * The new folder `include/tms-nets/thirdparty` has been created to store the third-party utility files;
+ *
+ *             To avoid compatibility issues related to the changes in the project structure one needs to consider the new path of the main include file:
+ *             <b>`include/niederreiter2.hpp -> include/tms-nets/niederreiter2.hpp`</b>
+ *
+ *             * A first-party `gf2poly.hpp` include file with the functions handling the generation of irreducible polynomials over **F₂** has been added into `include/tms-nets/details` folder. Previously, these functions had been defined right inside the `niederreiter2.hpp` file;
+ *             * A third-party `irrpoly` library has been placed into `include/tms-nets/thirdparty` folder;
+ *             * A draft of the documentation main page has been added into `tools` folder.
+ *
+ *             <b>Changes in the user interface</b><br>
+ *             * A library's namespace name has been changed to `tms`;
+ *               <b>`sequences -> tms`</b>
+ *             * First-party utility functions handling the generation of irreducible polynomials over **F₂** have been placed inside `tms::gf2poly` namespace;
+ *               <b>`sequences:: -> tms::gf2poly::`</b>
+ *             * To provide compatibility with the new version of `irrpoly` a new utility function `make_gf2poly` has been added with the help of which a polynomial can be created by the vector of its coefficients. This function is advised to be used instead of the `irrpoly` native interface for creation of known polynomials;
+ *             * A new public template `tms::Matrix<T>` has been added which is equivalent to `std::vector< std::vector<T> >`;
+ *             * The `tms::Niederreiter` template class of a net generator has been redesigned to only depend on a single template parameter, namely the unsigned integral type needed to store the values of intermediate calculations. Digit capacity, at the same time, is now needs to be specified as the first argument of constructors;
+ *               <b>`sequences::Niederreiter<U, N>(...) -> tms::Niederreiter<U>(N, ...)`</b>
+ *             * Manual setting of a generator is now easier due to new constructors that accept initialiser lists;
+ *             * A user has been enabled to specify the initialising values of all recurring sequences that are used in the process of generation with the help of additional arguments of constructors;
+ *             * The getter for `nbits` has been renamed into `get_m`;
+ *               <b>`get_nbits -> get_m`</b>
+ *             * `store_point_real` and `get_next_point_int` methods have been removed;
+ *             * The `_real` suffix in the names of methods has been removed, the `get_` prefix in the names of methods has been replaced with `generate_`;
+ *               <b>`get_point_int -> generate_point_int`</b>
+ *               <b>`get_point_real -> generate_point`</b>
+ *               <b>`for_each_point_real -> for_each_point`</b>
+ *             * The role of getters is now played by `generate_point` and `generate_point_int` methods for a single point, and by `for_each_point*` methods for a range of points;
+ *             * `store*` methods and `cast_point_int_to_real` method have been removed from the public access.
+ *
+ *             <b>Changes in the implementation</b><br>
+ *             * `initialize_c` and `calculate_v` methods have been reorganised into `initialize_direction_numbers` and `fill_container_recursively`;
+ *             * New checks have been added in the process of generation, e.g. `is_matrix_of_initial_values_valid` method.
+ *
+ *             <b>Changes in the tests</b><br>
+ *             * TsTests' infrastructure has been updated to fix the bug with incorrect handling of NULL argument;
+ *             * Optimisations of TsTests for digital (t, m, s)-nets have been improved (follow new instructions in the TsTests Usage and Development Guide);
+ *             * Three different sets of test cases have been added into the automatic tester: critical, regular and exhaustive;
+ *             * Logging of the automatic tester has been improved.
+ *         </td>
+ *     </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * \subsection download_stable_1_0_0 1.0.0
+ *
+ * \subsubsection download_stable_1_0_0_source Source code
+ *
+ * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/1.0.zip)
+ * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/1.0.tar.gz)
+ *
+ *
+ *
+ *
+ *
+ * \section download_unstable Unstable versions of library
+ *
+ * * [<b>Download master source code as .zip</b>](https://github.com/jointpoints/tms-nets/archive/master.zip)
+ * * [<b>Download development source code as .zip</b>](https://github.com/jointpoints/tms-nets/archive/development.zip)
+ */

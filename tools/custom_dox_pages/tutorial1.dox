@@ -1,0 +1,193 @@
+/**
+ * \page tutorial1 Tutorial 1. Getting started
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:90%">[Tutorial 2. Estimating the volume of a body](@ref tutorial2)</td>
+ *                     <td align="center" style="width:10%">&gt;&gt;</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * In this tutorial you will get acquainted with the most basic functionality of the library. The goal of this
+ * exercise is to generate a ready-to-use \f$(t, m, s)\f$-net.
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial1_1 1. Preparations
+ *
+ * We assume that before reading this tutorial you already downloaded the library and unpacked its files. If you
+ * didn't, visit the [Download](@ref download) page. We also assume your decent knowledge of C++.
+ *
+ * \note These tutorials only cover the features of the latest \b stable version of the library.
+ *
+ * Let us now create a sample project for the purposes of this tutorial. You may do this however you prefer:
+ * manually or with the help of your most favourive IDE. Hereafter we assume that our sample project
+ * has the following file structure.
+ *
+ * \snippet tutorial1.txt file_structure
+ *
+ * File <tt>main.cpp</tt> was created manually and it is currently empty.
+ *
+ * \note Do not forget to enable C++17 standard in your compiler!
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial1_2 2. Create a new net
+ *
+ * Let us now open and edit <tt>main.cpp</tt> file of our sample program. There, in order to use our library, we
+ * first need to include the file with needed functionality. Say, we want to generate a \f$(t, m, s)\f$-net using
+ * Niederreiter's algorithm. Hence, we need to include the following file:
+ *
+ * \snippet tutorial1.txt include_line
+ *
+ * The functionality of our library is completely stored within a sole namespace called \ref tms. In particular,
+ * the Niederreiter's \f$(t, m, s)\f$-nets in base \f$2\f$ will be represented as the objects of class
+ * \ref tms::Niederreiter. Each digital net has the parameters \f$t\f$, \f$m\f$ and \f$s\f$ as its invariants
+ * meaning that if at some moment of time you need to change their values, you'll have to create a new net. These
+ * parameters have the following meaning:
+ *
+ * * \f$t\f$ : this non-negative integer parameter signifies the "quality of points' dispersion" within the unit
+ * cube. More precisely, the less its quantity is, the lower is the discrepancy of the net. Minimal possible value
+ * of \f$t\f$ increases with the growth of dimension;
+ * * \f$m\f$ : this non-negative integer parameter signifies the binary logarithm of number \f$M\f$ of points
+ * within the net, i.e., \f$m = \log_2 M\f$. Please remember that \f$M\f$ must always be a power of \f$2\f$.
+ * Minimal possible value of \f$m\f$ is \f$t\f$ and, hence, it increases with the growth of dimension as well;
+ * * \f$s\f$ : positive integer dimension of the unit cube that we wish to fill with net's points.
+ *
+ * If you want to find out mathematically rigorous description of parameter \f$t\f$, check out the sources from
+ * [Recommended literature](@ref literature). However, if you don't want to go deep into the theory, you shall not
+ * despair, since our generator is capable of automatic selection of the best (i.e., the lowest) possible \f$t\f$
+ * for each particular case. Having this, you may just forget about its existence (as long as your value of \f$m\f$
+ * is sufficiently large to satisfy \f$m \ge t\f$; don't worry: if your value of \f$m\f$ is too small for a
+ * particular \f$s\f$, our library will inform you about that with the help of a runtime exception).
+ *
+ * Let us now write a program that saturates a two-dimesional unit cube (i.e., a square with the length of each
+ * edge being equal to \f$1\f$) with a \f$(t, m, s)\f$-net containing \f$16\f$ quasirandom points. Here, \f$s = 2\f$
+ * (since the unit cube is two-dimensional) and \f$m = \log_2 M = \log_2 16 = \log_2 2^4 = 4\f$.
+ * Knowing this, we may finally create a new net with the help of the following constructor.
+ *
+ * \snippet tutorial1.txt class_constructor
+ *
+ * Here \c nbits shall be replaced with \f$m\f$ and \c dim shall be replaced with \f$s\f$. Having this said, we may
+ * write the following piece of code.
+ *
+ * \snippet tutorial1.txt creation_of_generator
+ *
+ * Thus, \c my_first_net is the \f$(t, 4, 2)\f$-net (value of \f$t\f$ is still unknown) which was constructed with
+ * Niederreiter's algorithm and consists of \f$16\f$ distinct quasirandom points within two-dimensional unit cube.
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial1_3 3. Check the parameters of the net
+ *
+ * Let us now quickly verify the parameters \f$t\f$, \f$m\f$ and \f$s\f$ of our net. Since \f$m\f$ and \f$s\f$ are
+ * defined by user, their values can be retrieved from the net by the calls of respective member functions \c get_m and
+ * \c get_s. As for the parameter \f$t\f$, its value requires some additional analytical calculations which is why
+ * it can be retrieved with the special function \c t contained within \ref tms::analysis namespace:
+ *
+ * \snippet tutorial1.txt t_check
+ *
+ * Here, \c net should be replaced with our digital net. The complete code may look as follows:
+ *
+ * \snippet tutorial1.txt param_check
+ *
+ * The expected output is:
+ *
+ * \snippet tutorial1.txt param_check_output
+ *
+ * As we see, we were able to reach the value \f$t = 0\f$ which is the lowest possible ever. You may spend a couple of
+ * minutes of your pastime on checking how the automatically chosen value of \f$t\f$ changes with the growth of \f$s\f$.
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial1_4 4. See the points of the net
+ *
+ * Let us finally see the points! In order to optimise the consumption of resources our \c my_first_net doesn't actually
+ * store all its points in the memory. Instead, it calculates their coordinates on the fly right at the moment when we
+ * request them. To do this we are going to use the
+ *
+ * \snippet tutorial1.txt generate_method
+ *
+ * method. Its only argument \c pos specifies the ordinal index of the point we wish to get. Since we want to take a
+ * look at not a single point of our new but all \f$16\f$ points at once, we should wrap the call of this method in a loop.
+ *
+ * \snippet tutorial1.txt generate_loop
+ *
+ * If you compile this code, you will see that it is still quite useless. Let us add the output of our points to
+ * finally see their coordinates!
+ *
+ * \snippet tutorial1.txt generate_net
+ *
+ * The expected output is:
+ *
+ * \snippet tutorial1.txt generate_net_output
+ *
+ * Let us visualise our net with the help of a thirdparty plotter (feature is not included into the library).
+ *
+ * \image html tutorial1_Step4_1.jpg
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:90%">[Tutorial 2. Estimating the volume of a body](@ref tutorial2)</td>
+ *                     <td align="center" style="width:10%">&gt;&gt;</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ * </tr>
+ * </table>
+ */

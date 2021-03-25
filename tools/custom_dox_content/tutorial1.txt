@@ -1,0 +1,155 @@
+//! [file_structure]
+sample_project_root_folder
+ ├─ libraries
+ │   ├─ tms-nets
+ │   │   └─ ... there go the files of our library ...
+ │   ├─ tms-nets.a
+ │   └─ tms-nets.hpp
+ └─ main.cpp
+//! [file_structure]
+
+
+
+//! [include_line]
+#include "libraries/tms-nets/tms-nets.hpp"
+//! [include_line]
+
+
+
+//! [class_constructor]
+tms::Niederreiter(tms::BasicInt const nbits, tms::BasicInt const dim)
+//! [class_constructor]
+
+
+
+//! [creation_of_generator]
+#include "libraries/tms-nets/tms-nets.hpp"
+
+int main()
+{
+	tms::Niederreiter my_first_net(4, 2);
+
+	return 0;
+}
+//! [creation_of_generator]
+
+
+
+//! [t_check]
+tms::BasicInt tms::analysis::t(DigitalNet const &net)
+//! [t_check]
+
+
+
+//! [param_check]
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <iostream> // to perform output
+
+int main()
+{
+	tms::Niederreiter my_first_net(4, 2);
+
+	std::cout << "Parameters of my_first_net:\n";
+	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
+	std::cout << "\tm = " << my_first_net.get_m() << '\n';
+	std::cout << "\ts = " << my_first_net.get_s() << '\n';
+
+	return 0;
+}
+//! [param_check]
+
+
+
+//! [param_check_output]
+Parameters of my_first_net:
+	t = 0
+	m = 5
+	s = 2
+//! [param_check_output]
+
+
+
+//! [generate_method]
+tms::Point tms::Niederreiter::generate_point(tms::CountInt const pos)
+//! [generate_method]
+
+
+
+//! [generate_loop]
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <iostream>
+
+int main()
+{
+	tms::Niederreiter my_first_net(4, 2);
+
+	std::cout << "Parameters of my_first_net:\n";
+	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
+	std::cout << "\tm = " << my_first_net.get_m() << '\n';
+	std::cout << "\ts = " << my_first_net.get_s() << '\n';
+
+	for (unsigned int point_i = 0; point_i < 16; ++point_i)
+	{
+		my_first_net.generate_point(point_i);
+	}
+
+	return 0;
+}
+//! [generate_loop]
+
+
+
+//! [generate_net]
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <iostream>
+
+int main()
+{
+	tms::Niederreiter my_first_net(4, 2);
+	
+	std::cout << "Parameters of my_first_net:\n";
+	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
+	std::cout << "\tm = " << my_first_net.get_m() << '\n';
+	std::cout << "\ts = " << my_first_net.get_s() << '\n';
+
+	std::cout << "\nGenerated points:\n";
+	for (unsigned int point_i = 0; point_i < 16; ++point_i)
+	{
+		tms::Point current_point = my_first_net.generate_point(point_i);
+		for (unsigned int dim_i = 0; dim_i < 2; ++dim_i)
+		{
+			std::cout << current_point[dim_i] << '\t';
+		}
+		std::cout << '\n';
+	}
+
+	return 0;
+}
+//! [generate_net]
+
+
+
+//! [generate_net_output]
+Parameters of my_first_net:
+	t = 0
+	m = 5
+	s = 2
+
+Generated points:
+0	0
+0.5	0.5
+0.75	0.25
+0.25	0.75
+0.375	0.375
+0.875	0.875
+0.625	0.125
+0.125	0.625
+0.1875	0.3125
+0.6875	0.8125
+0.9375	0.0625
+0.4375	0.5625
+0.3125	0.1875
+0.8125	0.6875
+0.5625	0.4375
+0.0625	0.9375
+//! [generate_net_output]
