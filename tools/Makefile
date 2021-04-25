@@ -1,6 +1,6 @@
 TMS_VERSION = 3.0.0
 # Change TMS_STABILITY to "stable" before each merge with the "master" branch!
-TMS_STABILITY = stable
+TMS_STABILITY = unstable
 
 CPP_COMPILER = g++
 ARCHIVER = ar
