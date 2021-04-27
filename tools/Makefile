@@ -1,4 +1,4 @@
-TMS_VERSION = 3.0.0
+TMS_VERSION = 3.0.1
 # Change TMS_STABILITY to "stable" before each merge with the "master" branch!
 TMS_STABILITY = unstable
 

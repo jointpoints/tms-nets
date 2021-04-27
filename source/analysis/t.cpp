@@ -12,6 +12,7 @@
 #include "../../include/tms-nets/analysis/analysis.hpp"
 
 #include <stdexcept>    // needed for exceptions
+#include <algorithm>    // needed for "equal"
 
 
 
@@ -36,6 +37,36 @@ typedef struct RAREF
 typedef std::vector<size_t>      Composition;
 typedef std::vector<Composition> Compositions;
 
+// Debug
+/*void print_matrix(RAREFMatrix const &matrix)
+{
+	for (auto i : matrix)
+	{
+		for (auto j : i)
+		{
+			std::cout << j << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
+void print_RAREF(RAREF const &r, std::string const &name)
+{
+	std::cout << "RAREF for " << name << ":" << std::endl;
+	std::cout << "L:" << std::endl;
+	print_matrix(r.L);
+	std::cout << "T:" << std::endl;
+	print_matrix(r.T);
+	std::cout << "p:" << std::endl;
+	for (auto i : r.p)
+	{
+		std::cout << i << " ";
+	}
+	std::cout << std::endl
+			  << std::endl;
+}*/
+// Debug
+
 /*
  * Change row to absolute value of subtaction with another row
  */
@@ -43,7 +74,7 @@ inline void subtract_row(RAREFMatrix &matrix, size_t min_ind, size_t sub_ind)
 {
 	std::transform(matrix[min_ind].begin(), matrix[min_ind].end(),
 				   matrix[sub_ind].begin(), matrix[min_ind].begin(),
-				   [](bool a, bool b) { return !a * b + !b * a; });
+				   [](bool a, bool b) { return a != b; });
 }
 
 /*
@@ -331,7 +362,7 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 		size_t curr_rank = u - 1;
 		for (size_t q = qmax; q >= u; q--)
 		{
-			bool flag = 0;
+			bool flag = false;
 			Compositions comp_arr = generate_compositions(q, u);
 			RAREFMatrix matrix = {};
 			RAREF r;
@@ -340,47 +371,15 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 				size_t matrix_rank;
 				if (j >= 1)
 				{
-					Composition abs_diff(comp_arr[0].size());
-					std::transform(comp_arr[j].begin(), comp_arr[j].end(), comp_arr[j - 1].begin(),
-					               abs_diff.begin(), [](size_t a, size_t b){return std::max(a, b) - std::min(a, b);});
-					if (*std::max_element(abs_diff.begin(), abs_diff.end()) == 1)
-					{
-						RAREFMatrix old_matrix = matrix;
-						matrix = {};
-						Composition abs_diff_ones;
-						for (size_t ind = 0; ind < abs_diff.size(); ind++)
-						{
-							if (abs_diff[ind] == 1)
-							{
-								abs_diff_ones.push_back(ind);
-							}
-						}
-						size_t coeff = abs_diff_ones[1];
-
-						for (size_t P = 0; P < comp_arr[0].size(); P++)
-						{
-							if (P != coeff)
-							{
-								add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
-							}
-							else
-							{
-								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1, 0);
-							}
-						}
-						r = update_RAREF(old_matrix, matrix, r);
-						matrix_rank = r.p.size();
-					}
-					else
-					{
-						matrix = {};
-						for (size_t P = 0; P < comp_arr[0].size(); P++)
-						{
-							add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
-						}
-						r = compute_RAREF(matrix);
-						matrix_rank = r.p.size();
-					}
+					RAREFMatrix old_matrix = matrix;
+					matrix = {};
+					for (size_t P = 0; P < comp_arr[0].size(); P++)
+						add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
+					size_t different_rows_count = 0;
+					for (size_t row_i = 0; row_i < matrix.size(); ++row_i)
+						different_rows_count += !std::equal(matrix[row_i].begin(), matrix[row_i].begin(), old_matrix[row_i].begin());
+					r = (different_rows_count < 2) ? (update_RAREF(old_matrix, matrix, r)) : (compute_RAREF(matrix));
+					matrix_rank = r.p.size();
 				}
 				else
 				{
@@ -393,7 +392,7 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 				}
 				if (matrix_rank < q)
 				{
-					flag = 1;
+					flag = true;
 					break;
 				}
 				else
@@ -430,35 +429,6 @@ Composition find_rho_inner(size_t k, size_t s, size_t dmax,
 	}
 	return rho;
 }
-
-// Debug
-/*void print_matrix(RAREFMatrix const &matrix)
-{
-	for (auto i : matrix)
-	{
-		for (auto j : i)
-		{
-			std::cout << j << " ";
-		}
-		std::cout << std::endl;
-	}
-}
-
-void print_RAREF(RAREF const &r, std::string const &name)
-{
-	std::cout << "RAREF for " << name << ":" << std::endl;
-	std::cout << "L:" << std::endl;
-	print_matrix(r.L);
-	std::cout << "T:" << std::endl;
-	print_matrix(r.T);
-	std::cout << "p:" << std::endl;
-	for (auto i : r.p)
-	{
-		std::cout << i << " ";
-	}
-	std::cout << std::endl
-			  << std::endl;
-}*/
 
 /*
  * Cast matrix of uints to matrix of bools
