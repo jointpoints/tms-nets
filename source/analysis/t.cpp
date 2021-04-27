@@ -336,18 +336,18 @@ RAREF update_RAREF(RAREFMatrix const &C, RAREFMatrix const &C2, RAREF const &src
 }
 
 /*
- * Add rows from [from:to] of src to the end of dst
- * If from is greater than to, rows will be added in reverse order
+ * Add rows from [0:to] of src to the end of dst
+ * If <reverse> == true, rows will be added in reverse order
  */
-void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t from, size_t to)
+void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t const to, bool const reverse = false)
 {
-	bool forward = from <= to ? true : false;
-	size_t n = std::max(from, to) - std::min(from, to) + 1;
+	size_t n = to + 1;
 	for (size_t i = 0; i < n; i++)
 	{
-		size_t ind = forward ? from + i : from - i;
+		size_t ind = (reverse) ? (to - i) : (i);
 		dst.push_back(src[ind]);
 	}
+	return;
 }
 
 Composition generate_projections(size_t s, size_t u, size_t k,
@@ -362,30 +362,95 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 		size_t curr_rank = u - 1;
 		for (size_t q = qmax; q >= u; q--)
 		{
-			bool flag = false;
-			Compositions comp_arr = generate_compositions(q, u);
-			RAREFMatrix matrix = {};
-			RAREF r;
+			bool                flag                    = false;
+			Compositions        comp_arr                = generate_compositions(q, u);
+			RAREFMatrix         matrix                  = {};
+			std::vector<bool>   is_section_reversed(comp_arr[0].size(), false);
+			RAREF               r;
 			for (size_t j = 0; j < comp_arr.size(); j++)
 			{
 				size_t matrix_rank;
 				if (j >= 1)
 				{
-					RAREFMatrix old_matrix = matrix;
-					matrix = {};
-					for (size_t P = 0; P < comp_arr[0].size(); P++)
-						add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
-					size_t different_rows_count = 0;
-					for (size_t row_i = 0; row_i < matrix.size(); ++row_i)
-						different_rows_count += !std::equal(matrix[row_i].begin(), matrix[row_i].begin(), old_matrix[row_i].begin());
-					r = (different_rows_count < 2) ? (update_RAREF(old_matrix, matrix, r)) : (compute_RAREF(matrix));
-					matrix_rank = r.p.size();
+					// Try to update RAREF faster
+					Composition abs_diff(comp_arr[0].size());
+					std::transform(comp_arr[j].begin(), comp_arr[j].end(), comp_arr[j - 1].begin(),
+					               abs_diff.begin(), [](size_t a, size_t b){return std::max(a, b) - std::min(a, b);});
+					// We study two consequent compositions. Faster computation is applicable, if:
+					//     1. a new composite matrix <matrix> differs from the previous by eactly one row,
+					//        which basically means that there is a pair of two adjacent sections in the previous matrix
+					//        such that if the "upper section" "loses" one row and the "lower section" "adds" one new row,
+					//        the previous matrix becomes a new matrix;
+					//     2. the "upper section" is packed in direct order and the "lower section" is packed in reversed
+					//        order.
+					bool    fast_update_available       = false;
+					size_t  fast_update_lower_section   = 0;
+					for (size_t section_i = 0; section_i < comp_arr[0].size() - 1; ++section_i)
+					{
+						if (std::abs(static_cast<int>(comp_arr[j][section_i] - comp_arr[j - 1][section_i])) > 1)
+						{
+							fast_update_available = false;
+							break;
+						}
+						if ((std::abs(static_cast<int>(comp_arr[j][section_i]     - comp_arr[j - 1][section_i]))     == 1)  &&
+						    (std::abs(static_cast<int>(comp_arr[j][section_i + 1] - comp_arr[j - 1][section_i + 1])) == 1)  &&
+						    ((!is_section_reversed[section_i] && is_section_reversed[section_i + 1]) || (!is_section_reversed[section_i] && !is_section_reversed[section_i + 1] && (comp_arr[j - 1][section_i + 1] == 1))))
+						{
+							if (!fast_update_available)
+							{
+								fast_update_available = true;
+								fast_update_lower_section = section_i + 1;
+							}
+							else
+							{
+								fast_update_available = false;
+								break;
+							}
+						}
+					}
+					if (std::abs(static_cast<int>(comp_arr[j][comp_arr[0].size() - 1] - comp_arr[j - 1][comp_arr[0].size() - 1])) > 1)
+						fast_update_available = false;
+					// If fast update is available, update faster
+					if (fast_update_available)
+					{
+						RAREFMatrix old_matrix = matrix;
+						matrix = {};
+
+						for (size_t P = 0; P < comp_arr[0].size(); P++)
+						{
+							if (P != fast_update_lower_section)
+							{
+								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1);
+								is_section_reversed[P] = false;
+							}
+							else
+							{
+								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1, true);
+								is_section_reversed[P] = true;
+							}
+						}
+						r = update_RAREF(old_matrix, matrix, r);
+						matrix_rank = r.p.size();
+					}
+					// Otherwise, update slowly :(
+					else
+					{
+						matrix = {};
+						for (size_t P = 0; P < comp_arr[0].size(); P++)
+						{
+							add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1);
+							is_section_reversed[P] = false;
+						}
+						r = compute_RAREF(matrix);
+						matrix_rank = r.p.size();
+					}
 				}
 				else
 				{
 					for (size_t P = 0; P < comp_arr[0].size(); P++)
 					{
-						add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
+						add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1);
+						is_section_reversed[P] = false;
 					}
 					r = compute_RAREF(matrix);
 					matrix_rank = r.p.size();
