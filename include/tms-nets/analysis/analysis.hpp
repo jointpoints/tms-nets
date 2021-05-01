@@ -46,6 +46,14 @@ namespace tms::analysis
 	 * @param   net     A digital net.
 	 * 
 	 * @returns Precise value of parameter \f$t\f$ for the given digital net.
+	 * 
+	 * @throws  invalid_argument    If at least one generating matrix of the given net is degenerate
+	 *                              (determinant equals zero over \f$\mathbb{F}_2\f$).
+	 * 
+	 * @note Exceptions will never be encountered in this function if it used with \c Niederreiter
+	 * and \c Sobol nets provided in this library. Their generating matrices are \b guaranteed to
+	 * always be non-degenerate. If you discover a case when this function fails to perform on these
+	 * nets, [<b>report a bug</b>](https://github.com/jointpoints/tms-nets/issues/new).
 	 */
 	BasicInt            t               (DigitalNet const &net);
 

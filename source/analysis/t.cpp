@@ -511,6 +511,29 @@ RAREFMatrix cast_matrix(tms::GenMat const &src)
 	return dst;
 }
 
+/*
+ * Calculate determinant over F2
+ */
+bool det(RAREFMatrix matrix)
+{
+	for (size_t leading_column_i = 0; leading_column_i < matrix[0].size(); ++leading_column_i)
+	{
+		size_t row_i = leading_column_i;
+		for (; row_i < matrix.size(); ++row_i)
+			if (matrix[row_i][leading_column_i])
+				break;
+		if (row_i == matrix.size())
+			return false;
+		swap_row(matrix, leading_column_i, row_i);
+		for (++row_i; row_i < matrix.size(); ++row_i)
+			if (matrix[row_i][leading_column_i])
+				subtract_row(matrix, row_i, leading_column_i);
+	}
+	RAREFVector verifier(matrix[0].size(), false);
+	verifier.back() = true;
+	return std::equal(matrix.back().begin(), matrix.back().end(), verifier.begin());
+}
+
 
 
 
@@ -523,10 +546,15 @@ RAREFMatrix cast_matrix(tms::GenMat const &src)
 
 tms::BasicInt tms::analysis::t(DigitalNet const &net)
 {
-	std::vector<RAREFMatrix> genMat;
+	std::vector<RAREFMatrix>    genMat;
+	RAREFMatrix                 curr_matrix;
 	for (BasicInt dim_i = 0; dim_i < net.get_s(); dim_i++)
 	{
-		genMat.push_back(cast_matrix(net.get_generating_matrix(dim_i)));
+		curr_matrix = cast_matrix(net.get_generating_matrix(dim_i));
+		if (det(curr_matrix))
+			genMat.push_back(curr_matrix);
+		else
+			throw std::invalid_argument("Computation of tms::analysis::t is only possible for nets with non-degenerate generating matrices.");
 	}
 	Composition rho = find_rho_inner(net.get_m(), net.get_s(), net.get_s(), genMat);
 	if (rho.size() != 1)
