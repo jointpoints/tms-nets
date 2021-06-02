@@ -35,7 +35,7 @@ LICENSE_TMS_FILE_OUT = LICENSE.txt
 TEST_FOLDER = tests
 TEST_UNITS_FOLDER = $(TEST_FOLDER)\\units
 TEST_UNITS = $(TEST_FOLDER)\\catch2\\catch_amalgamated.cpp $(TEST_FOLDER)\\unit_tests.cpp\
-             $(TEST_UNITS_FOLDER)\\unit_DigitalNet.cpp
+             $(TEST_UNITS_FOLDER)\\unit_DigitalNet.cpp $(TEST_UNITS_FOLDER)\\unit_Niederreiter.cpp
 
 static_lib: static_prepare_win $(UNITS) static_assemble_win static_clean_win
 
@@ -60,7 +60,7 @@ LICENSE_TMS_FILE_OUT = LICENSE.txt
 TEST_FOLDER = tests
 TEST_UNITS_FOLDER = $(TEST_FOLDER)/units
 TEST_UNITS = $(TEST_FOLDER)/catch2/catch_amalgamated.cpp $(TEST_FOLDER)/unit_tests.cpp\
-             $(TEST_UNITS_FOLDER)/unit_DigitalNet.cpp
+             $(TEST_UNITS_FOLDER)/unit_DigitalNet.cpp $(TEST_UNITS_FOLDER)/unit_Niederreiter.cpp
 
 static_lib: static_prepare_unix $(UNITS) static_assemble_unix static_clean_unix
 
