@@ -21,8 +21,8 @@ using PCAMatrix    = std::vector<PCAMatrixRow>;
 
 tms::Point tms::analysis::scatter_defect(tms::DigitalNet const &net)
 {
-	CountInt        point_count     = (1ULL << net.get_m());
-	BasicInt        s               = net.get_s();
+	CountInt        point_count     = (1ULL << net.m());
+	BasicInt        s               = net.s();
 	Real            scatter         = 0;
 	Point           point;
 	PCAMatrix       cov_matrix;

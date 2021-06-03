@@ -51,8 +51,8 @@ int main()
 
 	std::cout << "Parameters of my_first_net:\n";
 	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
-	std::cout << "\tm = " << my_first_net.get_m() << '\n';
-	std::cout << "\ts = " << my_first_net.get_s() << '\n';
+	std::cout << "\tm = " << my_first_net.m() << '\n';
+	std::cout << "\ts = " << my_first_net.s() << '\n';
 
 	return 0;
 }
@@ -85,8 +85,8 @@ int main()
 
 	std::cout << "Parameters of my_first_net:\n";
 	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
-	std::cout << "\tm = " << my_first_net.get_m() << '\n';
-	std::cout << "\ts = " << my_first_net.get_s() << '\n';
+	std::cout << "\tm = " << my_first_net.m() << '\n';
+	std::cout << "\ts = " << my_first_net.s() << '\n';
 
 	for (unsigned int point_i = 0; point_i < 16; ++point_i)
 	{
@@ -109,8 +109,8 @@ int main()
 	
 	std::cout << "Parameters of my_first_net:\n";
 	std::cout << "\tt = " << tms::analysis::t(my_first_net) << '\n';
-	std::cout << "\tm = " << my_first_net.get_m() << '\n';
-	std::cout << "\ts = " << my_first_net.get_s() << '\n';
+	std::cout << "\tm = " << my_first_net.m() << '\n';
+	std::cout << "\ts = " << my_first_net.s() << '\n';
 
 	std::cout << "\nGenerated points:\n";
 	for (unsigned int point_i = 0; point_i < 16; ++point_i)
@@ -132,7 +132,7 @@ int main()
 //! [generate_net_output]
 Parameters of my_first_net:
 	t = 0
-	m = 5
+	m = 4
 	s = 2
 
 Generated points:

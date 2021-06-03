@@ -114,8 +114,8 @@
  * \section tutorial1_3 3. Check the parameters of the net
  *
  * Let us now quickly verify the parameters \f$t\f$, \f$m\f$ and \f$s\f$ of our net. Since \f$m\f$ and \f$s\f$ are
- * defined by user, their values can be retrieved from the net by the calls of respective member functions \c get_m and
- * \c get_s. As for the parameter \f$t\f$, its value requires some additional analytical calculations which is why
+ * defined by user, their values can be retrieved from the net by the calls of respective member functions \c m and
+ * \c s. As for the parameter \f$t\f$, its value requires some additional analytical calculations which is why
  * it can be retrieved with the special function \c t contained within \ref tms::analysis namespace:
  *
  * \snippet tutorial1.txt t_check

@@ -12,6 +12,7 @@
 #include "../../include/tms-nets/analysis/analysis.hpp"
 
 #include <stdexcept>    // needed for exceptions
+#include <algorithm>    // needed for "equal"
 
 
 
@@ -36,6 +37,36 @@ typedef struct RAREF
 typedef std::vector<size_t>      Composition;
 typedef std::vector<Composition> Compositions;
 
+// Debug
+/*void print_matrix(RAREFMatrix const &matrix)
+{
+	for (auto i : matrix)
+	{
+		for (auto j : i)
+		{
+			std::cout << j << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
+void print_RAREF(RAREF const &r, std::string const &name)
+{
+	std::cout << "RAREF for " << name << ":" << std::endl;
+	std::cout << "L:" << std::endl;
+	print_matrix(r.L);
+	std::cout << "T:" << std::endl;
+	print_matrix(r.T);
+	std::cout << "p:" << std::endl;
+	for (auto i : r.p)
+	{
+		std::cout << i << " ";
+	}
+	std::cout << std::endl
+			  << std::endl;
+}*/
+// Debug
+
 /*
  * Change row to absolute value of subtaction with another row
  */
@@ -43,7 +74,7 @@ inline void subtract_row(RAREFMatrix &matrix, size_t min_ind, size_t sub_ind)
 {
 	std::transform(matrix[min_ind].begin(), matrix[min_ind].end(),
 				   matrix[sub_ind].begin(), matrix[min_ind].begin(),
-				   [](bool a, bool b) { return !a * b + !b * a; });
+				   [](bool a, bool b) { return a != b; });
 }
 
 /*
@@ -305,18 +336,18 @@ RAREF update_RAREF(RAREFMatrix const &C, RAREFMatrix const &C2, RAREF const &src
 }
 
 /*
- * Add rows from [from:to] of src to the end of dst
- * If from is greater than to, rows will be added in reverse order
+ * Add rows from [0:to] of src to the end of dst
+ * If <reverse> == true, rows will be added in reverse order
  */
-void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t from, size_t to)
+void add_rows(RAREFMatrix &dst, RAREFMatrix const &src, size_t const to, bool const reverse = false)
 {
-	bool forward = from <= to ? true : false;
-	size_t n = std::max(from, to) - std::min(from, to) + 1;
+	size_t n = to + 1;
 	for (size_t i = 0; i < n; i++)
 	{
-		size_t ind = forward ? from + i : from - i;
+		size_t ind = (reverse) ? (to - i) : (i);
 		dst.push_back(src[ind]);
 	}
+	return;
 }
 
 Composition generate_projections(size_t s, size_t u, size_t k,
@@ -331,52 +362,84 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 		size_t curr_rank = u - 1;
 		for (size_t q = qmax; q >= u; q--)
 		{
-			bool flag = 0;
-			Compositions comp_arr = generate_compositions(q, u);
-			RAREFMatrix matrix = {};
-			RAREF r;
+			bool                flag                    = false;
+			Compositions        comp_arr                = generate_compositions(q, u);
+			RAREFMatrix         matrix                  = {};
+			std::vector<bool>   is_section_reversed(comp_arr[0].size(), false);
+			RAREF               r;
 			for (size_t j = 0; j < comp_arr.size(); j++)
 			{
 				size_t matrix_rank;
 				if (j >= 1)
 				{
+					// Try to update RAREF faster
 					Composition abs_diff(comp_arr[0].size());
 					std::transform(comp_arr[j].begin(), comp_arr[j].end(), comp_arr[j - 1].begin(),
 					               abs_diff.begin(), [](size_t a, size_t b){return std::max(a, b) - std::min(a, b);});
-					if (*std::max_element(abs_diff.begin(), abs_diff.end()) == 1)
+					// We study two consequent compositions. Faster computation is applicable, if:
+					//     1. a new composite matrix <matrix> differs from the previous by eactly one row,
+					//        which basically means that there is a pair of two adjacent sections in the previous matrix
+					//        such that if the "upper section" "loses" one row and the "lower section" "adds" one new row,
+					//        the previous matrix becomes a new matrix;
+					//     2. the "upper section" is packed in direct order and the "lower section" is packed in reversed
+					//        order.
+					bool    fast_update_available       = false;
+					size_t  fast_update_lower_section   = 0;
+					for (size_t section_i = 0; section_i < comp_arr[0].size() - 1; ++section_i)
 					{
-						RAREFMatrix old_matrix = matrix;
-						matrix = {};
-						Composition abs_diff_ones;
-						for (size_t ind = 0; ind < abs_diff.size(); ind++)
+						if (std::abs(static_cast<int>(comp_arr[j][section_i] - comp_arr[j - 1][section_i])) > 1)
 						{
-							if (abs_diff[ind] == 1)
-							{
-								abs_diff_ones.push_back(ind);
-							}
+							fast_update_available = false;
+							break;
 						}
-						size_t coeff = abs_diff_ones[1];
-
-						for (size_t P = 0; P < comp_arr[0].size(); P++)
+						if ((std::abs(static_cast<int>(comp_arr[j][section_i]     - comp_arr[j - 1][section_i]))     == 1)  &&
+						    (std::abs(static_cast<int>(comp_arr[j][section_i + 1] - comp_arr[j - 1][section_i + 1])) == 1)  &&
+						    ((!is_section_reversed[section_i] && is_section_reversed[section_i + 1]) || (!is_section_reversed[section_i] && !is_section_reversed[section_i + 1] && (comp_arr[j - 1][section_i + 1] == 1))))
 						{
-							if (P != coeff)
+							if (!fast_update_available)
 							{
-								add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
+								fast_update_available = true;
+								fast_update_lower_section = section_i + 1;
 							}
 							else
 							{
-								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1, 0);
+								fast_update_available = false;
+								break;
+							}
+						}
+					}
+					if (std::abs(static_cast<int>(comp_arr[j][comp_arr[0].size() - 1] - comp_arr[j - 1][comp_arr[0].size() - 1])) > 1)
+						fast_update_available = false;
+					// If fast update is available, update faster
+					if (fast_update_available)
+					{
+						RAREFMatrix old_matrix = matrix;
+						matrix = {};
+
+						for (size_t P = 0; P < comp_arr[0].size(); P++)
+						{
+							if (P != fast_update_lower_section)
+							{
+								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1);
+								is_section_reversed[P] = false;
+							}
+							else
+							{
+								add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1, true);
+								is_section_reversed[P] = true;
 							}
 						}
 						r = update_RAREF(old_matrix, matrix, r);
 						matrix_rank = r.p.size();
 					}
+					// Otherwise, update slowly :(
 					else
 					{
 						matrix = {};
 						for (size_t P = 0; P < comp_arr[0].size(); P++)
 						{
-							add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
+							add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1);
+							is_section_reversed[P] = false;
 						}
 						r = compute_RAREF(matrix);
 						matrix_rank = r.p.size();
@@ -386,14 +449,15 @@ Composition generate_projections(size_t s, size_t u, size_t k,
 				{
 					for (size_t P = 0; P < comp_arr[0].size(); P++)
 					{
-						add_rows(matrix, gen_mat[c[i][P]], 0, comp_arr[j][P] - 1);
+						add_rows(matrix, gen_mat[c[i][P]], comp_arr[j][P] - 1);
+						is_section_reversed[P] = false;
 					}
 					r = compute_RAREF(matrix);
 					matrix_rank = r.p.size();
 				}
 				if (matrix_rank < q)
 				{
-					flag = 1;
+					flag = true;
 					break;
 				}
 				else
@@ -431,35 +495,6 @@ Composition find_rho_inner(size_t k, size_t s, size_t dmax,
 	return rho;
 }
 
-// Debug
-/*void print_matrix(RAREFMatrix const &matrix)
-{
-	for (auto i : matrix)
-	{
-		for (auto j : i)
-		{
-			std::cout << j << " ";
-		}
-		std::cout << std::endl;
-	}
-}
-
-void print_RAREF(RAREF const &r, std::string const &name)
-{
-	std::cout << "RAREF for " << name << ":" << std::endl;
-	std::cout << "L:" << std::endl;
-	print_matrix(r.L);
-	std::cout << "T:" << std::endl;
-	print_matrix(r.T);
-	std::cout << "p:" << std::endl;
-	for (auto i : r.p)
-	{
-		std::cout << i << " ";
-	}
-	std::cout << std::endl
-			  << std::endl;
-}*/
-
 /*
  * Cast matrix of uints to matrix of bools
  */
@@ -476,6 +511,29 @@ RAREFMatrix cast_matrix(tms::GenMat const &src)
 	return dst;
 }
 
+/*
+ * Calculate determinant over F2
+ */
+bool det(RAREFMatrix matrix)
+{
+	for (size_t leading_column_i = 0; leading_column_i < matrix[0].size(); ++leading_column_i)
+	{
+		size_t row_i = leading_column_i;
+		for (; row_i < matrix.size(); ++row_i)
+			if (matrix[row_i][leading_column_i])
+				break;
+		if (row_i == matrix.size())
+			return false;
+		swap_row(matrix, leading_column_i, row_i);
+		for (++row_i; row_i < matrix.size(); ++row_i)
+			if (matrix[row_i][leading_column_i])
+				subtract_row(matrix, row_i, leading_column_i);
+	}
+	RAREFVector verifier(matrix[0].size(), false);
+	verifier.back() = true;
+	return std::equal(matrix.back().begin(), matrix.back().end(), verifier.begin());
+}
+
 
 
 
@@ -488,13 +546,18 @@ RAREFMatrix cast_matrix(tms::GenMat const &src)
 
 tms::BasicInt tms::analysis::t(DigitalNet const &net)
 {
-	std::vector<RAREFMatrix> genMat;
-	for (BasicInt dim_i = 0; dim_i < net.get_s(); dim_i++)
+	std::vector<RAREFMatrix>    genMat;
+	RAREFMatrix                 curr_matrix;
+	for (BasicInt dim_i = 0; dim_i < net.s(); dim_i++)
 	{
-		genMat.push_back(cast_matrix(net.get_generating_matrix(dim_i)));
+		curr_matrix = cast_matrix(net.generating_matrix(dim_i));
+		if (det(curr_matrix))
+			genMat.push_back(curr_matrix);
+		else
+			throw std::invalid_argument("Computation of tms::analysis::t is only possible for nets with non-degenerate generating matrices.");
 	}
-	Composition rho = find_rho_inner(net.get_m(), net.get_s(), net.get_s(), genMat);
+	Composition rho = find_rho_inner(net.m(), net.s(), net.s(), genMat);
 	if (rho.size() != 1)
 		throw std::runtime_error("Was not able to calculate t.");
-	return net.get_m() - rho[0];
+	return net.m() - rho[0];
 }

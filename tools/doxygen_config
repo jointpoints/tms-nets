@@ -38,7 +38,7 @@ PROJECT_NAME           = "(t, m, s)-nets generator"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 3.0.0
+PROJECT_NUMBER         = 3.0.1
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -266,8 +266,8 @@ ALIASES                =
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
 # will allow you to use the command class in the itcl::class meaning.
-
-TCL_SUBST              =
+# !!! DEPRECATED !!!
+#TCL_SUBST              =
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources
 # only. Doxygen will then generate output that is more tailored for C. For
@@ -829,9 +829,11 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ./include/tms-nets/ \
+INPUT                  = ./include/tms-nets/digital_net.hpp \
+                         ./include/tms-nets/niederreiter.hpp \
+                         ./include/tms-nets/sobol.hpp \
                          ./include/tms-nets/details \
-						 ./include/tms-nets/analysis \
+                         ./include/tms-nets/analysis \
                          ./tools/custom_dox_pages
 
 # This tag can be used to specify the character encoding of the source files
@@ -1088,8 +1090,8 @@ ALPHABETICAL_INDEX     = NO
 # which the alphabetical index list will be split.
 # Minimum value: 1, maximum value: 20, default value: 5.
 # This tag requires that the tag ALPHABETICAL_INDEX is set to YES.
-
-COLS_IN_ALPHA_INDEX    = 5
+# !!! DEPRECATED !!!
+#COLS_IN_ALPHA_INDEX    = 5
 
 # In case all classes in a project start with a common prefix, all classes will
 # be put under the same header in the alphabetical index. The IGNORE_PREFIX tag

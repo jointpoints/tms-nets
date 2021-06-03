@@ -56,8 +56,8 @@
  * \section tutorial3_1 1. Basic workflow
  *
  * We yet again assume the same file structure as in [tutorial 1](@ref tutorial1_1). This time, for the sake of variety we are
- * going to utilise the modified Niederreiter nets that are represented with the \ref tms::ModifiedNiederreiter class. These nets
- * have the same constructor as the regular Niederreiter nets, however, due to some inner changes in construction algorithms may
+ * going to utilise Sobol nets that are represented with the \ref tms::Sobol class. These nets
+ * have the same constructor as Niederreiter nets, however, due to some inner changes in construction algorithms may
  * potentially expose additional useful features.
  *
  * Let us define a \f$(t, 30, 5)\f$-net, that is, a five-dimensional net with \f$2^{30} = 1,073,741,824\f$ points.
