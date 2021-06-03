@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">(t, m, s)-nets generator
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">3.0.1</span>
    </div>
   </td>
  </tr>
@@ -113,18 +113,19 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 <p>Let us now create a sample project for the purposes of this tutorial. You may do this however you prefer: manually or with the help of your most favourive IDE. Hereafter we assume that our sample project has the following file structure.</p>
 <div class="fragment"><div class="line">sample_project_root_folder</div>
 <div class="line"> ├─ libraries</div>
-<div class="line"> │   ├─ tms-nets</div>
+<div class="line"> │   ├─ <a class="code" href="namespacetms.html">tms</a>-nets</div>
 <div class="line"> │   │   └─ ... there go the files of our library ...</div>
-<div class="line"> │   ├─ tms-nets.a</div>
-<div class="line"> │   └─ tms-nets.hpp</div>
+<div class="line"> │   ├─ <a class="code" href="namespacetms.html">tms</a>-nets.a</div>
+<div class="line"> │   └─ <a class="code" href="namespacetms.html">tms</a>-nets.hpp</div>
 <div class="line"> └─ main.cpp</div>
+<div class="ttc" id="anamespacetms_html"><div class="ttname"><a href="namespacetms.html">tms</a></div><div class="ttdoc">All the entities in the library are defined in this namespace.</div><div class="ttdef"><b>Definition:</b> digital_net.hpp:13</div></div>
 </div><!-- fragment --><p> File <code>main.cpp</code> was created manually and it is currently empty.</p>
 <dl class="section note"><dt>Note</dt><dd>Do not forget to enable C++17 standard in your compiler!</dd></dl>
 <h1><a class="anchor" id="tutorial1_2"></a>
 2. Create a new net</h1>
 <p>Let us now open and edit <code>main.cpp</code> file of our sample program. There, in order to use our library, we first need to include the file with needed functionality. Say, we want to generate a \((t, m, s)\)-net using Niederreiter's algorithm. Hence, we need to include the following file:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;libraries/tms-nets/tms-nets.hpp&quot;</span></div>
-</div><!-- fragment --><p> The functionality of our library is completely stored within a sole namespace called tms. In particular, the Niederreiter's \((t, m, s)\)-nets in base \(2\) will be represented as the objects of class <a class="el" href="classtms_1_1_niederreiter.html">tms::Niederreiter</a>. Each digital net has the parameters \(t\), \(m\) and \(s\) as its invariants meaning that if at some moment of time you need to change their values, you'll have to create a new net. These parameters have the following meaning:</p>
+</div><!-- fragment --><p> The functionality of our library is completely stored within a sole namespace called <a class="el" href="namespacetms.html">tms</a>. In particular, the Niederreiter's \((t, m, s)\)-nets in base \(2\) will be represented as the objects of class <a class="el" href="classtms_1_1_niederreiter.html">tms::Niederreiter</a>. Each digital net has the parameters \(t\), \(m\) and \(s\) as its invariants meaning that if at some moment of time you need to change their values, you'll have to create a new net. These parameters have the following meaning:</p>
 <ul>
 <li>\(t\) : this non-negative integer parameter signifies the "quality of points' dispersion" within the unit cube. More precisely, the less its quantity is, the lower is the discrepancy of the net. Minimal possible value of \(t\) increases with the growth of dimension;</li>
 <li>\(m\) : this non-negative integer parameter signifies the binary logarithm of number \(M\) of points within the net, i.e., \(m = \log_2 M\). Please remember that \(M\) must always be a power of \(2\). Minimal possible value of \(m\) is \(t\) and, hence, it increases with the growth of dimension as well;</li>
@@ -132,8 +133,9 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 </ul>
 <p>If you want to find out mathematically rigorous description of parameter \(t\), check out the sources from <a class="el" href="index.html#literature">Recommended literature</a>. However, if you don't want to go deep into the theory, you shall not despair, since our generator is capable of automatic selection of the best (i.e., the lowest) possible \(t\) for each particular case. Having this, you may just forget about its existence (as long as your value of \(m\) is sufficiently large to satisfy \(m \ge t\); don't worry: if your value of \(m\) is too small for a particular \(s\), our library will inform you about that with the help of a runtime exception).</p>
 <p>Let us now write a program that saturates a two-dimesional unit cube (i.e., a square with the length of each edge being equal to \(1\)) with a \((t, m, s)\)-net containing \(16\) quasirandom points. Here, \(s = 2\) (since the unit cube is two-dimensional) and \(m = \log_2 M = \log_2 16 = \log_2 2^4 = 4\). Knowing this, we may finally create a new net with the help of the following constructor.</p>
-<div class="fragment"><div class="line"><a class="code" href="classtms_1_1_niederreiter.html">tms::Niederreiter</a>(tms::BasicInt <span class="keyword">const</span> nbits, tms::BasicInt <span class="keyword">const</span> dim)</div>
-<div class="ttc" id="aclasstms_1_1_niederreiter_html"><div class="ttname"><a href="classtms_1_1_niederreiter.html">tms::Niederreiter</a></div><div class="ttdef"><b>Definition:</b> niederreiter.hpp:25</div></div>
+<div class="fragment"><div class="line"><a class="code" href="classtms_1_1_niederreiter.html">tms::Niederreiter</a>(<a class="code" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">tms::BasicInt</a> <span class="keyword">const</span> nbits, <a class="code" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">tms::BasicInt</a> <span class="keyword">const</span> dim)</div>
+<div class="ttc" id="aclasstms_1_1_niederreiter_html"><div class="ttname"><a href="classtms_1_1_niederreiter.html">tms::Niederreiter</a></div><div class="ttdef"><b>Definition:</b> niederreiter.hpp:23</div></div>
+<div class="ttc" id="anamespacetms_html_ab16c8ddfc13ef572006cd4057d91941a"><div class="ttname"><a href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">tms::BasicInt</a></div><div class="ttdeci">unsigned int BasicInt</div><div class="ttdoc">A type for integer values that are less than word size (e.g. m, s parameters of the net)</div><div class="ttdef"><b>Definition:</b> common.hpp:15</div></div>
 </div><!-- fragment --><p> Here <code>nbits</code> shall be replaced with \(m\) and <code>dim</code> shall be replaced with \(s\). Having this said, we may write the following piece of code.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;libraries/tms-nets/tms-nets.hpp&quot;</span></div>
 <div class="line"> </div>
@@ -146,8 +148,8 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 </div><!-- fragment --><p> Thus, <code>my_first_net</code> is the \((t, 4, 2)\)-net (value of \(t\) is still unknown) which was constructed with Niederreiter's algorithm and consists of \(16\) distinct quasirandom points within two-dimensional unit cube.</p>
 <h1><a class="anchor" id="tutorial1_3"></a>
 3. Check the parameters of the net</h1>
-<p>Let us now quickly verify the parameters \(t\), \(m\) and \(s\) of our net. Since \(m\) and \(s\) are defined by user, their values can be retrieved from the net by the calls of respective member functions <code>get_m</code> and <code>get_s</code>. As for the parameter \(t\), its value requires some additional analytical calculations which is why it can be retrieved with the special function <code>t</code> contained within <a class="el" href="namespacetms_1_1analysis.html">tms::analysis</a> namespace:</p>
-<div class="fragment"><div class="line">tms::BasicInt <a class="code" href="namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a">tms::analysis::t</a>(DigitalNet <span class="keyword">const</span> &amp;net)</div>
+<p>Let us now quickly verify the parameters \(t\), \(m\) and \(s\) of our net. Since \(m\) and \(s\) are defined by user, their values can be retrieved from the net by the calls of respective member functions <code>m</code> and <code>s</code>. As for the parameter \(t\), its value requires some additional analytical calculations which is why it can be retrieved with the special function <code>t</code> contained within <a class="el" href="namespacetms_1_1analysis.html">tms::analysis</a> namespace:</p>
+<div class="fragment"><div class="line"><a class="code" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">tms::BasicInt</a> <a class="code" href="namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a">tms::analysis::t</a>(DigitalNet <span class="keyword">const</span> &amp;net)</div>
 <div class="ttc" id="anamespacetms_1_1analysis_html_af55965f0f044a581aa022a3bf772008a"><div class="ttname"><a href="namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a">tms::analysis::t</a></div><div class="ttdeci">BasicInt t(DigitalNet const &amp;net)</div></div>
 </div><!-- fragment --><p> Here, <code>net</code> should be replaced with our digital net. The complete code may look as follows:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;libraries/tms-nets/tms-nets.hpp&quot;</span></div>
@@ -159,8 +161,8 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 <div class="line"> </div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Parameters of my_first_net:\n&quot;</span>;</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tt = &quot;</span> &lt;&lt; <a class="code" href="namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a">tms::analysis::t</a>(my_first_net) &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tm = &quot;</span> &lt;&lt; my_first_net.get_m() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\ts = &quot;</span> &lt;&lt; my_first_net.get_s() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tm = &quot;</span> &lt;&lt; my_first_net.m() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\ts = &quot;</span> &lt;&lt; my_first_net.s() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
@@ -173,8 +175,10 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 <h1><a class="anchor" id="tutorial1_4"></a>
 4. See the points of the net</h1>
 <p>Let us finally see the points! In order to optimise the consumption of resources our <code>my_first_net</code> doesn't actually store all its points in the memory. Instead, it calculates their coordinates on the fly right at the moment when we request them. To do this we are going to use the</p>
-<div class="fragment"><div class="line">tms::Point <a class="code" href="classtms_1_1_digital_net.html#a1e91356bef20d34b942c35afa6e4c971">tms::Niederreiter::generate_point</a>(tms::CountInt <span class="keyword">const</span> pos)</div>
+<div class="fragment"><div class="line"><a class="code" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> <a class="code" href="classtms_1_1_digital_net.html#a1e91356bef20d34b942c35afa6e4c971">tms::Niederreiter::generate_point</a>(<a class="code" href="namespacetms.html#a62d6adf4a3f974a5a5e36df9692c86ac">tms::CountInt</a> <span class="keyword">const</span> pos)</div>
 <div class="ttc" id="aclasstms_1_1_digital_net_html_a1e91356bef20d34b942c35afa6e4c971"><div class="ttname"><a href="classtms_1_1_digital_net.html#a1e91356bef20d34b942c35afa6e4c971">tms::DigitalNet::generate_point</a></div><div class="ttdeci">Point generate_point(CountInt pos) const</div></div>
+<div class="ttc" id="anamespacetms_html_a03731000658f4568566d5acc35945c95"><div class="ttname"><a href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a></div><div class="ttdeci">std::vector&lt; Real &gt; Point</div><div class="ttdoc">Represents a point of a (t, m, s)-net.</div><div class="ttdef"><b>Definition:</b> common.hpp:25</div></div>
+<div class="ttc" id="anamespacetms_html_a62d6adf4a3f974a5a5e36df9692c86ac"><div class="ttname"><a href="namespacetms.html#a62d6adf4a3f974a5a5e36df9692c86ac">tms::CountInt</a></div><div class="ttdeci">uintmax_t CountInt</div><div class="ttdoc">A type for integer counting values, (e.g. number of net's point)</div><div class="ttdef"><b>Definition:</b> common.hpp:17</div></div>
 </div><!-- fragment --><p> method. Its only argument <code>pos</code> specifies the ordinal index of the point we wish to get. Since we want to take a look at not a single point of our new but all \(16\) points at once, we should wrap the call of this method in a loop.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;libraries/tms-nets/tms-nets.hpp&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
@@ -185,8 +189,8 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 <div class="line"> </div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Parameters of my_first_net:\n&quot;</span>;</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tt = &quot;</span> &lt;&lt; <a class="code" href="namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a">tms::analysis::t</a>(my_first_net) &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tm = &quot;</span> &lt;&lt; my_first_net.get_m() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\ts = &quot;</span> &lt;&lt; my_first_net.get_s() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tm = &quot;</span> &lt;&lt; my_first_net.m() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\ts = &quot;</span> &lt;&lt; my_first_net.s() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> point_i = 0; point_i &lt; 16; ++point_i)</div>
 <div class="line">    {</div>
@@ -205,13 +209,13 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 <div class="line">    </div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Parameters of my_first_net:\n&quot;</span>;</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tt = &quot;</span> &lt;&lt; <a class="code" href="namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a">tms::analysis::t</a>(my_first_net) &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tm = &quot;</span> &lt;&lt; my_first_net.get_m() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\ts = &quot;</span> &lt;&lt; my_first_net.get_s() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\tm = &quot;</span> &lt;&lt; my_first_net.m() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\ts = &quot;</span> &lt;&lt; my_first_net.s() &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line"> </div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;\nGenerated points:\n&quot;</span>;</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> point_i = 0; point_i &lt; 16; ++point_i)</div>
 <div class="line">    {</div>
-<div class="line">        tms::Point current_point = my_first_net.generate_point(point_i);</div>
+<div class="line">        <a class="code" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> current_point = my_first_net.generate_point(point_i);</div>
 <div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> dim_i = 0; dim_i &lt; 2; ++dim_i)</div>
 <div class="line">        {</div>
 <div class="line">            std::cout &lt;&lt; current_point[dim_i] &lt;&lt; <span class="charliteral">&#39;\t&#39;</span>;</div>
@@ -224,7 +228,7 @@ $(document).ready(function(){initNavTree('tutorial1.html',''); initResizable(); 
 </div><!-- fragment --><p> The expected output is:</p>
 <div class="fragment"><div class="line">Parameters of my_first_net:</div>
 <div class="line">    <a class="code" href="namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a">t</a> = 0</div>
-<div class="line">    m = 5</div>
+<div class="line">    m = 4</div>
 <div class="line">    s = 2</div>
 <div class="line"> </div>
 <div class="line">Generated points:</div>

@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">(t, m, s)-nets generator
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">3.0.1</span>
    </div>
   </td>
  </tr>
@@ -114,7 +114,7 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classtms_1_1_gen_mat.html">GenMat</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classtms_1_1_gen_mat.html">GenMat</a> &amp;&amp;)</td></tr>
 <tr class="separator:adddde3c42ed8a2b6540bafb79b6cfecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb1026fe7e3722f589195879292ec2a8"><td class="memItemLeft" align="right" valign="top"><a id="abb1026fe7e3722f589195879292ec2a8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GenMat</b> (BasicInt size)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GenMat</b> (<a class="el" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">BasicInt</a> size)</td></tr>
 <tr class="separator:abb1026fe7e3722f589195879292ec2a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e5e1952ad0856e19af0583eec695a2c"><td class="memItemLeft" align="right" valign="top"><a id="a5e5e1952ad0856e19af0583eec695a2c"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GenMat</b> (std::vector&lt; <a class="el" href="classtms_1_1_gen_mat_row.html">GenMatRow</a> &gt; const &amp;matrix)</td></tr>
@@ -122,21 +122,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2f11a8cae92a390e168932cbc5b67100"><td class="memItemLeft" align="right" valign="top"><a id="a2f11a8cae92a390e168932cbc5b67100"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GenMat</b> (std::initializer_list&lt; <a class="el" href="classtms_1_1_gen_mat_row.html">GenMatRow</a> &gt; const &amp;lines_list)</td></tr>
 <tr class="separator:a2f11a8cae92a390e168932cbc5b67100"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb250747430432220d457e9bfda615dd"><td class="memItemLeft" align="right" valign="top"><a id="adb250747430432220d457e9bfda615dd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>operator DirNum</b> (void) const</td></tr>
-<tr class="separator:adb250747430432220d457e9bfda615dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a8f543b5d0bda1f9b83194978aff32"><td class="memItemLeft" align="right" valign="top"><a id="a13a8f543b5d0bda1f9b83194978aff32"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>operator GenNum</b> (void) const</td></tr>
+<tr class="separator:a13a8f543b5d0bda1f9b83194978aff32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08bf4fe23471a291bc6a80213e692d08"><td class="memItemLeft" align="right" valign="top"><a id="a08bf4fe23471a291bc6a80213e692d08"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>empty</b> (void) const</td></tr>
+<tr class="separator:a08bf4fe23471a291bc6a80213e692d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5bff703fbda5394539571b8f40e06c1"><td class="memItemLeft" align="right" valign="top"><a id="ae5bff703fbda5394539571b8f40e06c1"></a>
-BasicInt&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> (void) const</td></tr>
+<a class="el" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">BasicInt</a>&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> (void) const</td></tr>
 <tr class="separator:ae5bff703fbda5394539571b8f40e06c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d1f61daa5ce4d0a5ee437d6f5e0418c"><td class="memItemLeft" align="right" valign="top"><a id="a7d1f61daa5ce4d0a5ee437d6f5e0418c"></a>
-<a class="el" href="classtms_1_1_gen_mat_row.html">GenMatRow</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (BasicInt n) const</td></tr>
+<a class="el" href="classtms_1_1_gen_mat_row.html">GenMatRow</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">BasicInt</a> n) const</td></tr>
 <tr class="separator:a7d1f61daa5ce4d0a5ee437d6f5e0418c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5f1c2a46529c6a8a94433f3360608f1"><td class="memItemLeft" align="right" valign="top"><a id="ac5f1c2a46529c6a8a94433f3360608f1"></a>
-<a class="el" href="classtms_1_1_gen_mat_row.html">GenMatRow</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (BasicInt n)</td></tr>
+<a class="el" href="classtms_1_1_gen_mat_row.html">GenMatRow</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">BasicInt</a> n)</td></tr>
 <tr class="separator:ac5f1c2a46529c6a8a94433f3360608f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf965b09658eb9973531143ce01d1703"><td class="memItemLeft" align="right" valign="top"><a id="adf965b09658eb9973531143ce01d1703"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_shifted</b> (void) const</td></tr>
-<tr class="separator:adf965b09658eb9973531143ce01d1703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a762c7f682dad2b197d8476909bf11882"><td class="memItemLeft" align="right" valign="top"><a id="a762c7f682dad2b197d8476909bf11882"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_toeplitz</b> (void) const</td></tr>
+<tr class="separator:a762c7f682dad2b197d8476909bf11882"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75966f1777a6573ef9f287110fffc082"><td class="memItemLeft" align="right" valign="top"><a id="a75966f1777a6573ef9f287110fffc082"></a>
 <a class="el" href="classtms_1_1_gen_mat.html">GenMat</a>&#160;</td><td class="memItemRight" valign="bottom"><b>inverse</b> (void) const</td></tr>
 <tr class="separator:a75966f1777a6573ef9f287110fffc082"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,7 +150,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_shifted</b> (void)
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a95589f5a18284b575d9f97a1af4bedf4"><td class="memItemLeft" align="right" valign="top"><a id="a95589f5a18284b575d9f97a1af4bedf4"></a>
-BasicInt&#160;</td><td class="memItemRight" valign="bottom"><b>m_nbits</b></td></tr>
+<a class="el" href="namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a">BasicInt</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_nbits</b></td></tr>
 <tr class="separator:a95589f5a18284b575d9f97a1af4bedf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacab5c6ef6d9015204be7cd377488ff3"><td class="memItemLeft" align="right" valign="top"><a id="aacab5c6ef6d9015204be7cd377488ff3"></a>
 std::vector&lt; <a class="el" href="classtms_1_1_gen_mat_row.html">GenMatRow</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_rows</b></td></tr>
@@ -164,7 +167,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (<a cl
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>tms</b></li><li class="navelem"><a class="el" href="classtms_1_1_gen_mat.html">GenMat</a></li>
+    <li class="navelem"><a class="el" href="namespacetms.html">tms</a></li><li class="navelem"><a class="el" href="classtms_1_1_gen_mat.html">GenMat</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>

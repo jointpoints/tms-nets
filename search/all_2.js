@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['degree_7',['degree',['../classirrpoly_1_1gfpoly.html#a9abe41a490c035b95257d33a5fbfdd58',1,'irrpoly::gfpoly']]],
-  ['diagonalize_8',['Diagonalize',['../classjacobi__public__domain_1_1_jacobi.html#a5a8c75aef9d76055bccc1f276bfa462f',1,'jacobi_public_domain::Jacobi']]],
-  ['digitalnet_9',['DigitalNet',['../classtms_1_1_digital_net.html',1,'tms']]],
-  ['dirnum_10',['DirNum',['../classtms_1_1_dir_num.html',1,'tms']]],
-  ['div_11',['div',['../classirrpoly_1_1gfpoly.html#ab817b0221dd9935824f6803a311ec8dc',1,'irrpoly::gfpoly']]],
-  ['division_12',['division',['../classirrpoly_1_1gfpoly.html#acde7c98749a538e7d1baf7dae72ae68c',1,'irrpoly::gfpoly']]],
-  ['download_13',['Download',['../download.html',1,'']]]
+  ['digitalnet_3',['DigitalNet',['../classtms_1_1_digital_net.html#af4764ecf74b8faac1b1ad3844d1ad10f',1,'tms::DigitalNet::DigitalNet(void)'],['../classtms_1_1_digital_net.html#a5e6bafd9134b8646f8f75403df637bad',1,'tms::DigitalNet::DigitalNet(std::vector&lt; GenNum &gt; const &amp;generating_numbers)'],['../classtms_1_1_digital_net.html#a6714163d3ae8295026a0dce482fbcf5f',1,'tms::DigitalNet::DigitalNet(std::vector&lt; GenMat &gt; const &amp;generating_matrices)'],['../classtms_1_1_digital_net.html',1,'DigitalNet']]],
+  ['download_4',['Download',['../download.html',1,'']]]
 ];

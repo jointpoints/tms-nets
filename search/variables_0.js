@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['c_155',['c',['../classjacobi__public__domain_1_1_jacobi.html#ac762567da9a11966b85689a9ebee8b70',1,'jacobi_public_domain::Jacobi']]]
+  ['m_5fdim_97',['m_dim',['../classtms_1_1_digital_net.html#aa2efc39d01cfc54d3f036209b418f8d4',1,'tms::DigitalNet']]],
+  ['m_5fgenerating_5fnumbers_98',['m_generating_numbers',['../classtms_1_1_digital_net.html#ab41303cd1c1cbfc0f3b43d4297b8c9ab',1,'tms::DigitalNet']]],
+  ['m_5firrpolys_99',['m_irrpolys',['../classtms_1_1_niederreiter.html#ada878d45cfc817d862fed3a9ca846937',1,'tms::Niederreiter']]],
+  ['m_5fnbits_100',['m_nbits',['../classtms_1_1_digital_net.html#a95589f5a18284b575d9f97a1af4bedf4',1,'tms::DigitalNet']]],
+  ['m_5frecip_101',['m_recip',['../classtms_1_1_digital_net.html#ac64465c19267147a6b0e479caca9eac5',1,'tms::DigitalNet']]],
+  ['max_5fnbits_102',['max_nbits',['../namespacetms.html#a4970094c3a112f8b69664fd6f67fae70',1,'tms']]]
 ];

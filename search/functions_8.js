@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['operator_2f_141',['operator/',['../classirrpoly_1_1gfn.html#abaa5f7cb43fc59fac44d4e126ba88a01',1,'irrpoly::gfn']]],
-  ['operator_3c_3c_3d_142',['operator&lt;&lt;=',['../classirrpoly_1_1gfpoly.html#a6847a6e6d309f621437e98caf49de9b9',1,'irrpoly::gfpoly']]],
-  ['operator_3e_3e_3d_143',['operator&gt;&gt;=',['../classirrpoly_1_1gfpoly.html#abff9800f9f9b88ed6858533d1f78300c',1,'irrpoly::gfpoly']]],
-  ['operator_5b_5d_144',['operator[]',['../classirrpoly_1_1gfpoly.html#a26112a1011c321ad725d1f1564b927a6',1,'irrpoly::gfpoly']]]
+  ['operator_20genmat_86',['operator GenMat',['../classtms_1_1_gen_num.html#ae477181396927b971ee21f19c21d0c45',1,'tms::GenNum']]],
+  ['operator_5b_5d_87',['operator[]',['../classtms_1_1_gen_num.html#a1431100ec511dd5ac4baf232f26bc9fe',1,'tms::GenNum::operator[](BasicInt n) const'],['../classtms_1_1_gen_num.html#a2829e3ba649f1b864f0bc39d3875a20b',1,'tms::GenNum::operator[](BasicInt n)']]]
 ];

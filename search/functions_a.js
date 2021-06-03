@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['random_146',['random',['../classirrpoly_1_1gfn.html#a6e7e86f353ede91c5df172750531b100',1,'irrpoly::gfn::random()'],['../classirrpoly_1_1gfpoly.html#a7d92f4b91537d6e92e3112dbee6cac5d',1,'irrpoly::gfpoly::random(const gf &amp;field, uintmax_t degree) -&gt; gfpoly']]],
-  ['reduce_147',['reduce',['../classirrpoly_1_1gfpoly.html#a4fbbd17169d9f05492e4b180e83e3cfb',1,'irrpoly::gfpoly']]]
+  ['t_95',['t',['../namespacetms_1_1analysis.html#af55965f0f044a581aa022a3bf772008a',1,'tms::analysis']]],
+  ['t_5festimate_96',['t_estimate',['../classtms_1_1_niederreiter.html#a6585f519bd8f27f424018dd44ce136fe',1,'tms::Niederreiter']]]
 ];

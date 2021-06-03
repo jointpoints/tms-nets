@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['add_0',['add',['../classirrpoly_1_1gfpoly.html#a3433d1cadb10a4119b3e9e73894a8a9b',1,'irrpoly::gfpoly']]],
-  ['applyrot_1',['ApplyRot',['../classjacobi__public__domain_1_1_jacobi.html#a59c143df395679d59d0bf81484b71a43',1,'jacobi_public_domain::Jacobi']]],
-  ['applyrotleft_2',['ApplyRotLeft',['../classjacobi__public__domain_1_1_jacobi.html#a47a8e77decb4c03970120d8c02efbb02',1,'jacobi_public_domain::Jacobi']]]
+  ['basicint_0',['BasicInt',['../namespacetms.html#ab16c8ddfc13ef572006cd4057d91941a',1,'tms']]]
 ];

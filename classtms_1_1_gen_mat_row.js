@@ -9,6 +9,7 @@ var classtms_1_1_gen_mat_row =
     [ "GenMatRow", "classtms_1_1_gen_mat_row.html#a278c18b986b430a6f4470f4b0a5362b6", null ],
     [ "operator=", "classtms_1_1_gen_mat_row.html#a45d61f857b04f4c2d5fcd610abf80e0e", null ],
     [ "operator=", "classtms_1_1_gen_mat_row.html#a3a066a53a40f9285e8b3d0e31e3c15ea", null ],
+    [ "empty", "classtms_1_1_gen_mat_row.html#a08bf4fe23471a291bc6a80213e692d08", null ],
     [ "size", "classtms_1_1_gen_mat_row.html#ae5bff703fbda5394539571b8f40e06c1", null ],
     [ "operator[]", "classtms_1_1_gen_mat_row.html#a21cf3501299607cbc100fbb9e0c6c88d", null ],
     [ "operator[]", "classtms_1_1_gen_mat_row.html#afa6630392db3eaf75cb6fceab52bf11c", null ],

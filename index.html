@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">(t, m, s)-nets generator
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">3.0.1</span>
    </div>
   </td>
  </tr>
@@ -102,7 +102,13 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 <div class="textblock"><h1><a class="anchor" id="mainpage_introduction"></a>
 Introduction</h1>
-<p>Welcome to the documentation for a C++ library housed at <a href="https://github.com/jointpoints/tms-nets"><b>this GitHub repository</b></a>! Corresponding library contains a generator of digital \((t, m, s)\)-nets in base \(2\) featuring the algorithm proposed by Harald Niederreiter in 1987 in his article "Low-Discrepancy and Low-Dispersion Sequences". Broadly speaking, \((t, m, s)\)-nets are low-discrepancy discrete sets of points in \(s\)-dimensional unit cube. You may find more information about them in the sources listed in <a class="el" href="index.html#literature">Recommended literature</a>.</p>
+<p>Welcome to the documentation for a C++ library housed at <a href="https://github.com/jointpoints/tms-nets"><b>this GitHub repository</b></a>! Corresponding library contains a generator of digital \((t, m, s)\)-nets in base \(2\) featuring:</p>
+<ul>
+<li>Sobol nets,</li>
+<li>Niederreiter nets,</li>
+<li>any digital nets with manually set generating matrices.</li>
+</ul>
+<p>Broadly speaking, \((t, m, s)\)-nets are low-discrepancy discrete sets of points in \(s\)-dimensional unit cube. You may find more information about them in the sources listed in <a class="el" href="index.html#literature">Recommended literature</a>.</p>
 <div class="image">
 <img src="mainpage_NetsConstruction.gif" alt=""/>
 </div>
@@ -112,8 +118,8 @@ Contributors</h1>
 <h2><a class="anchor" id="mainpage_contributors_main"></a>
 Main contributors</h2>
 <ul>
-<li><b>Alexey Burimov (2019 - present)</b> (<a href="https://github.com/buralex-git"><b>GitHub</b></a>) — Alexey has dedicated roughly two years of his life to the development of generator class and general support of the library. He also participated in the creation of brief manual describing the \((t, m, s)\)-nets generation algorithm by Niederreiter (check out <a class="el" href="index.html#literature">Recommended literature</a> for more info).</li>
-<li><b>Andrei Eliseev (2019 - present)</b> (<a href="https://github.com/jointpoints"><b>GitHub</b></a>) — Andrei has been responsible for tests, various validation checks of the generator (see TsTests) and general support of the library. He co-authored the aforementioned brief manual with Alexey Burimov.</li>
+<li><b>Alexey Burimov (2019 - present)</b> (<a href="https://github.com/buralex-git"><b>GitHub</b></a>) — Alexey has dedicated two years of his life to the development of digital nets classes and general support of the library. He also participated in the creation of brief manual describing the \((t, m, s)\)-nets generation algorithm proposed by Niederreiter (check out <a class="el" href="index.html#literature">Recommended literature</a> for more info).</li>
+<li><b>Andrei Eliseev (2019 - present)</b> (<a href="https://github.com/jointpoints"><b>GitHub</b></a>) — Andrei has been responsible for tests, various validation checks of the generator, and general support of the library. He co-authored the aforementioned brief manual with Alexey Burimov.</li>
 </ul>
 <h2><a class="anchor" id="mainpage_contributors_significant"></a>
 Significant contributors</h2>

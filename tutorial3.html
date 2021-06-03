@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">(t, m, s)-nets generator
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">3.0.1</span>
    </div>
   </td>
  </tr>
@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('tutorial3.html',''); initResizable(); 
 <p>where \(N_i\) is the \(i\)-th point of a \((t, m, s)\)-net.</p>
 <h1><a class="anchor" id="tutorial3_1"></a>
 1. Basic workflow</h1>
-<p>We yet again assume the same file structure as in <a class="el" href="tutorial1.html#tutorial1_1">tutorial 1</a>. This time, for the sake of variety we are going to utilise the modified Niederreiter nets that are represented with the <a class="el" href="classtms_1_1_modified_niederreiter.html">tms::ModifiedNiederreiter</a> class. These nets have the same constructor as the regular Niederreiter nets, however, due to some inner changes in construction algorithms may potentially expose additional useful features.</p>
+<p>We yet again assume the same file structure as in <a class="el" href="tutorial1.html#tutorial1_1">tutorial 1</a>. This time, for the sake of variety we are going to utilise Sobol nets that are represented with the <a class="el" href="classtms_1_1_sobol.html">tms::Sobol</a> class. These nets have the same constructor as Niederreiter nets, however, due to some inner changes in construction algorithms may potentially expose additional useful features.</p>
 <p>Let us define a \((t, 30, 5)\)-net, that is, a five-dimensional net with \(2^{30} = 1,073,741,824\) points.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;libraries/tms-nets/tms-nets.hpp&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;cstdint&gt;</span> <span class="comment">// needed for uint*_t types</span></div>
@@ -124,11 +124,11 @@ $(document).ready(function(){initNavTree('tutorial3.html',''); initResizable(); 
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    uint32_t <span class="keyword">const</span>                      tms_net_point_count = 1UL &lt;&lt; 30;</div>
-<div class="line">    <a class="code" href="classtms_1_1_modified_niederreiter.html">tms::ModifiedNiederreiter</a>           tms_net(30, 5);</div>
+<div class="line">    <a class="code" href="classtms_1_1_sobol.html">tms::Sobol</a>                          tms_net(30, 5);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclasstms_1_1_modified_niederreiter_html"><div class="ttname"><a href="classtms_1_1_modified_niederreiter.html">tms::ModifiedNiederreiter</a></div><div class="ttdef"><b>Definition:</b> modified_niederreiter.hpp:9</div></div>
+<div class="ttc" id="aclasstms_1_1_sobol_html"><div class="ttname"><a href="classtms_1_1_sobol.html">tms::Sobol</a></div><div class="ttdef"><b>Definition:</b> sobol.hpp:11</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="tutorial3_2"></a>
 2. Count values of function at each point of a net</h1>
 <p>We now implement a function <code>f</code> that will calculate the value of function \(f(\overrightarrow{x})\) at the given point of five-dimensional space.</p>
@@ -137,7 +137,7 @@ $(document).ready(function(){initNavTree('tutorial3.html',''); initResizable(); 
 <div class="line"><span class="preprocessor">#include &lt;cstdint&gt;</span> <span class="comment">// needed for uint*_t types</span></div>
 <div class="line"><span class="preprocessor">#define pi 3.14159265358979</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">long</span> <span class="keywordtype">double</span> f(tms::Point x)</div>
+<div class="line"><span class="keywordtype">long</span> <span class="keywordtype">double</span> f(<a class="code" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> x)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keywordflow">return</span> x[0] * sin(x[1] * pi) / ( (x[2] - 5) * cos(x[3] * x[4]) );</div>
 <div class="line">}</div>
@@ -145,10 +145,11 @@ $(document).ready(function(){initNavTree('tutorial3.html',''); initResizable(); 
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    uint32_t <span class="keyword">const</span>                      tms_net_point_count = 1UL &lt;&lt; 30;</div>
-<div class="line">    <a class="code" href="classtms_1_1_modified_niederreiter.html">tms::ModifiedNiederreiter</a>           tms_net(30, 5);</div>
+<div class="line">    <a class="code" href="classtms_1_1_sobol.html">tms::Sobol</a>                          tms_net(30, 5);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
+<div class="ttc" id="anamespacetms_html_a03731000658f4568566d5acc35945c95"><div class="ttname"><a href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a></div><div class="ttdeci">std::vector&lt; Real &gt; Point</div><div class="ttdoc">Represents a point of a (t, m, s)-net.</div><div class="ttdef"><b>Definition:</b> common.hpp:25</div></div>
 </div><!-- fragment --><p> Let us then apply our formula within the <code>main</code> function.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;libraries/tms-nets/tms-nets.hpp&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;cmath&gt;</span></div>
@@ -156,7 +157,7 @@ $(document).ready(function(){initNavTree('tutorial3.html',''); initResizable(); 
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#define pi 3.14159265358979</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">long</span> <span class="keywordtype">double</span> f(tms::Point x)</div>
+<div class="line"><span class="keywordtype">long</span> <span class="keywordtype">double</span> f(<a class="code" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> x)</div>
 <div class="line">{</div>
 <div class="line">    <span class="keywordflow">return</span> x[0] * sin(x[1] * pi) / ( (x[2] - 5) * cos(x[3] * x[4]) );</div>
 <div class="line">}</div>
@@ -164,7 +165,7 @@ $(document).ready(function(){initNavTree('tutorial3.html',''); initResizable(); 
 <div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
 <div class="line">    uint32_t <span class="keyword">const</span>                      tms_net_point_count = 1UL &lt;&lt; 30;</div>
-<div class="line">    <a class="code" href="classtms_1_1_modified_niederreiter.html">tms::ModifiedNiederreiter</a>           tms_net(30, 5);</div>
+<div class="line">    <a class="code" href="classtms_1_1_sobol.html">tms::Sobol</a>                          tms_net(30, 5);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordtype">long</span> <span class="keywordtype">double</span>                         answer = 0.0;</div>
 <div class="line"> </div>

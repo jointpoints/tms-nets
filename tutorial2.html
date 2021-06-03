@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">(t, m, s)-nets generator
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">3.0.1</span>
    </div>
   </td>
  </tr>
@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('tutorial2.html',''); initResizable(); 
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclasstms_1_1_niederreiter_html"><div class="ttname"><a href="classtms_1_1_niederreiter.html">tms::Niederreiter</a></div><div class="ttdef"><b>Definition:</b> niederreiter.hpp:25</div></div>
+<div class="ttc" id="aclasstms_1_1_niederreiter_html"><div class="ttname"><a href="classtms_1_1_niederreiter.html">tms::Niederreiter</a></div><div class="ttdef"><b>Definition:</b> niederreiter.hpp:23</div></div>
 </div><!-- fragment --><p> After that we just need a loop that will traverse all points of our net and count how many of them are inside of \(\Sigma\).</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;libraries/tms-nets/tms-nets.hpp&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;cstdint&gt;</span> <span class="comment">// needed for uint*_t types</span></div>
@@ -147,15 +147,17 @@ $(document).ready(function(){initNavTree('tutorial2.html',''); initResizable(); 
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">for</span> (uint32_t point_i = 0; point_i &lt; tms_net_point_count; ++point_i)</div>
 <div class="line">    {</div>
-<div class="line">        tms::Point current_point = tms_net.generate_point(point_i);</div>
+<div class="line">        <a class="code" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> current_point = tms_net.generate_point(point_i);</div>
 <div class="line">        inside_point_count += isPointInside(current_point);</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// We transform inside_point_count into a floating-point type defined in our library</span></div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;V(Sigma) = &quot;</span> &lt;&lt; ((tms::Real)(inside_point_count) / tms_net_point_count) &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;V(Sigma) = &quot;</span> &lt;&lt; ((<a class="code" href="namespacetms.html#a1a9c2dc5a69bbb7c8ae61c2b251b611c">tms::Real</a>)(inside_point_count) / tms_net_point_count) &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
+<div class="ttc" id="anamespacetms_html_a03731000658f4568566d5acc35945c95"><div class="ttname"><a href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a></div><div class="ttdeci">std::vector&lt; Real &gt; Point</div><div class="ttdoc">Represents a point of a (t, m, s)-net.</div><div class="ttdef"><b>Definition:</b> common.hpp:25</div></div>
+<div class="ttc" id="anamespacetms_html_a1a9c2dc5a69bbb7c8ae61c2b251b611c"><div class="ttname"><a href="namespacetms.html#a1a9c2dc5a69bbb7c8ae61c2b251b611c">tms::Real</a></div><div class="ttdeci">long double Real</div><div class="ttdoc">A type of coordinates of points of (t, m, s)-net.</div><div class="ttdef"><b>Definition:</b> common.hpp:19</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="tutorial2_2"></a>
 2. Identify points within the octahedron</h1>
 <p>The only thing missing in our program is the aforementioned function <code>isPointInside</code> that would return <code>true</code>, if the given point is inside of the octahedron, and <code>false</code>, otherwise.</p>
@@ -166,10 +168,10 @@ $(document).ready(function(){initNavTree('tutorial2.html',''); initResizable(); 
 <div class="line"><span class="preprocessor">#include &lt;algorithm&gt;</span> <span class="comment">// needed for max</span></div>
 <div class="line"><span class="preprocessor">#include &lt;cmath&gt;</span> <span class="comment">// needed for fabs</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">bool</span> isPointInside(tms::Point &amp;point)</div>
+<div class="line"><span class="keywordtype">bool</span> isPointInside(<a class="code" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> &amp;point)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">// To calculate the value of Delta, we are going to use a floating-point type defined within our library</span></div>
-<div class="line">    tms::Real Delta = 0.5 - std::max(std::fabs(point[0] - 0.5), std::fabs(point[1] - 0.5));</div>
+<div class="line">    <a class="code" href="namespacetms.html#a1a9c2dc5a69bbb7c8ae61c2b251b611c">tms::Real</a> Delta = 0.5 - std::max(std::fabs(point[0] - 0.5), std::fabs(point[1] - 0.5));</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> (point[2] &gt;= 0.5 - Delta) &amp;&amp; (point[2] &lt;= 0.5 + Delta);</div>
 <div class="line">}</div>
@@ -183,12 +185,12 @@ $(document).ready(function(){initNavTree('tutorial2.html',''); initResizable(); 
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">for</span> (uint32_t point_i = 0; point_i &lt; tms_net_point_count; ++point_i)</div>
 <div class="line">    {</div>
-<div class="line">        tms::Point current_point = tms_net.generate_point(point_i);</div>
+<div class="line">        <a class="code" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> current_point = tms_net.generate_point(point_i);</div>
 <div class="line">        inside_point_count += isPointInside(current_point);</div>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// We transform inside_point_count into a floating-point type defined in our library</span></div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;V(Sigma) = &quot;</span> &lt;&lt; ((tms::Real)(inside_point_count) / tms_net_point_count) &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;V(Sigma) = &quot;</span> &lt;&lt; ((<a class="code" href="namespacetms.html#a1a9c2dc5a69bbb7c8ae61c2b251b611c">tms::Real</a>)(inside_point_count) / tms_net_point_count) &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>

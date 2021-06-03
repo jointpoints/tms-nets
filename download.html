@@ -33,7 +33,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">(t, m, s)-nets generator
-   &#160;<span id="projectnumber">3.0.0</span>
+   &#160;<span id="projectnumber">3.0.1</span>
    </div>
   </td>
  </tr>
@@ -107,11 +107,11 @@ System requirements</h1>
 <li>64-bit processor with 2 or more cores.</li>
 </ul>
 <dl class="section note"><dt>Note</dt><dd>We strongly recommend to <b>only</b> use stable builds of <code>(t, m, s)-nets generator</code> for production purposes.</dd></dl>
-<h1><a class="anchor" id="download_stable"></a>
+<div style="height:50px;"></div><h1><a class="anchor" id="download_stable"></a>
 Stable versions of library</h1>
-<h2><a class="anchor" id="download_stable_3_0_0"></a>
-3.0.0 (latest release)</h2>
-<h3><a class="anchor" id="download_stable_3_0_0_build"></a>
+<h2><a class="anchor" id="download_stable_3_0_1"></a>
+3.0.1 (03.06.2021, latest release)</h2>
+<h3><a class="anchor" id="download_stable_3_0_1_build"></a>
 Builds</h3>
 <table style="width:100%">
 <tr>
@@ -119,30 +119,61 @@ Builds</h3>
 <tr>
 <td align="center"><img src="download_Windows.png" alt="" class="inline"/> </td></tr>
 <tr>
-<td align="center"><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Windows.zip"><b>Download for Windows</b></a> </td></tr>
+<td align="center"><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.1/tms-nets.static.library.v.3.0.1.stable.Windows.zip"><b>Download for Windows</b></a> </td></tr>
 </table>
 </div>  </td><td style="width:33%"><div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px"> <table style="width:100%">
 <tr>
 <td align="center"><img src="download_Linux.png" alt="" class="inline"/> </td></tr>
 <tr>
-<td align="center"><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Linux.tar"><b>Download for Linux</b></a> </td></tr>
+<td align="center"><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.1/tms-nets.static.library.v.3.0.1.stable.Linux.tar"><b>Download for Linux</b></a> </td></tr>
 </table>
 </div>  </td><td style="width:33%"><div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px"> <table style="width:100%">
 <tr>
 <td align="center"><img src="download_MacOS.png" alt="" class="inline"/> </td></tr>
 <tr>
-<td align="center"><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.MacOS.zip"><b>Download for MacOS</b></a> </td></tr>
+<td align="center"><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.1/tms-nets.static.library.v.3.0.1.stable.MacOS.zip"><b>Download for MacOS</b></a> </td></tr>
 </table>
 </div>   </td></tr>
 </table>
-<h3><a class="anchor" id="download_stable_3_0_0_source"></a>
+<h3><a class="anchor" id="download_stable_3_0_1_source"></a>
 Source code</h3>
 <table style="width:100%">
 <tr>
-<td style="width:100%"><div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px"> &#160;<a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/3.0.0.zip"><b>Download as .zip</b></a> </div>   </td></tr>
+<td style="width:100%"><div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px"> &#160;<a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/3.0.1.zip"><b>Download as .zip</b></a> </div>   </td></tr>
 <tr>
-<td style="width:100%"><div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px"> &#160;<a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/3.0.0.tar.gz"><b>Download as .tar.gz</b></a> </div>   </td></tr>
+<td style="width:100%"><div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px"> &#160;<a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/3.0.1.tar.gz"><b>Download as .tar.gz</b></a> </div>   </td></tr>
 </table>
+<table style="border:none;">
+<tr class="inherit_header changelog_3_0_1">
+<td colspan="2" onclick="javascript:toggleInherit(&apos;changelog_3_0_1&apos;)"><img src="closed.png" alt="-" class="inline"/>&#160;Changelog   </td></tr>
+<tr class="inherit changelog_3_0_1" style="display:none;">
+<td style="border-left:1px solid #ccc; padding-left:10px"><p class="starttd"><b>Bug fixes</b><br  />
+</p><ul>
+<li>Incorrect computations in <code>tms::analysis::t</code> function have been fixed.</li>
+</ul>
+<p class="endtd"><b>Implementation updates</b></p><ul>
+<li>Sobol nets have been named <code>ModifiedNiederreiter</code> in the original release, the true name has been assigned to their class.</li>
+<li><code>DirNum</code> class has been renamed to <code>GenNum</code>.</li>
+<li><code>get_</code> prefix has been removed from the names of digital nets methods.</li>
+<li>Explicit non-degeneracy checks have been added to <code>tms::analysis::t</code> function.   </li>
+</ul>
+</td></tr>
+</table>
+<div style="height:50px;"></div><h2><a class="anchor" id="download_stable_3_0_0"></a>
+3.0.0 (25.03.2021)</h2>
+<h3><a class="anchor" id="download_stable_3_0_0_build"></a>
+Builds</h3>
+<ul>
+<li><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Windows.zip"><b>Download for Windows</b></a></li>
+<li><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Linux.tar"><b>Download for Linux</b></a></li>
+<li><a href="https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.MacOS.zip"><b>Download for MacOS</b></a></li>
+</ul>
+<h3><a class="anchor" id="download_stable_3_0_0_source"></a>
+Source code</h3>
+<ul>
+<li><a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.zip"><b>Download as .zip</b></a></li>
+<li><a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.tar.gz"><b>Download as .tar.gz</b></a></li>
+</ul>
 <table style="border:none;">
 <tr class="inherit_header changelog_3_0_0">
 <td colspan="2" onclick="javascript:toggleInherit(&apos;changelog_3_0_0&apos;)"><img src="closed.png" alt="-" class="inline"/>&#160;Changelog   </td></tr>
@@ -175,9 +206,9 @@ Source code</h3>
 </ul>
 </td></tr>
 </table>
-<h2><a class="anchor" id="download_stable_2_0_0"></a>
-2.0.0</h2>
-<h3><a class="anchor" id="download_stable_3_0_0_source"></a>
+<div style="height:50px;"></div><h2><a class="anchor" id="download_stable_2_0_0"></a>
+2.0.0 (26.09.2020)</h2>
+<h3><a class="anchor" id="download_stable_2_0_0_source"></a>
 Source code</h3>
 <ul>
 <li><a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.zip"><b>Download as .zip</b></a></li>
@@ -242,15 +273,15 @@ Source code</h3>
 </ul>
 </td></tr>
 </table>
-<h2><a class="anchor" id="download_stable_1_0_0"></a>
-1.0.0</h2>
+<div style="height:50px;"></div><h2><a class="anchor" id="download_stable_1_0_0"></a>
+1.0.0 (30.12.2019)</h2>
 <h3><a class="anchor" id="download_stable_1_0_0_source"></a>
 Source code</h3>
 <ul>
 <li><a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/1.0.zip"><b>Download as .zip</b></a></li>
 <li><a href="https://github.com/jointpoints/tms-nets/archive/refs/tags/1.0.tar.gz"><b>Download as .tar.gz</b></a></li>
 </ul>
-<h1><a class="anchor" id="download_unstable"></a>
+<div style="height:50px;"></div><h1><a class="anchor" id="download_unstable"></a>
 Unstable versions of library</h1>
 <ul>
 <li><a href="https://github.com/jointpoints/tms-nets/archive/refs/heads/master.zip"><b>Download master source code as .zip</b></a></li>

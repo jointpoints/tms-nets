@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['element_5ftype_14',['element_type',['../structdropbox_1_1oxygen_1_1nn__detail_1_1element__type.html',1,'dropbox::oxygen::nn_detail']]],
-  ['element_5ftype_3c_20pointee_20_2a_20_3e_15',['element_type&lt; Pointee * &gt;',['../structdropbox_1_1oxygen_1_1nn__detail_1_1element__type_3_01_pointee_01_5_01_4.html',1,'dropbox::oxygen::nn_detail']]]
+  ['empty_5',['empty',['../classtms_1_1_gen_num.html#a08bf4fe23471a291bc6a80213e692d08',1,'tms::GenNum']]]
 ];
