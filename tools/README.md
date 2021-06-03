@@ -14,3 +14,14 @@ Never forget to:
 * change value of `TMS_VERSION` accordingly;
 * change value of `TMS_STABILITY` to `stable` before each merge to **master** branch (revert to `unstable` after merge);
 * always run `make static_lib` **before** `make tester`, the latter requires a fresh build of the library.
+
+
+
+### Tester options
+
+Tester call (`tester.exe` on Windows, `tester` on Linux) may be supplied with additional filters:
+
+* `[<class name>]` : only run tests for the specified class;
+* `[nets]` : only run tests for digital nets, equivalent to `[DigitalNet],[Niederreiter],[Sobol]`.
+
+Type the `-s` key after filters (if you enter any) to view the full list of tests.

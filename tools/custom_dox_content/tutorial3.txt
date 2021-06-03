@@ -5,7 +5,7 @@
 int main()
 {
 	uint32_t const                      tms_net_point_count = 1UL << 30;
-	tms::ModifiedNiederreiter           tms_net(30, 5);
+	tms::Sobol                          tms_net(30, 5);
 
 	return 0;
 }
@@ -27,7 +27,7 @@ long double f(tms::Point x)
 int main()
 {
 	uint32_t const                      tms_net_point_count = 1UL << 30;
-	tms::ModifiedNiederreiter           tms_net(30, 5);
+	tms::Sobol                          tms_net(30, 5);
 
 	return 0;
 }
@@ -50,7 +50,7 @@ long double f(tms::Point x)
 int main()
 {
 	uint32_t const                      tms_net_point_count = 1UL << 30;
-	tms::ModifiedNiederreiter           tms_net(30, 5);
+	tms::Sobol                          tms_net(30, 5);
 
 	long double                         answer = 0.0;
 

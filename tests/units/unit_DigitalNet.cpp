@@ -22,61 +22,61 @@ TEST_CASE("Validation of DigitalNet class", "[nets][DigitalNet]")
 
 	SECTION("Check parameter m")
 	{
-		REQUIRE( nondeg_net.get_m() == 3 );
+		REQUIRE( nondeg_net.m() == 3 );
 	}
 
 	SECTION("Check parameter s")
 	{
-		REQUIRE( nondeg_net.get_s() == 3 );
+		REQUIRE( nondeg_net.s() == 3 );
 	}
 
 	SECTION("Check generating matrices")
 	{
-		REQUIRE( nondeg_net.get_generating_matrix(0) == generating_matrices[0] );
-		REQUIRE( nondeg_net.get_generating_matrix(1) == generating_matrices[1] );
-		REQUIRE( nondeg_net.get_generating_matrix(2) == generating_matrices[2] );
+		CHECK( nondeg_net.generating_matrix(0) == generating_matrices[0] );
+		CHECK( nondeg_net.generating_matrix(1) == generating_matrices[1] );
+		CHECK( nondeg_net.generating_matrix(2) == generating_matrices[2] );
 	}
 
-	SECTION("Check direction numbers")
+	SECTION("Check generating numbers")
 	{
-		tms::DirNum direction_numbers = nondeg_net.get_direction_numbers(0);
-		REQUIRE( direction_numbers[0] == 6 );
-		REQUIRE( direction_numbers[1] == 1 );
-		REQUIRE( direction_numbers[2] == 4 );
-		direction_numbers = nondeg_net.get_direction_numbers(1);
-		REQUIRE( direction_numbers[0] == 1 );
-		REQUIRE( direction_numbers[1] == 2 );
-		REQUIRE( direction_numbers[2] == 4 );
-		direction_numbers = nondeg_net.get_direction_numbers(2);
-		REQUIRE( direction_numbers[0] == 6 );
-		REQUIRE( direction_numbers[1] == 5 );
-		REQUIRE( direction_numbers[2] == 7 );
+		tms::GenNum generating_numbers = nondeg_net.generating_numbers(0);
+		CHECK( generating_numbers[0] == 6 );
+		CHECK( generating_numbers[1] == 1 );
+		CHECK( generating_numbers[2] == 4 );
+		generating_numbers = nondeg_net.generating_numbers(1);
+		CHECK( generating_numbers[0] == 1 );
+		CHECK( generating_numbers[1] == 2 );
+		CHECK( generating_numbers[2] == 4 );
+		generating_numbers = nondeg_net.generating_numbers(2);
+		CHECK( generating_numbers[0] == 6 );
+		CHECK( generating_numbers[1] == 5 );
+		CHECK( generating_numbers[2] == 7 );
 	}
 
 	SECTION("Construction of 3-dimensional point (classical enumeration of points)")
 	{
 		// classical representation of index 4 is (0 0 1)^T
 		tms::Point point = nondeg_net.generate_point_classical(4);
-		REQUIRE( point[0] == Catch::Approx(0.5).margin(0.0001) );
-		REQUIRE( point[1] == Catch::Approx(0.5).margin(0.0001) );
-		REQUIRE( point[2] == Catch::Approx(0.875).margin(0.0001) );
+		CHECK( point[0] == Catch::Approx(0.5).margin(0.0001) );
+		CHECK( point[1] == Catch::Approx(0.5).margin(0.0001) );
+		CHECK( point[2] == Catch::Approx(0.875).margin(0.0001) );
 	}
 
 	SECTION("Construction of 3-dimensional point (Gray code enumeration of points)")
 	{
 		// Gray representation of index 4 is (0 1 1)^T
 		tms::Point point = nondeg_net.generate_point(4);
-		REQUIRE( point[0] == Catch::Approx(0.625).margin(0.0001) );
-		REQUIRE( point[1] == Catch::Approx(0.75).margin(0.0001) );
-		REQUIRE( point[2] == Catch::Approx(0.25).margin(0.0001) );
+		CHECK( point[0] == Catch::Approx(0.625).margin(0.0001) );
+		CHECK( point[1] == Catch::Approx(0.75).margin(0.0001) );
+		CHECK( point[2] == Catch::Approx(0.25).margin(0.0001) );
 	}
 
 	SECTION("Construction of 3-dimensional point (Gray code enumeration of points, integer point)")
 	{
 		// Gray representation of index 4 is (0 1 1)^T
-		tms::IntPoint point = nondeg_net.generate_point_int(4);
-		REQUIRE( point[0] == 5 );
-		REQUIRE( point[1] == 6 );
-		REQUIRE( point[2] == 2 );
+		tms::IntPoint point = nondeg_net.generate_int_point(4);
+		CHECK( point[0] == 5 );
+		CHECK( point[1] == 6 );
+		CHECK( point[2] == 2 );
 	}
 }

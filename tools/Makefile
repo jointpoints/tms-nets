@@ -25,7 +25,7 @@ ifeq ($(OS),Windows_NT)
 SOURCE_FOLDER = source
 UNITS = $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gf.cpp $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gfpoly.cpp $(SOURCE_FOLDER)\\thirdparty\\irrpoly\\gfcheck.cpp\
         $(SOURCE_FOLDER)\\details\\common.cpp $(SOURCE_FOLDER)\\details\\gf2poly.cpp $(SOURCE_FOLDER)\\details\\genmat.cpp $(SOURCE_FOLDER)\\details\\recseq.cpp\
-        $(SOURCE_FOLDER)\\digital_net.cpp $(SOURCE_FOLDER)\\niederreiter.cpp $(SOURCE_FOLDER)\\modified_niederreiter.cpp\
+        $(SOURCE_FOLDER)\\digital_net.cpp $(SOURCE_FOLDER)\\niederreiter.cpp $(SOURCE_FOLDER)\\sobol.cpp\
         $(SOURCE_FOLDER)\\analysis\\t.cpp $(SOURCE_FOLDER)\\analysis\\scatter_defect.cpp
 
 INCLUDE_FOLDER = ..\\include
@@ -50,7 +50,7 @@ else
 SOURCE_FOLDER = source
 UNITS = $(SOURCE_FOLDER)/thirdparty/irrpoly/gf.cpp $(SOURCE_FOLDER)/thirdparty/irrpoly/gfpoly.cpp $(SOURCE_FOLDER)/thirdparty/irrpoly/gfcheck.cpp\
         $(SOURCE_FOLDER)/details/common.cpp $(SOURCE_FOLDER)/details/gf2poly.cpp $(SOURCE_FOLDER)/details/genmat.cpp $(SOURCE_FOLDER)/details/recseq.cpp\
-        $(SOURCE_FOLDER)/digital_net.cpp $(SOURCE_FOLDER)/niederreiter.cpp $(SOURCE_FOLDER)/modified_niederreiter.cpp\
+        $(SOURCE_FOLDER)/digital_net.cpp $(SOURCE_FOLDER)/niederreiter.cpp $(SOURCE_FOLDER)/sobol.cpp\
         $(SOURCE_FOLDER)/analysis/t.cpp $(SOURCE_FOLDER)/analysis/scatter_defect.cpp
 
 INCLUDE_FOLDER = ../include
