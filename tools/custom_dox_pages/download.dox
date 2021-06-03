@@ -92,6 +92,8 @@
  *
  *             <b>Implementation updates</b>
  *             * Sobol nets have been named `ModifiedNiederreiter` in the original release, the true name has been assigned to their class.
+ *             * `DirNum` class has been renamed to `GenNum`.
+ *             * `get_` prefix has been removed from the names of digital nets methods.
  *             * Explicit non-degeneracy checks have been added to `tms::analysis::t` function.
  *         </td>
  *     </tr>
