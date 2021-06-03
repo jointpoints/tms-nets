@@ -548,16 +548,16 @@ tms::BasicInt tms::analysis::t(DigitalNet const &net)
 {
 	std::vector<RAREFMatrix>    genMat;
 	RAREFMatrix                 curr_matrix;
-	for (BasicInt dim_i = 0; dim_i < net.get_s(); dim_i++)
+	for (BasicInt dim_i = 0; dim_i < net.s(); dim_i++)
 	{
-		curr_matrix = cast_matrix(net.get_generating_matrix(dim_i));
+		curr_matrix = cast_matrix(net.generating_matrix(dim_i));
 		if (det(curr_matrix))
 			genMat.push_back(curr_matrix);
 		else
 			throw std::invalid_argument("Computation of tms::analysis::t is only possible for nets with non-degenerate generating matrices.");
 	}
-	Composition rho = find_rho_inner(net.get_m(), net.get_s(), net.get_s(), genMat);
+	Composition rho = find_rho_inner(net.m(), net.s(), net.s(), genMat);
 	if (rho.size() != 1)
 		throw std::runtime_error("Was not able to calculate t.");
-	return net.get_m() - rho[0];
+	return net.m() - rho[0];
 }

@@ -11,93 +11,108 @@
 
 namespace tms
 {
+	/** Represents digital \f$(t, m, s)\f$-net over \f$\mathbb{F}_2\f$ */
 	class DigitalNet
 	{
 	public:
 		
-		// Prevent implementation by compiler of implicit-defined copy/move constructors, assignment operators
-		DigitalNet(DigitalNet const &) = delete;
-		DigitalNet(DigitalNet &&)      = delete;
-		DigitalNet& operator =(DigitalNet const &) = delete;
-		DigitalNet& operator =(DigitalNet&&)       = delete;
+		DigitalNet(DigitalNet const &) = default;
+		DigitalNet(DigitalNet &&)      = default;
+		DigitalNet& operator =(DigitalNet const &) = default;
+		DigitalNet& operator =(DigitalNet &&)      = default;
 		
-		
+		/// Creates empty object
 		DigitalNet(void);
 		
-		DigitalNet(std::vector<DirNum> const &direction_numbers);
+		/// Creates digital net with given generating numbers
+		DigitalNet(std::vector<GenNum> const &generating_numbers);
 		
+		/// Creates digital net with given generating matrices
 		DigitalNet(std::vector<GenMat> const &generating_matrices);
 		
 		virtual ~DigitalNet(void);
 		
-		/** Returns m parameter of generatred (t,m,s)-net.*/
-		BasicInt get_m(void) const;
-		/** Returns s parameter of generatred (t,m,s)-net.*/
-		BasicInt get_s(void) const;
-		/** Returns vector of direction numbers corresponging to certain dimension.
-		 *  @param [in] dim - dimension */
-		DirNum   get_direction_numbers(BasicInt dim) const;
+		/// Returns \f$m\f$ parameter of the net
+		BasicInt m(void) const;
 		
-		GenMat   get_generating_matrix(BasicInt dim) const;
+		/// Returns \f$s\f$ parameter of the net
+		BasicInt s(void) const;
 		
-		/** Generates point of (t,m,s)-net with certain number.
-		 *  @param [in] n - sequence number of generated point */
+		/** Returns generating numbers corresponging to certain dimension
+		 *  @param dim – dimension */
+		GenNum   generating_numbers(BasicInt dim) const;
+		
+		/** Returns generating matrix corresponding to certain dimetnsion
+		 *  @param dim – dimension */
+		GenMat   generating_matrix(BasicInt dim) const;
+		
+		/** Generates point of a digital net with the certain number
+		 *  @param pos - number of generated point */
 		Point    generate_point_classical(CountInt pos) const;
-		/** Generates point of (t,m,s)-net with certain number, enumerated according to Gray's code.
-		 *  @param [in] pos - sequence number of generated point */
+		
+		/** Generates point of a digital net with certain Gray's code number
+		 *  @param pos - sequence number of generated point */
 		Point    generate_point(CountInt pos) const;
-		/** Generates scaled point of (t,m,s)-net with certain number, enumerated according to Gray's code.
-		 *  @param [in] pos - sequence number of scaled generated point */
-		IntPoint generate_point_int(CountInt pos) const;
-		/** Sequentially generates a section of reordered (t,m,s)-net points and applies the handler function to each pair:
-		 *  (point, point's number).
-		 *  @param [in] handler - handler function to apply
-		 *  @param [in] amount - amount of points in the section of the net
-		 *  @param [in] pos - number of the first point in the section of the net */
+		
+		/** Generates scaled point of a digital net with certain Gray's code number
+		 *  @param pos - sequence number of scaled generated point */
+		IntPoint generate_int_point(CountInt pos) const;
+		
+		/** Sequentially generates a section of reordered net points and applies the handler function to each pair:
+		 *  (point, point's number)
+		 *  @param handler - handler function to apply
+		 *  @param amount - amount of points in the section of the net
+		 *  @param pos - number of the first point in the section of the net */
 		void        for_each_point    (std::function<void (Point const &, CountInt)> handler,
 									   CountInt                                      amount,
 									   CountInt                                      pos = 0) const;
-		/** Sequentially generates a section of reordered scaled (t,m,s)-net points and applies the handler function to each pair:
-		 *  (point, point's number).
-		 *  @param [in] handler - handler function to apply
-		 *  @param [in] amount - amount of points in the section of the net
-		 *  @param [in] pos - number of the first point in the section of the net */
-		void        for_each_point_int(std::function<void (IntPoint const &, CountInt)> handler,
+		
+		/** Sequentially generates a section of reordered scaled net points and applies the handler function to each pair:
+		 *  (point, point's number)
+		 *  @param handler - handler function to apply
+		 *  @param amount - amount of points in the section of the net
+		 *  @param pos - number of the first point in the section of the net */
+		void        for_each_int_point(std::function<void (IntPoint const &, CountInt)> handler,
 									   CountInt                                         amount,
 									   CountInt                                         pos = 0) const;
 		
-		/** Returns transformed given integer point into a real point from a unit hypercube.
-		 *  @param [in] point_int - point to be transformed (multiplied by \f$ 2^{-m} \f$) */
-		Point cast_point_int_to_real(IntPoint const &point_int) const;
+		/** Casts scaled integer point to a point by multiplying it by \f$2^{-m}\f$
+		 *  @param int_point - point to cast */
+		Point cast_int_point_to_real(IntPoint const &int_point) const;
 		
 		
 	protected:
 		
-		/// m parameter of net that defines net cardinality and bitwidth of computations.
+		/// \f$m\f$ parameter of the digital net
 		BasicInt m_nbits;
-		/// s parameter of net that defines spatial dimensionality.
+		/// \f$s\f$ parameter of the digital net
 		BasicInt m_dim;
-		/// Coefficient, equal to \f$ 2^{-m} \f$.
+		/// Coefficient equal to \f$2^{-m}\f$
 		Real     m_recip;
-		/// Vector of a (t,m,s)-net's direction numbers.
-		std::vector<DirNum> m_direction_numbers;
+		/// Vector of a generating numbers of the digital net
+		std::vector<GenNum> m_generating_numbers;
 		
+		/**
+		 */
 		DigitalNet(BasicInt                   nbits,
 				   BasicInt                   dim,
-				   std::vector<DirNum> const &direction_numbers);
+				   std::vector<GenNum> const &generating_numbers);
+		
 		/** Stores into the integer vector scaled (t,m,s)-net point with certain number, enumerated according to Gray's code.
 		 *  @param [out] point - storage vector
 		 *  @param [in] pos - generated scaled (t,m,s)-net point number */
-		void  store_point_int     (IntPoint &point,
+		void  store_int_point     (IntPoint &point,
 								   CountInt  pos)   const;
+		
 		/** Stores into the integer vector scaled (t,m,s)-net point with certain number, enumerated according to Gray's code,
 		 *  computed using the previous point.
 		 *  @param [out] point - storage vector
-		 *  @param [in] pos - generated scaled (t,m,s)-net point number (should be greater then 0)
-		 *  @param [in] prev_point - scaled (t,m,s)-net point with the previous point number */
-		void  store_next_point_int(IntPoint       &point,
+		 *  @param [in] pos - generated scaled net point number (should be greater then 0)
+		 *  @param [in] prev_point - scaled net point with the previous point number */
+		void  store_next_int_point(IntPoint       &point,
 								   CountInt        pos,
 								   IntPoint const &prev_point) const;
+		
 	};
 
 
@@ -106,20 +121,20 @@ namespace tms
 
 
 	inline BasicInt
-	DigitalNet::get_m(void) const
+	DigitalNet::m(void) const
 	{ return m_nbits; }
 	
 	inline BasicInt
-	DigitalNet::get_s(void) const
+	DigitalNet::s(void) const
 	{ return m_dim; }
 	
-	inline DirNum
-	DigitalNet::get_direction_numbers(BasicInt dim) const
-	{ return m_direction_numbers[dim]; }
+	inline GenNum
+	DigitalNet::generating_numbers(BasicInt dim) const
+	{ return m_generating_numbers[dim]; }
 	
 	inline GenMat
-	DigitalNet::get_generating_matrix(BasicInt dim) const
-	{ return GenMat(m_direction_numbers[dim]); }
+	DigitalNet::generating_matrix(BasicInt dim) const
+	{ return GenMat(m_generating_numbers[dim]); }
 	
 }
 

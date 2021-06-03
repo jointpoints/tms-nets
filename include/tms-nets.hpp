@@ -16,7 +16,7 @@
 // Include generators
 #include "tms-nets/digital_net.hpp"
 #include "tms-nets/niederreiter.hpp"
-#include "tms-nets/modified_niederreiter.hpp"
+#include "tms-nets/sobol.hpp"
 // Include details
 #include "tms-nets/details/genmat.hpp"
 // Include analysis

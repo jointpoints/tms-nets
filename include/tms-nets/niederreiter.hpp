@@ -16,14 +16,14 @@
 #include "details/recseq.hpp"
 
 
-/** @namespace tms
- *  @brief All the entities in the library are defined in this namespace. */
 namespace tms
 {
-	/** Provides an interface to create various generators of a digital base 2 Niederreiter's (t,m,s)-nets.	*/
+	/** Represents digital classical Niederreiter (t, m, s)-net in base 2 */
 	class Niederreiter : public DigitalNet
 	{
 	public:
+		
+		Niederreiter(void);
 		
 		/** Constructs the generator of (t,m,s)-net with specified m, s, and with induced least possible t.
 		 *  @param [in] nbits - m parameter of the net
@@ -32,24 +32,28 @@ namespace tms
 		Niederreiter(BasicInt nbits,
 		             BasicInt dim,
 		             bool     in_parallel = false);
+		
 		/** Constructs the generator of (t,m,s)-net with specified m, s degrees of initial irreducible polynomials,
 		 *  and (optional, for advanced users) initial values of ALL recursive sequences, defining the generation matrices.
 		 *  @param [in] nbits - m parameter of the net
 		 *  @param [in] degrees_of_irrpolys - vector of the s degrees of initial irreducible polynomials*/
 		Niederreiter(BasicInt                     nbits,
 		             std::vector<BasicInt> const &degrees_of_irrpolys);
+		
 		/** Constructs the generator of (t,m,s)-net with specified m, s degrees of initial irreducible polynomials,
 		 *  and (optional, for advanced users) initial values of ALL recursive sequences, defining the generation matrices.
 		 *  @param [in] nbits - m parameter of the net
 		 *  @param [in] degrees_of_irrpolys - vector of the s degrees of initial irreducible polynomials*/
 		Niederreiter(BasicInt                               nbits,
 		             std::initializer_list<BasicInt> const &degrees_of_irrpolys);
+		
 		/** Constructs the generator of (t,m,s)-net with specified m, s initial irreducible polynomials, and (optional,
 		 *  for advanced users) initial values of ALL recursive sequences, defining the generation matrices.
 		 *  @param [in] nbits - m parameter of the net
 		 *  @param [in] irrpolys_coeffs - initializer list of the s initial irreducible polynomials coefficients*/
 		Niederreiter(BasicInt                                     nbits,
 		             std::vector< std::vector<uintmax_t> > const &irrpolys_coeffs);
+		
 		/** Constructs the generator of (t,m,s)-net with specified m, s initial irreducible polynomials, and (optional,
 		 *  for advanced users) initial values of ALL recursive sequences, defining the generation matrices.
 		 *  @param [in] nbits - m parameter of the net
@@ -59,8 +63,8 @@ namespace tms
 		
 		~Niederreiter(void);
 		
-		
-		BasicInt get_t_estimate(void) const;
+		/// Retutns t-value of a corresponding digital (t, s)-sequence
+		BasicInt t_estimate(void) const;
 	
 
 	protected:
@@ -71,18 +75,18 @@ namespace tms
 		/** */
 		Niederreiter(BasicInt                       nbits,
 					 BasicInt                       dim,
-					 std::vector<DirNum>     const &direction_numbers,
+					 std::vector<GenNum>     const &generating_numbers,
 					 Real                           recip,
 					 std::vector<Polynomial> const &irrpolys,
-					 void           (Niederreiter::*ptr_check)(void *),
-					 void                          *ptr_arg);
+					 void           (Niederreiter::*ptr_check)(void const *),
+					 void                    const *ptr_arg);
 		
-		void check_init1(void *ptr_arg);
-		void check_init2(void *ptr_arg);
-		void check_init3(void *ptr_arg);
+		void check_init1(void const *ptr_arg);
+		void check_init2(void const *ptr_arg);
+		void check_init3(void const *ptr_arg);
 		
 		/** Initializes (t,m,s)-net direction numbers.*/
-		virtual void initialize_direction_numbers(void);
+		virtual void initialize_generating_numbers(void);
 	};
 	
 };// namespace tms
