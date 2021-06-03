@@ -132,7 +132,7 @@ int main()
 //! [generate_net_output]
 Parameters of my_first_net:
 	t = 0
-	m = 5
+	m = 4
 	s = 2
 
 Generated points:
