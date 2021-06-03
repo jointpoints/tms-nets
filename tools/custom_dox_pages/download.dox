@@ -19,15 +19,17 @@
  * \note We strongly recommend to \b only use stable builds of <tt>(t, m, s)-nets generator</tt> for
  * production purposes.
  *
+ * <div style="height:50px;"></div>
+ * 
  * \section download_stable Stable versions of library
  *
  *
  *
  *
  *
- * \subsection download_stable_3_0_0 3.0.0 (latest release)
+ * \subsection download_stable_3_0_1 3.0.1 (XX.XX.XXXX, latest release)
  *
- * \subsubsection download_stable_3_0_0_build Builds
+ * \subsubsection download_stable_3_0_1_build Builds
  *
  * <table style="width:100%">
  * <tr>
@@ -58,7 +60,7 @@
  * </tr>
  * </table>
  *
- * \subsubsection download_stable_3_0_0_source Source code
+ * \subsubsection download_stable_3_0_1_source Source code
  *
  * <table style="width:100%">
  * <tr>
@@ -76,6 +78,59 @@
  *     </td>
  * </tr>
  * </table>
+ *
+ * <table style="border:none;">
+ *     <tr class="inherit_header changelog_3_0_1">
+ *         <td colspan="2" onclick="javascript:toggleInherit('changelog_3_0_1')">
+ *             <img src="closed.png" alt="-">&nbsp;Changelog
+ *         </td>
+ *     </tr>
+ *     <tr class="inherit changelog_3_0_1" style="display:none;">
+ *         <td style="border-left:1px solid #ccc; padding-left:10px">
+ *             <b>WARNING</b><br>
+ *             The interface of the generator and its implementation have drastically changed in this version making it incompatible with the
+ *             previous one. Consult with tutorials or library reference to quickly get acquainted with all modifications.<br><br>
+ *             <b>New features</b><br>
+ *             * _More freedom in nets creation_: advanced users have been enabled to construct digital (t, m, s)-nets using arbitrary generator matrices over **F₂** or direction numbers with the help of new `GenMat` and `DirNum` objects, respectively.
+ *             * _New class of digital (t, m, s)-nets_: modified Niederreiter nets have been developed.
+ *             * _Qualitative analysis_: new functions to measure quality of nets have been introduced.
+ *
+ *             <b>Major improvements</b><br>
+ *             * _No more templates_: library has been completely redesigned to become template-free.
+ *             * Library has become static.
+ *             * _One Definition Rule_: library has become fully complient with ODR; no more linking errors should appear after inclusion of our library into various source files at once.
+ *             * The official license has finally been added.
+ *
+ *             <b>Implementation updates</b><br>
+ *             * All source code has been split into `.hpp`-files (in `./include` folder) and `.cpp`-files (in `./source` folder).
+ *             * `DigitalNet` class that contains the most general interface for digital (t, m, s)-nets has been added in `./include/tms-nets/digital_nets.hpp` and `./source/digital_nets.cpp` files.
+ *             * `ModifiedNiederreiter` class that contains modified Niederreiter (t, m, s)-nets generator has been added in `./include/tms-nets/modified_niederreiter.hpp` and `./source/modified_niederreiter.cpp` files.
+ *             * Inheritance chain has been introduced for classes of (t, m, s)-nets: `DigitalNet` ➞ `Niederreiter` ➞ `ModifiedNiederreiter`.
+ *             * Classes `GenMat`, `GenMatRow` and `DirNum` have been introduced in `./include/tms-nets/details/common.hpp` and `./source/details/common.cpp` files.
+ *             * Additional functions for linear recurrent sequences and generator matrices have been added into `./include/tms-nets/details/recseq.hpp`, `./source/details/recseq.cpp`, `./include/tms-nets/details/genmat.hpp` and `./source/details/genmat.cpp`, respectively.
+ *             * A universal header file `./include/tms-nets.hpp` has been added.
+ *         </td>
+ *     </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * <div style="height:50px;"></div>
+ * 
+ * \subsection download_stable_3_0_0 3.0.0 (25.03.2021)
+ *
+ * \subsubsection download_stable_3_0_0_build Builds
+ *
+ * * [<b>Download for Windows</b>](https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Windows.zip)
+ * * [<b>Download for Linux</b>](https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.Linux.tar)
+ * * [<b>Download for MacOS</b>](https://github.com/jointpoints/tms-nets/releases/download/3.0.0/tms-nets.static.library.v.3.0.0.stable.MacOS.zip)
+ *
+ * \subsubsection download_stable_3_0_0_source Source code
+ *
+ * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.zip)
+ * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.tar.gz)
  *
  * <table style="border:none;">
  *     <tr class="inherit_header changelog_3_0_0">
@@ -115,9 +170,11 @@
  *
  *
  *
- * \subsection download_stable_2_0_0 2.0.0
+ * <div style="height:50px;"></div>
+ * 
+ * \subsection download_stable_2_0_0 2.0.0 (26.09.2020)
  *
- * \subsubsection download_stable_3_0_0_source Source code
+ * \subsubsection download_stable_2_0_0_source Source code
  *
  * * [<b>Download as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.zip)
  * * [<b>Download as .tar.gz</b>](https://github.com/jointpoints/tms-nets/archive/refs/tags/2.0.0.tar.gz)
@@ -194,7 +251,9 @@
  *
  *
  *
- * \subsection download_stable_1_0_0 1.0.0
+ * <div style="height:50px;"></div>
+ * 
+ * \subsection download_stable_1_0_0 1.0.0 (30.12.2019)
  *
  * \subsubsection download_stable_1_0_0_source Source code
  *
@@ -205,6 +264,8 @@
  *
  *
  *
+ * <div style="height:50px;"></div>
+ * 
  * \section download_unstable Unstable versions of library
  *
  * * [<b>Download master source code as .zip</b>](https://github.com/jointpoints/tms-nets/archive/refs/heads/master.zip)

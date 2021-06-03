@@ -10,10 +10,14 @@
  * \section mainpage_introduction Introduction
  *
  * Welcome to the documentation for a C++ library housed at [<b>this GitHub repository</b>](https://github.com/jointpoints/tms-nets)!
- * Corresponding library contains a generator of digital \f$(t, m, s)\f$-nets in base \f$2\f$ featuring the algorithm proposed
- * by Harald Niederreiter in 1987 in his article "Low-Discrepancy and Low-Dispersion Sequences". Broadly speaking, \f$(t, m, s)\f$-nets
- * are low-discrepancy discrete sets of points in \f$s\f$-dimensional unit cube. You may find more information about them in
- * the sources listed in [Recommended literature](@ref literature).
+ * Corresponding library contains a generator of digital \f$(t, m, s)\f$-nets in base \f$2\f$ featuring:
+ *
+ * * Sobol nets,
+ * * Niederreiter nets,
+ * * any digital nets with manually set generating matrices.
+ *
+ * Broadly speaking, \f$(t, m, s)\f$-nets are low-discrepancy discrete sets of points in \f$s\f$-dimensional unit cube. You may find
+ * more information about them in the sources listed in [Recommended literature](@ref literature).
  *
  * \image html mainpage_NetsConstruction.gif
  *
@@ -29,11 +33,11 @@
  *
  * \subsection mainpage_contributors_main Main contributors
  *
- * * <b>Alexey Burimov (2019 - present)</b> ([<b>GitHub</b>](https://github.com/buralex-git)) — Alexey has dedicated roughly two years of his life
- * to the development of generator class and general support of the library. He also participated in the creation of brief manual describing the
- * \f$(t, m, s)\f$-nets generation algorithm by Niederreiter (check out [Recommended literature](@ref literature) for more info).
+ * * <b>Alexey Burimov (2019 - present)</b> ([<b>GitHub</b>](https://github.com/buralex-git)) — Alexey has dedicated two years of his life
+ * to the development of digital nets classes and general support of the library. He also participated in the creation of brief manual describing the
+ * \f$(t, m, s)\f$-nets generation algorithm proposed by Niederreiter (check out [Recommended literature](@ref literature) for more info).
  * * <b>Andrei Eliseev (2019 - present)</b> ([<b>GitHub</b>](https://github.com/jointpoints)) — Andrei has been responsible for tests, various
- * validation checks of the generator (see TsTests) and general support of the library. He co-authored the aforementioned brief manual with
+ * validation checks of the generator, and general support of the library. He co-authored the aforementioned brief manual with
  * Alexey Burimov.
  *
  *
