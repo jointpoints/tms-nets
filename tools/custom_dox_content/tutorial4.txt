@@ -1,0 +1,86 @@
+//! [handler_signature]
+void (tms::Point const &, tms::CountInt)
+//! [handler_signature]
+
+
+
+//! [for_each_point]
+void tms::DigitalNet::for_each_point(std::function<void(Point const &, CountInt)> handler, CountInt amount, CountInt pos = 0) const
+//! [for_each_point]
+
+
+
+//! [example_1]
+#include "libraries/tms-nets/tms-nets.hpp"
+#include <cmath>
+#include <iostream>
+ 
+void norm(tms::Point const &x, tms::CountInt x_i)
+{
+	long double d = 0;
+	for (auto coordinate : x)
+		d += coordinate * coordinate;
+	d = sqrt(d);
+	std::cout << '#' << x_i << ": 2-norm = " << d << '\n';
+	return;
+}
+ 
+int main()
+{
+	// We use a 4-dimensional Sobol net with 8 points
+	tms::Sobol my_net(3, 4);
+	my_net.for_each_point(norm, 8, 0);
+	return 0;
+}
+//! [example_1]
+
+
+
+//! [example_1_output]
+#0: 2-norm = 0
+#1: 2-norm = 1
+#2: 2-norm = 1.11803
+#3: 2-norm = 1.11803
+#4: 2-norm = 1.19896
+#5: 2-norm = 1.29904
+#6: 2-norm = 1.08972
+#7: 2-norm = 0.968246
+//! [example_1_output]
+
+
+
+//! [example_2]
+#include "lib/tms-nets/tms-nets.hpp"
+#include <cmath>
+#include <cstdint> // needed for uint*_t types
+#include <iostream>
+
+long double norm(tms::Point const &x)
+{
+	long double d = 0;
+	for (auto coordinate : x)
+		d += coordinate * coordinate;
+	d = sqrt(d);
+	return d;
+}
+ 
+int main()
+{
+	tms::Sobol my_net(3, 4);
+
+	long double integral = 0;
+
+	// All calculations occupy just a single line
+	my_net.for_each_point([&integral](tms::Point const &x, tms::CountInt x_i){integral += norm(x) / 8;}, 8, 0);
+
+	std::cout << "Integral = " << integral << '\n';
+
+	return 0;
+}
+//! [example_2]
+
+
+
+//! [example_2_output]
+Integral = 0.974004
+//! [example_2_output]
