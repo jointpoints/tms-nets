@@ -54,6 +54,11 @@ namespace tms::analysis
 	 * and \c Sobol nets provided in this library. Their generating matrices are \b guaranteed to
 	 * always be non-degenerate. If you discover a case when this function fails to perform on these
 	 * nets, [<b>report a bug</b>](https://github.com/jointpoints/tms-nets/issues/new).
+	 * 
+	 * @paragraph References
+	 * 1. Marion P., Godin M., L'Ecuyer P. (2020) An algorithm to compute the t-value of a digital
+	 * net and of its projections. *Journal of Computational and Applied Mathematics*. **371**. 112669.
+	 * https://doi.org/10.1016/j.cam.2019.112669
 	 */
 	BasicInt            t               (DigitalNet const &net);
 
@@ -89,6 +94,10 @@ namespace tms::analysis
 	 * @note Principal axes always form an orthonormal basis in the \f$s\f$-dimensional space,
 	 * however, there are <i>no guarantees</i> that they will match with the basis that is used to
 	 * express the coordinates of digital net points.
+	 * 
+	 * @paragraph References
+	 * 1. Eliseev A. (2020) Properties of (t, s)-sequences and their verification. Bachelor's
+	 * graduation work (in Russian).
 	 */
 	tms::Point          scatter_defect  (DigitalNet const &net);
 
