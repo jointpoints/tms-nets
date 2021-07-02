@@ -1,0 +1,115 @@
+/**
+ * \page tutorial4 Tutorial 4. Handler functions
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:10%">&lt;&lt;</td>
+ *                     <td align="center" style="width:90%">[Tutorial 3. Estimating the multivariate integral](@ref tutorial3)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *     </td>
+ * </tr>
+ * </table>
+ *
+ *
+ *
+ *
+ *
+ * \warning This tutorial is the first tutorial of the **intermediate** level. It might require a greater understanding of C++.
+ *
+ * This tutorial introduces one of the features of the library, namely, handler functions. Handler function is basically any
+ * user-defined function with the following signature:
+ *
+ * \snippet tutorial4.txt handler_signature
+ *
+ * The main idea behind this is that one can use these functions to receive points directly from the generator and immediately
+ * perform some sort of processing.
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial4_1 1. Basic example
+ *
+ * Each \f$(t, m, s)\f$-net has a `for_each_point` method with the following signature:
+ *
+ * \snippet tutorial4.txt for_each_point
+ *
+ * Its execution initiates a sequential generation of `amount` points on a net starting with a point number `pos`.
+ *
+ * Let us now create a simple handler that calculates the second norm \f$\|\overrightarrow{x}\|_2\f$ for each point of the net and prints it.
+ *
+ * \snippet tutorial4.txt example_1
+ *
+ * The expected output is:
+ *
+ * \snippet tutorial4.txt example_1_output
+ *
+ *
+ *
+ *
+ *
+ * \section tutorial4_2 2. Lambda as a handler
+ *
+ * Using lambdas as handlers might end up handy to reduce the amount of code needed to perform certain mathematical operations.
+ *
+ * Let us demonstrate a calculation of integral
+ *
+ * \f[\int_{I^4} \|\overrightarrow{x}\|_2 d\overrightarrow{x}\f]
+ *
+ * \snippet tutorial4.txt example_2
+ *
+ * The expected output is:
+ *
+ * \snippet tutorial4.txt example_2_output
+ *
+ *
+ *
+ *
+ *
+ * <table style="width:100%">
+ * <tr>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:10%">&lt;&lt;</td>
+ *                     <td align="center" style="width:90%">[Tutorial 3. Estimating the multivariate integral](@ref tutorial3)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *         <div class="memproto" style="border:1px solid #A8B8D9; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px">
+ *             <table style="width:100%">
+ *                 <tr>
+ *                     <td align="center" style="width:100%">[Back to the list of tutorials](@ref tutorials)</td>
+ *                 </tr>
+ *             </table>
+ *         </div>
+ *     </td>
+ *     <td style="width:33%">
+ *     </td>
+ * </tr>
+ * </table>
+ */

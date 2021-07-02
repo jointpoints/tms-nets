@@ -63,7 +63,7 @@ int main()
 //! [param_check_output]
 Parameters of my_first_net:
 	t = 0
-	m = 5
+	m = 4
 	s = 2
 //! [param_check_output]
 
