@@ -141,7 +141,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Exceptions will never be encountered in this function if it used with <code>Niederreiter</code> and <code>Sobol</code> nets provided in this library. Their generating matrices are <b>guaranteed</b> to always be non-degenerate. If you discover a case when this function fails to perform on these nets, <a href="https://github.com/jointpoints/tms-nets/issues/new"><b>report a bug</b></a>. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Exceptions will never be encountered in this function if it used with <code>Niederreiter</code> and <code>Sobol</code> nets provided in this library. Their generating matrices are <b>guaranteed</b> to always be non-degenerate. If you discover a case when this function fails to perform on these nets, <a href="https://github.com/jointpoints/tms-nets/issues/new"><b>report a bug</b></a>.</dd></dl>
+<h4><a class="anchor" id="References"></a>
+References</h4>
+<ol type="1">
+<li>Marion P., Godin M., L'Ecuyer P. (2020) An algorithm to compute the t-value of a digital net and of its projections. <em>Journal of Computational and Applied Mathematics</em>. <b>371</b>. 112669. <a href="https://doi.org/10.1016/j.cam.2019.112669">https://doi.org/10.1016/j.cam.2019.112669</a> </li>
+</ol>
 
 </div>
 </div>
@@ -170,7 +175,12 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="namespacetms.html#a03731000658f4568566d5acc35945c95">tms::Point</a> the \(i\)-th component of which equals the scatter defect along the \(i\)-th principal axis.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Principal axes always form an orthonormal basis in the \(s\)-dimensional space, however, there are <em>no guarantees</em> that they will match with the basis that is used to express the coordinates of digital net points. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Principal axes always form an orthonormal basis in the \(s\)-dimensional space, however, there are <em>no guarantees</em> that they will match with the basis that is used to express the coordinates of digital net points.</dd></dl>
+<h4><a class="anchor" id="References"></a>
+References</h4>
+<ol type="1">
+<li>Eliseev A. (2020) Properties of (t, s)-sequences and their verification. Bachelor's graduation work (in Russian). </li>
+</ol>
 
 </div>
 </div>

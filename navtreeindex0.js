@@ -1,5 +1,7 @@
 var NAVTREEINDEX0 =
 {
+"":[3,0,1],
+"":[3,0,3],
 "download.html":[1],
 "genmat_8hpp.html#a046594804740b9cd3811ad1f71c676e5":[3,0,1,2],
 "genmat_8hpp.html#a25827e3d7125a16af17d56b2269759bb":[3,0,1,0],
@@ -49,7 +51,5 @@ var NAVTREEINDEX0 =
 "recseq_8hpp.html#a3b79bbc517a813a7fd2f1a84a3022e1e":[3,0,3,2],
 "recseq_8hpp.html#a3d497da8c7c22b636b479c2ec319bcca":[3,0,3,1],
 "recseq_8hpp.html#aa9f5d62ea8cf6ace63932786b4de70d9":[3,0,3,4],
-"tutorials.html":[2],
-"":[3,0,3],
-"":[3,0,1]
+"tutorials.html":[2]
 };
